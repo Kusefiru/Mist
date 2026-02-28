@@ -1,0 +1,127 @@
+@import url('https://fonts.bunny.net/css2?family=IBM+Plex+Sans+JP:wght@100..700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.bunny.net/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap');
+@import url('https://fonts.bunny.net/css2?family=Noto+Sans+Symbols:wght@100..900&display=swap');
+
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+@theme {
+    --color-ink-50: #f5eeeb;
+    --color-ink-100: #eae3e1;
+    --color-ink-200: #d8d2cf;
+    --color-ink-300: #b4adab;
+    --color-ink-400: #938d8a;
+    --color-ink-500: #6b6563;
+    --color-ink-600: #575250;
+    --color-ink-700: #393432;
+    --color-ink-800: #191412;
+    --color-ink-900: #0f0b0a;
+    --color-dusk-1: #044F67;
+    --color-dusk-2: #DC444E;
+    --color-dusk-3: #FCB045;
+    --color-surface-10: oklch(96.8% 0.007 247.896);
+    --color-surface-20: oklch(92.9% 0.013 255.508);
+    --color-surface-30: oklch(89.9% 0.018 253.894);
+    --color-surface-40: oklch(82.4% 0.026 255.312);
+    --color-surface-50: oklch(70.4% 0.04 256.788);
+    --color-surface-60: oklch(55.4% 0.046 257.417);
+    --color-surface-70: oklch(44.6% 0.043 257.281);
+    --color-primary-00: #dba19e;
+    --color-primary-10: #9d2933;
+    --color-primary-20: #8b262e;
+    --color-primary-30: #792429;
+    --color-primary-40: #672124;
+    --color-primary-50: #561d1f;
+    --color-primary-60: #461a1a;
+    --font-mplus: "M PLUS Rounded 1c", sans-serif; 
+    --default-transition-duration: 300ms;
+}
+
+:root {
+    font-family: "IBM Plex Sans", "IBM Plex Sans JP", "Noto Sans Symbols", Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+.card {
+    padding: 2em;
+}
+
+#app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color: #213547;
+        background-color: #ffffff;
+    }
+
+    a:hover {
+        color: #747bff;
+    }
+
+    button {
+        background-color: #f9f9f9;
+    }
+}
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+}
+
+.bg-grain {
+  position: relative;
+}
+
+.bg-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='noise'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noise)' /></svg>");
+  background-size: 32px 32px;
+  background-repeat: repeat;
+
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+}
+
+/* Hide scrollbar in Chrome, Safari, and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar in IE, Edge, and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
