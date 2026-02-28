@@ -15,7 +15,24 @@ A modern, desktop-focused web client for OpenSubsonic-compatible music servers.
 
 ## Screenshots
 
-<TODO>
+<table align="center" border="0">
+    <tr>
+        <td><a href="./media/screenshot_00_home.png">
+            <img src="./media/screenshot_00_home.png" width="100%"> 
+        </a></td>
+        <td><a href="./media/screenshot_01_albums.png">
+            <img src="./media/screenshot_01_albums.png" width="100%"> 
+        </a></td>
+    </tr>
+    <tr>
+        <td><a href="./media/screenshot_02_album_id.png">
+            <img src="./media/screenshot_02_album_id.png" width="100%"> 
+        </a></td>
+        <td><a href="./media/screenshot_03_player.png">
+            <img src="./media/screenshot_03_player.png" width="100%"> 
+        </a></td>
+    </tr>
+</table>
 
 ## Installation
 
@@ -32,6 +49,7 @@ This is a non exhaustive of features planned for future releases:
 - [ ] Jukebox support
 - [ ] Equalization settings
 - [ ] More visualizers
+- [ ] Native app with [Tauri](https://tauri.app/)
 
 Feel free to request additional features if not listed here.
 
