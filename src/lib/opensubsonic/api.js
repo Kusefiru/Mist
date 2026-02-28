@@ -147,7 +147,7 @@ export async function getTopSongs(name) {
 }
 
 export async function getUser(name) {
-    const response = await fetch(buildUrl('getUser.view', { name }));
+    const response = await fetch(buildUrl('getUser.view', { username: name }));
     const data = await response.json();
 
     return data['subsonic-response'].user;
