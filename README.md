@@ -36,7 +36,45 @@ A modern, desktop-focused web client for OpenSubsonic-compatible music servers.
 
 ## Installation
 
-<TODO>
+### Docker
+
+Images are published to the Github Container Registry on releases.
+```sh
+# Use the latest version
+docker run -p 8080:80 ghcr.io/kusefiru/mist:latest
+
+# Use a specific version
+docker run -p 8080:80 ghcr.io/kusefiru/mist:VERSION
+```
+
+### Docker compose
+
+Supposedly, you can use this.
+```sh
+services:
+  mist:
+    image: ghcr.io/kusefiru/mist:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+```
+
+### Static files
+
+Mist is entirely client-side, so you can grab the latest release artefact and run it through a basic nginx setup:
+
+```nginx
+server {
+    listen 80;
+
+    root /var/www/your-app-name;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
 
 ## Roadmap
 
