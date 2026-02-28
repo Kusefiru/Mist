@@ -16,22 +16,11 @@ async function getDB() {
     if (!db) {
         db = await openDB("mist_db", 1, {
             async upgrade(db) {
-                // Auth info (can support multiple servers)
+                // Global auth store
                 db.createObjectStore('auth', { keyPath: 'id' });
 
-                // Server cache - one key per server
-                // Key format: `${serverId}_artists`, `${serverId}_albums`, etc.
-                db.createObjectStore('serverCache');
-
-                // User context - per server+user
-                // Key format: `${serverId}_${userId}_context`
-                db.createObjectStore('userContext');
-
-                // Metadata (lastFetchTime per server)
-                db.createObjectStore('metadata');
-
-                // Audio state per user
-                db.createObjectStore('audioState');
+                // Server data
+                db.createObjectStore('servers', { keyPath: 'id' });
             }
         });
     }
@@ -50,34 +39,18 @@ function arrayToMap(arr, ModelClass) {
 
 // Generic database interface
 class DB {
-    // Get any entity type for a server
-    async get(serverId, entityType) {
-        const db = await getDB();
-        const key = `${serverId}_${entityType}`;
-        const data = await db.get('serverCache', key) || [];
-
-        const ModelClass = {
-            'artists': Artist,
-            'albums': Album,
-            'tracks': Track,
-            'playlists': Playlist
-        }[entityType];
-
-        return arrayToMap(data, ModelClass);
+    async #getServerRecord(db, serverId) {
+        return await db.get('servers', serverId) || {
+            id: serverId,
+            audioState: {}
+        };
     }
 
-    // Set any entity type for a server
-    async set(serverId, entityType, dataMap) {
-        const db = await getDB();
-        const key = `${serverId}_${entityType}`;
-        await db.put('serverCache', mapToArray(dataMap), key);
-    }
-
-    // Audio state per user
+    // Audio state management
     async getAudioState(serverId, userId) {
         const db = await getDB();
-        const key = `${serverId}_${userId}_audioState`;
-        return await db.get('audioState', key) || {
+        const record = await this.#getServerRecord(db, serverId);
+        return record.audioState[userId] || {
             queue: {
                 index: 0,
                 playOrder: [],
@@ -94,46 +67,36 @@ class DB {
 
     async setAudioQueue(serverId, userId, queueData) {
         const db = await getDB();
-        const key = `${serverId}_${userId}_audioState`;
-        const current = await this.getAudioState(serverId, userId);
-        await db.put('audioState', { ...current, queue: queueData }, key);
+        const record = await this.#getServerRecord(db, serverId);
+        record.audioState[userId] = { ...record.audioState[userId], queue: queueData };
+        await db.put('servers', record);
     }
 
     async setAudioProgress(serverId, userId, progressData) {
         const db = await getDB();
-        const key = `${serverId}_${userId}_audioState`;
-        const current = await this.getAudioState(serverId, userId);
-        await db.put('audioState', { ...current, progress: progressData }, key);
+        const record = await this.#getServerRecord(db, serverId);
+        record.audioState[userId] = { ...record.audioState[userId], progress: progressData };
+        await db.put('servers', record);
     }
 
     // Tracks data for play queue restoration
     async setTrackData(serverId, userId, tracks) {
         if (!tracks) return;
         const db = await getDB();
-        const key = `${serverId}_${userId}_trackData`;
-        await db.put('audioState', tracks.map(t => t.toJSON()), key);
+        const record = await this.#getServerRecord(db, serverId);
+        record.audioState[userId] = { ...record.audioState[userId], trackData: tracks.map(t => t.toJSON()) };
+        await db.put('servers', record);
     }
 
     async getTrackData(serverId, userId) {
-        const db = await getDB();
-        const key = `${serverId}_${userId}_trackData`;
-        const data = await db.get('audioState', key);
-        return data ? data.map(t => new Track(t)) : [];
+        const state = await this.getAudioState(serverId, userId);
+        return state.trackData ? state.trackData.map(t => new Track(t)) : [];
     }
 
     // Clear all data for a server
     async clearServer(serverId) {
         const db = await getDB();
-        const tx = db.transaction(['serverCache', 'metadata'], 'readwrite');
-
-        await Promise.all([
-            tx.objectStore('serverCache').delete(`${serverId}_artists`),
-            tx.objectStore('serverCache').delete(`${serverId}_albums`),
-            tx.objectStore('serverCache').delete(`${serverId}_tracks`),
-            tx.objectStore('serverCache').delete(`${serverId}_playlists`),
-            tx.objectStore('metadata').delete(`${serverId}_lastFetchTime`),
-            tx.done
-        ]);
+        await db.delete('servers', serverId);
     }
 
     // Auth methods (keeping compatibility with your existing code)
