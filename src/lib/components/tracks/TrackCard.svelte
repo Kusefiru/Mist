@@ -11,7 +11,7 @@
     const starred = $derived(cache.stars.has(track.id));
 </script>
 
-<div class="flex max-w-[80%] items-center gap-4 text-ink-800 select-none">
+<div class="flex max-w-[90%] items-center gap-4 text-ink-800 select-none">
     <div class="flex size-18 shrink-0 items-center justify-center">
         <FadeImage
             src={cache.getCoverArt(track.coverArtId)}

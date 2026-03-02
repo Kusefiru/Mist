@@ -33,14 +33,14 @@
 
 <div class="flex h-26 w-full items-center px-4">
     <!-- Left: Cover Art + Track Info -->
-    <div class="flex w-1/4">
+    <div class="flex w-[28%]">
         {#if currentTrack}
             <TrackCard track={currentTrack} />
         {/if}
     </div>
 
     <!-- Center: Controls and Progress Bar -->
-    <div class="relative flex w-1/2 min-w-0 flex-col items-center justify-center select-none">
+    <div class="relative flex w-[44%] min-w-0 flex-col items-center justify-center select-none">
         <PlaybackPanel size={28} />
         <div class="flex w-full items-center gap-2 pt-2">
             <span class="shrink-0 text-sm text-ink-700"
@@ -57,7 +57,7 @@
     </div>
 
     <!-- Right: (Optional space for future features or keep empty) -->
-    <div class="flex w-1/4 min-w-0 items-center gap-4">
+    <div class="flex w-[28%] min-w-0 items-center gap-4">
         <div class="flex w-full items-center justify-end gap-2 text-ink-800">
             <!-- TODO: Make as a single component -->
             <div class="w-36 px-2">
