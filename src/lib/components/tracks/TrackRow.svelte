@@ -98,8 +98,8 @@
 </script>
 
 {#snippet cardCover(coverArt)}
-    <div class="size-[3rem] rounded p-1 select-none">
-        <FadeImage class="size-full rounded object-cover" src={coverArt} alt="cover" loading="lazy" />
+    <div class="flex size-[3rem] rounded p-0.5 items-center justify-center select-none">
+        <FadeImage class="max-h-full max-w-full rounded object-contain" src={coverArt} alt="cover" loading="lazy" />
     </div>
 {/snippet}
 
