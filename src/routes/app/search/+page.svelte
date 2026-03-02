@@ -5,35 +5,55 @@
     import ArtistGrid from '$lib/components/artist/ArtistGrid.svelte';
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import { Track } from '$lib/db/models/Track.js';
+    import { search3 } from '$lib/opensubsonic/api';
     import { cache } from '$lib/stores/cache.svelte';
 
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
 
     let albums = $state([]);
     let artists = $state([]);
-    let trackIds = $state([]);
+    let tracks = $state([]);
     let { data } = $props();
 
     // Access search query from URL
-    $effect(() => {
-        const query = $page.url.searchParams.get('q');
-        albums = data.results.album?.map((a) => cache.albums.get(a.id)) || [];
-        artists = data.results.artist?.map((a) => cache.artists.get(a.id)) || [];
-        trackIds = data.results.song?.map((s) => s.id) || [];
-    });
+    async function loadSearch(query) {
+        const results = await search3(query.trim());
+
+        albums = await Promise.all(results.album?.map((a) => cache.getAlbum(a.id)) || []);
+        artists = await Promise.all(results.artist?.map((a) => cache.getArtist(a.id)) || []);
+        results.song?.forEach((s) => {
+            cache.setTrack(s);
+        });
+        tracks = await Promise.all(results.song?.map((s) => cache.getTrack(s.id)) || []);
+
+        return { albums, artists, tracks };
+    }
+
+    const query = $derived($page.url.searchParams.get('q'));
+    const searchPromise = $derived(loadSearch(query));
 </script>
 
 <div class="relative px-8 pt-2 pb-12">
-    {#if data.results}
-        {#if trackIds?.length > 0}
+    {#await searchPromise}
+        <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
+            <p class="text-2xl">Searching...</p>
+        </div>
+    {:then { albums, artists, tracks }}
+        {#if tracks?.length > 0}
             <h2 class="flex items-center pt-4 text-2xl font-bold text-ink-800">
                 <MusicNotesSimple size={28} class="mr-2" />
                 <span>Tracks</span>
             </h2>
             <ul class="py-4">
                 <HeaderRow {columns} />
-                {#each trackIds as trackId}
-                    <TrackRow {trackId} queueIds={trackIds} variant="playlist" {columns} />
+                {#each tracks as track}
+                    <TrackRow
+                        trackId={track.id}
+                        queueIds={tracks.map((t) => t.id)}
+                        variant="playlist"
+                        {columns}
+                    />
                 {/each}
             </ul>
         {/if}
@@ -51,11 +71,11 @@
             </h2>
             <ArtistGrid {artists} />
         {/if}
-        {#if !trackIds?.length && !albums?.length && !artists?.length}
+        {#if !tracks?.length && !albums?.length && !artists?.length}
             <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
                 <SmileySad size={40} />
-                <p class="text-2xl">No results found for: "{data.query}"</p>
+                <p class="text-2xl">No results found for: "{query}"</p>
             </div>
         {/if}
-    {/if}
+    {/await}
 </div>

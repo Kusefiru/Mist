@@ -273,10 +273,14 @@ class Cache {
     }
 
     /* Track methods */
+    setTrack(track) {
+        this.tracks.set(track.id, Track.fromOpenSubsonic(track));
+    }
+
     async getTrack(trackId) {
         if (!this.tracks.has(trackId)) {
-            const Child = await api.getSong(trackId);
-            this.tracks.set(trackId, Track.fromOpenSubsonic(Child));
+            const child = await api.getSong(trackId);
+            this.setTrack(child);
         }
         return this.tracks.get(trackId);
     }
