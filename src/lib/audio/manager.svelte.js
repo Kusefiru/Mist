@@ -121,7 +121,7 @@ class AudioManager {
             title: track.title,
             artist: track.artistsStr,
             album: track.album || '',
-            artwork: track.coverArt ? [
+            artwork: track.coverArtId ? [
                 { src: cache.getCoverArt(track.coverArtId), sizes: '512x512', type: 'image/jpeg' }
             ] : []
         });
