@@ -200,23 +200,17 @@ class AudioManager {
     insert(trackIds, insertAt) {
         const items = Array.isArray(trackIds) ? trackIds : [trackIds];
 
-        // Update current indexes
-        audioState.playOrder = audioState.playOrder.map((i) => (i >= insertAt ? i + items.length : i));
-        // Insert new items
-        audioState.playQueue.splice(insertAt, 0, ...items);
+        // Where to insert the tracks in playQueue
+        const queueInsertAt = audioState.playOrder[insertAt - 1] + 1;
+        // Update playQueue
+        audioState.playQueue.splice(queueInsertAt, 0, ...items);
 
-        const newOrderEntries = Array.from({ length: items.length }, (_, i) => (i + insertAt));
-        // Find where to splice play order
-        let spliceAt = audioState.playOrder.findIndex(i => (i >= insertAt));
-        if (spliceAt === -1) {
-            spliceAt = audioState.playOrder.length;
-        }
-
-        if (!audioState.shuffled) {
-            audioState.playOrder.splice(spliceAt, 0, ...newOrderEntries);
-        } else {
-            audioState.playOrder.splice(spliceAt, 0, ...shuffleArray(newOrderEntries));
-        }
+        // Update playOrder items to account for the new track indexes
+        audioState.playOrder = audioState.playOrder.map(i => i >= queueInsertAt ? i + items.length : i);
+        // Compute new track entries
+        const newOrderEntries = Array.from({ length: items.length }, (_, i) => queueInsertAt + i);
+        // Update playOrder with new entries
+        audioState.playOrder.splice(insertAt, 0, ...newOrderEntries);
 
         toast.success(`Queued ${items.length} track(s).`);
     }
