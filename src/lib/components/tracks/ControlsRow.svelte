@@ -15,6 +15,7 @@
             Icon={Play}
             text="Play"
             onClick={() => {
+                audio.setShuffle(false);
                 audio.setQueue(queue);
             }}
         />
