@@ -115,7 +115,7 @@ export async function getPlaylists() {
     const response = await fetch(buildUrl('getPlaylists.view'));
     const data = await response.json();
 
-    return data['subsonic-response'].playlists.playlist;
+    return data['subsonic-response'].playlists?.playlist || [];
 }
 
 export async function getPlayQueue() {

@@ -106,7 +106,7 @@ class Cache {
         });
     }
 
-    async _fetchPlaylists(lastFetchTime) {
+    async _fetchPlaylists() {
         this.playlists.clear();
 
         const playlistsRaw = await api.getPlaylists();
