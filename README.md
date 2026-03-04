@@ -75,6 +75,13 @@ server {
 }
 ```
 
+Or you can simply run the included run_server.py Python script, assuming you have Python 3 on your machine. PORT is optional (default to 8000).
+```sh
+./run_server.py [PORT]
+```
+
+> **Note:** This script uses Python basic HTTP server, see [security considerations](https://docs.python.org/3/library/http.server.html#security-considerations).
+
 ## Roadmap
 
 This is a non exhaustive of features planned for future releases:

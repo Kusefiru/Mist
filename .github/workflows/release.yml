@@ -32,7 +32,7 @@ jobs:
         run: npm run build
 
       - name: Package build artifact
-        run: zip -r mist-${{ github.event.release.tag_name }}.zip build/
+        run: zip -r mist-${{ github.event.release.tag_name }}.zip build/ run_server.py
 
       - name: Upload build artifact to release
         uses: softprops/action-gh-release@v2
