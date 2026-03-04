@@ -61,7 +61,7 @@
 
     let trackActions = $derived([
         ...baseActions,
-        ...(variant !== 'queue'
+        ...(variant !== 'queue' && cache.user.canDownload
             ? [
                   {
                       icon: DownloadSimple,
