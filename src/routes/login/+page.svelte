@@ -17,7 +17,10 @@
 
         // Add https:// if no protocol is specified
         if (!url.match(/^https?:\/\//i)) {
-            url = 'https://' + url;
+            // Test if url is IP (xxx.xxx.xxx.xxx)
+            const isIp = url.match(/\b(?:\d{1,3}.){3}\d{1,3}\b/g);
+            // Add http to IP addresses, else https
+            url = (isIp ? 'http://' : 'https://') + url;
         }
 
         return url;
