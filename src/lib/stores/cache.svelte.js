@@ -4,13 +4,14 @@ import { Album } from "$lib/db/models/Album";
 import { Artist } from "$lib/db/models/Artist";
 import { Track } from "$lib/db/models/Track";
 import { Playlist } from "$lib/db/models/Playlist";
+import { User } from "$lib/db/models/User";
 import { getCoverArtUrl } from "$lib/opensubsonic/api";
 import * as api from '$lib/opensubsonic/api';
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
 class Cache {
     serverId = $state('');
-    userId = $state('');
+    user = $state(null);
     initialized = $state(false);
 
     // Use SvelteMap for reactivity
@@ -25,15 +26,13 @@ class Cache {
 
     // Initialize cache for a specific server/user
     async init(serverId, user) {
-        const userId = user?.username || null;
-
-        if (!serverId || !userId) {
+        if (!serverId || !user) {
             console.error('Cache init failed: serverId or userId is missing', { serverId, userId });
             return;
         }
 
         this.serverId = serverId;
-        this.userId = userId;
+        this.user = User.fromOpenSubsonic(user);
 
         await this.fetch();
 

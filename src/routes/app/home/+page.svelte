@@ -20,7 +20,7 @@
 {#await homepagePromise then { newest, recent, random, artist }}
     <div class="flex flex-col gap-6 overflow-x-clip overflow-y-auto px-8 pt-2 pb-12">
         <div class="relative flex w-full flex-col gap-4">
-            <h2 class="text-2xl font-bold text-ink-800">Welcome, {cache.userId}</h2>
+            <h2 class="text-2xl font-bold text-ink-800">Welcome, {cache.user.id}</h2>
             {#if recent.length > 0}
                 <div class="grid h-[120px] grid-cols-4 grid-rows-1 gap-3">
                     {#each recent as album}
