@@ -53,7 +53,7 @@ export async function getAlbumList2(type, options = {}) {
     const response = await fetch(buildUrl('getAlbumList2.view', { type, ...options }));
     const data = await response.json();
 
-    return data['subsonic-response'].albumList2.album;
+    return data['subsonic-response'].albumList2?.album || [];
 }
 
 export async function getArtist(id) {
