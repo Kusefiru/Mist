@@ -28,7 +28,6 @@ export class BarVisualizer {
             ${CONFIG.BASE_COLOR.b},
             0.4
         )`;
-        ctx.filter = 'blur(0px)';
 
         for (let i = 0; i < CONFIG.BAR_COUNT; i++) {
             let sum = 0;
@@ -64,8 +63,6 @@ export class BarVisualizer {
             );
             ctx.fill();
         }
-
-        ctx.filter = 'none';
     }
 
     reset() { }
