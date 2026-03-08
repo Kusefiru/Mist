@@ -12,8 +12,6 @@
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
 
     async function loadPlaylist(playlistId) {
-        await cache.ready();
-
         const playlist = await cache.getPlaylist(playlistId);
 
         return { playlist };

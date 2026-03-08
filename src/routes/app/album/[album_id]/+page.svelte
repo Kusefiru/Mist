@@ -9,8 +9,6 @@
     let { params } = $props();
 
     async function loadAlbum(albumId) {
-        await cache.ready();
-
         const album = await cache.getAlbum(albumId);
         if (!album?.songIds) return { album, discEntries: [] };
 
