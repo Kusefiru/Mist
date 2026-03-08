@@ -5,8 +5,10 @@
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
     import { cache } from '$lib/stores/cache.svelte';
+    import { untrack } from 'svelte';
 
     let { params } = $props();
+    let albumPromise = $state(loadAlbum(params.album_id));
 
     async function loadAlbum(albumId) {
         const album = await cache.getAlbum(albumId);
@@ -28,7 +30,10 @@
         return { album, discEntries, albumQueue };
     }
 
-    const albumPromise = $derived(loadAlbum(params.album_id));
+    $effect(() => {
+        const albumId = params.album_id;
+        albumPromise = untrack(() => loadAlbum(albumId));
+    })
 </script>
 
 {#await albumPromise then { album, discEntries, albumQueue }}

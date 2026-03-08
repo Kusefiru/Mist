@@ -110,19 +110,23 @@ class Cache {
     /* Album methods */
     async getAlbum(albumId) {
         const album = this.albums.get(albumId);
-        if (!album) return null;
-        if (album.songIds && (album.songIds.length == album.songCount)) {
+        // Album already in cache, return immediately
+        if (album?.songIds && (album?.songIds.length == album?.songCount)) {
             return album;
         }
 
-        const AlbumID3WithSongs = await api.getAlbum(album.id);
+// Fetch from server
+        const AlbumID3WithSongs = await api.getAlbum(albumId);
+if (!AlbumID3WithSongs) {
+            return null;
+        }
         for (const trackRaw of AlbumID3WithSongs.song) {
             // Cache track
             const track = Track.fromOpenSubsonic(trackRaw);
             this.tracks.set(track.id, track);
         }
-        const updatedAlbum = Album.fromOpenSubsonic(AlbumID3WithSongs, album.folderId);
-        this.albums.set(album.id, updatedAlbum);
+        const updatedAlbum = Album.fromOpenSubsonic(AlbumID3WithSongs, album?.folderId || -1);
+        this.albums.set(albumId, updatedAlbum);
 
         return updatedAlbum;
     }
