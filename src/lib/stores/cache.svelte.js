@@ -44,12 +44,11 @@ class Cache {
         this.albums.clear();
 
         const musicFolders = await api.getMusicFolders();
-        for(const musicFolder of musicFolders) {
+        const folderPromises = musicFolders.map(async (musicFolder) => {
             this.folders.set(musicFolder.id, musicFolder.name);
 
             // Get all albums from folder
-            const albumsRaw = [];
-            const pageSize = 500;
+                        const pageSize = 500;
             let offset = 0;
             let hasMore = true;
 
@@ -59,22 +58,16 @@ class Cache {
                     size: pageSize,
                     offset: offset
                 });
-                if (albumList.length > 0) {
-                    albumsRaw.push(...albumList);
-                }
-                if (albumList.length < 500) {
+                // Add albums if not yet loaded (skip already fetched albums)
+                albumList.forEach(a => this.albums.set(a.id, Album.fromOpenSubsonic(a, musicFolder.id)));
+                if (albumList.length < pageSize) {
                     hasMore = false;
                 } else {
                     offset += pageSize;
                 }
             }
-
-            // Set to cache along with cover urls
-            albumsRaw.forEach(a => {
-                this.albums.set(a.id, Album.fromOpenSubsonic(a, musicFolder.id));
-                /* this.#covers.set(a.coverArt, getCoverArtUrl(a.coverArt)) */
             });
-        }
+        await Promise.all(folderPromises);
     }
 
     async _fetchArtists() {
