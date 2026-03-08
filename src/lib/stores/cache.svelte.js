@@ -48,7 +48,7 @@ class Cache {
             this.folders.set(musicFolder.id, musicFolder.name);
 
             // Get all albums from folder
-                        const pageSize = 500;
+            const pageSize = 500;
             let offset = 0;
             let hasMore = true;
 
@@ -66,7 +66,7 @@ class Cache {
                     offset += pageSize;
                 }
             }
-            });
+        });
         await Promise.all(folderPromises);
     }
 
@@ -79,7 +79,6 @@ class Cache {
         // Set to cache along with cover urls
         artistsRaw.forEach(a => {
             this.artists.set(a.id, Artist.fromOpenSubsonic(a));
-            /* this.#covers.set(a.coverArt, getCoverArtUrl(a.coverArt)) */
         });
     }
 
@@ -90,7 +89,6 @@ class Cache {
 
         playlistsRaw.forEach(p => {
             this.playlists.set(p.id, Playlist.fromOpenSubsonic(p));
-            /* this.#covers.set(p.coverArt, getCoverArtUrl(p.coverArt)); */
         });
     }
 
@@ -115,9 +113,9 @@ class Cache {
             return album;
         }
 
-// Fetch from server
+        // Fetch from server
         const AlbumID3WithSongs = await api.getAlbum(albumId);
-if (!AlbumID3WithSongs) {
+        if (!AlbumID3WithSongs) {
             return null;
         }
         for (const trackRaw of AlbumID3WithSongs.song) {
@@ -268,11 +266,6 @@ if (!AlbumID3WithSongs) {
 
     /* Cover art methods */
     getCoverArt(id, size = 512) {
-    /*     if (!this.#covers.has(id)) {
-            const coverArt = getCoverArtUrl(id);
-            this.#covers.set(id, coverArt);
-        }
-        return this.#covers.get(id); */
         return getCoverArtUrl(id, size);
     }
 }
