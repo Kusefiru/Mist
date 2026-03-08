@@ -14,8 +14,6 @@
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
 
     async function loadArtist(artistId) {
-        await cache.ready();
-
         const parser = new DOMParser();
 
         const artist = await cache.getArtist(artistId);

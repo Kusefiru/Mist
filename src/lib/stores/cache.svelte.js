@@ -34,24 +34,9 @@ class Cache {
         this.serverId = serverId;
         this.user = User.fromOpenSubsonic(user);
 
-        await this.fetch();
+        this.fetch();
 
         this.initialized = true;
-    }
-
-    // Promise to wait for cache to be initialized (especially if refreshing the page)
-    ready() {
-        if (this.initialized) return Promise.resolve();
-        return new Promise(resolve => {
-            const check = $effect.root(() => {
-                $effect(() => {
-                    if (this.initialized) {
-                        resolve();
-                        check();
-                    }
-                });
-            });
-        });
     }
 
     async _fetchAlbums() {
@@ -117,9 +102,9 @@ class Cache {
     }
 
     async fetch() {
-        await this._fetchAlbums();
-        await this._fetchArtists();
-        await this._fetchPlaylists();
+        this._fetchAlbums();
+        this._fetchArtists();
+        this._fetchPlaylists();
 
         // Additional data only refetch through full sync
         const starred = await api.getStarred();
