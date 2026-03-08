@@ -33,7 +33,7 @@
     const libraries = $derived.by(() =>
         Array.from(cache.folders, (f) => ({ value: f[0], label: f[1] }))
     );
-    let selectedLibraries = $state(Array.from(cache.folders.keys()));
+    let selectedLibraries = $derived(Array.from(cache.folders.keys()));
 
     $effect(() => {
         filters.set('libraries', new Set(selectedLibraries));
