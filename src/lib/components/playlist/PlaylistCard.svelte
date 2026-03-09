@@ -1,9 +1,11 @@
 <script>
+    import { lazyLoad } from '$lib/actions/lazyLoad';
     import { cache } from '$lib/stores/cache.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
 
     let { playlist } = $props();
     let hovered = $state(false);
+    let visible = $state(false);
 </script>
 
 {#snippet cardCover(coverArt)}
@@ -27,18 +29,30 @@
 {/snippet}
 
 <div
+    use:lazyLoad={() => (visible = true)}
     onmouseenter={() => (hovered = true)}
     onmouseleave={() => (hovered = false)}
     class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded shadow"
 >
-    {@render cardCover(cache.getCoverArt(playlist.coverArtId))}
-    <div class="z-10 flex flex-1 flex-col gap-1 px-2 pb-2">
-        <p
-            class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
-            title={playlist.name}
-        >
-            {playlist.name}
-        </p>
-        <p class="line-clamp-1 text-sm text-ink-700">{playlist.songCount} tracks</p>
-    </div>
+    {#if visible}
+        {@render cardCover(cache.getCoverArt(playlist.coverArtId))}
+        <div class="z-10 flex h-20 flex-col gap-1 px-2 pb-2">
+            <p
+                class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
+                title={playlist.name}
+            >
+                {playlist.name}
+            </p>
+            <p class="line-clamp-1 text-sm text-ink-700">{playlist.songCount} tracks</p>
+        </div>
+    {:else}
+        <!-- Basic placeholder while item isn't visible -->
+        <div
+            class="relative z-10 m-2 aspect-square animate-pulse overflow-hidden rounded bg-surface-20"
+        ></div>
+        <div class="z-10 flex h-20 flex-col gap-1 px-2 pb-2">
+            <div class="h-4 w-full animate-pulse rounded bg-surface-20"></div>
+            <div class="h-4 w-1/2 animate-pulse rounded bg-surface-20"></div>
+        </div>
+    {/if}
 </div>

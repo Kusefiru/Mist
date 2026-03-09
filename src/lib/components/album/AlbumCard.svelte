@@ -1,10 +1,12 @@
 <script>
+    import { lazyLoad } from '$lib/actions/lazyLoad';
     import { cache } from '$lib/stores/cache.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
 
     let { album, showDate = false } = $props();
     let hovered = $state(false);
+    let visible = $state(false);
 </script>
 
 {#snippet cardCover(coverArt)}
@@ -28,24 +30,37 @@
 {/snippet}
 
 <div
+    use:lazyLoad={() => (visible = true)}
     onmouseenter={() => (hovered = true)}
     onmouseleave={() => (hovered = false)}
     class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded shadow"
 >
-    {@render cardCover(cache.getCoverArt(album.coverArtId))}
-    <div class="z-10 flex flex-1 flex-col gap-1 px-2 pb-2">
-        <p
-            class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
-            title={album.name}
-        >
-            {album.name}
-        </p>
-        {#if showDate}
-            <p class="line-clamp-1 text-sm text-ink-700">{album.dateStr}</p>
-        {:else}
-            <p class="line-clamp-1 text-sm text-ink-700" title={album.artistsStr}>
-                <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />
+    {#if visible}
+        {@render cardCover(cache.getCoverArt(album.coverArtId))}
+        <div class="z-10 flex h-20 flex-col gap-1 px-2 pb-2">
+            <p
+                class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
+                title={album.name}
+            >
+                {album.name}
             </p>
-        {/if}
-    </div>
+            {#if showDate}
+                <p class="line-clamp-1 text-sm text-ink-700">{album.dateStr}</p>
+            {:else}
+                <p class="line-clamp-1 text-sm text-ink-700" title={album.artistsStr}>
+                    <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />
+                </p>
+            {/if}
+        </div>
+    {:else}
+        <!-- Basic placeholder while item isn't visible -->
+        <div
+            class="relative z-10 m-2 aspect-square animate-pulse overflow-hidden rounded bg-surface-20"
+        ></div>
+        <div class="z-10 flex h-20 flex-col gap-1 px-2 pb-2">
+            <div class="h-4 w-full animate-pulse rounded bg-surface-20"></div>
+            <div class="h-4 w-3/4 animate-pulse rounded bg-surface-20"></div>
+            <div class="h-4 w-1/2 animate-pulse rounded bg-surface-20"></div>
+        </div>
+    {/if}
 </div>
