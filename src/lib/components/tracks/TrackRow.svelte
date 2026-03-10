@@ -13,6 +13,7 @@
     import { formatDuration } from '$lib/utils/format';
     import { audio } from '$lib/audio/manager.svelte.js';
     import { audioState } from '$lib/stores/audio.svelte.js';
+    import { ui } from '$lib/stores/ui.svelte';
     import { download, getCoverArtUrl } from '$lib/opensubsonic/api';
     import DropdownMenu from '$lib/components/ui/DropdownMenu.svelte';
     import Explicit from '$lib/components/ui/Explicit.svelte';
@@ -77,7 +78,10 @@
                   {
                       icon: VinylRecord,
                       label: 'Go to album',
-                      handler: (track) => goto(`/app/album/${track.albumId}`)
+                      handler: (track) => {
+                          ui.showFullscreenPlayer = false;
+                          goto(`/app/album/${track.albumId}`);
+                      }
                   },
                   {
                       icon: TrashSimple,
