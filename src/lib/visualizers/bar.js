@@ -4,9 +4,14 @@ const CONFIG = {
     GAP_RATIO: 0.5,
     MAX_HEIGHT_RATIO: 0.3,
     BASE_COLOR: { r: 157, g: 41, b: 51 },
+    SPEED: 0.9
 };
 
 export class BarVisualizer {
+    constructor() {
+        this._values = new Float32Array(CONFIG.BAR_COUNT);
+    }
+
     render(ctx, width, height, frequencyData) {
         ctx.clearRect(0, 0, width, height);
         if (!frequencyData) return;
@@ -35,10 +40,12 @@ export class BarVisualizer {
                 sum += frequencyData[j] || 0;
             }
 
-            const value = sum / binsPerBar;
-            const normalizedHeight = value / 255;
-            const barHeight = normalizedHeight * maxBarHeight;
+            const raw = sum / (binsPerBar * 255);
+            const speed = (raw > this._values[i]) ? CONFIG.SPEED : (1 - CONFIG.SPEED);
+            // Add value to buffer with a multiplier depending on rise or fall
+            this._values[i] += (raw - this._values[i]) * speed;
 
+            const barHeight = this._values[i] * maxBarHeight;
             const offset = i * unitWidth + gap / 2;
 
             // Right side
@@ -65,5 +72,7 @@ export class BarVisualizer {
         }
     }
 
-    reset() { }
+    reset() { 
+        this._values.fill(0);
+    }
 }
