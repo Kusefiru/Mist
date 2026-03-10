@@ -4,7 +4,7 @@
     import { audioState } from '$lib/stores/audio.svelte';
     import { formatDuration } from '$lib/utils/format';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
-    import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
+    import Slider from '$lib/components/ui/Slider.svelte';
     import { onMount } from 'svelte';
 
     let { currentTrack } = $props();
@@ -80,9 +80,9 @@
             <span class="min-w-[45px] shrink-0 text-right text-sm text-ink-700">
                 {formatDuration(currentTrack ? currentTime : null)}
             </span>
-            <ProgressBar
+            <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
-                onValueCommit={(v) => audio.seek(v)}
+                onValueCommit={(v) => audio.seek(v / 100)}
             />
             <span class="min-w-[45px] shrink-0 text-left text-sm text-ink-700">
                 {formatDuration(currentTrack ? totalTime : null)}

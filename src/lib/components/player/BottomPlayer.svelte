@@ -10,7 +10,7 @@
         Repeat
     } from 'phosphor-svelte';
 
-    import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
+    import Slider from '$lib/components/ui/Slider.svelte';
     import SliderVolume from '$lib/components/ui/SliderVolume.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
 
@@ -46,9 +46,9 @@
             <span class="shrink-0 text-sm text-ink-700"
                 >{formatDuration(currentTrack ? currentTime : null)}</span
             >
-            <ProgressBar
+            <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
-                onValueCommit={(v) => audio.seek(v)}
+                onValueCommit={(v) => audio.seek(v / 100)}
             />
             <span class="shrink-0 text-sm text-ink-700"
                 >{formatDuration(currentTrack ? totalTime : null)}</span
