@@ -196,6 +196,10 @@ export class WebAudioBackend extends GenericBackend {
         // Clamp percentage to 0 - 1
         percent = Math.max(0, Math.min(percent, 1));
         this.audio.currentTime = percent * duration;
+        // Call onProgress manually if audio is not playing
+        if (this.audio.paused && this.onProgress) {
+            this.onProgress(this.audio.currentTime);
+        }
     }
 
     setVolume(volume) {
