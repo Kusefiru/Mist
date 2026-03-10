@@ -33,7 +33,6 @@
             } else {
                 coverSize = 460;
             }
-            console.log(coverSize);
         };
 
         updateSize();
