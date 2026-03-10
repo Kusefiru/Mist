@@ -2,12 +2,38 @@
     import { audio } from '$lib/audio/manager.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
     import { audioState } from '$lib/stores/audio.svelte';
+    import { tick, untrack } from 'svelte';
 
     let columns = ['cover', 'title', 'starred', 'actions'];
 
     // For autoscroll to currently playing track
     let scrollContainer = $state(null);
     let playingRow = $state(null);
+
+    $effect(() => {
+        // Trigger on mount
+        if (scrollContainer) {
+            // Tick to wait for playingRow to exist
+            // Untrack to avoid playingRow changes from calling this
+            tick().then(() =>
+                untrack(() => playingRow?.scrollIntoView({ block: 'start', behavior: 'instant' }))
+            );
+        }
+    });
+
+    $effect(() => {
+        // Trigger on visibility change (when tab becomes visible again)
+        function onVisibilityChange() {
+            if (!document.hidden) {
+                playingRow?.scrollIntoView({ block: 'start', behavior: 'instant' });
+            }
+        }
+        document.addEventListener('visibilitychange', onVisibilityChange);
+        return () => {
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+        };
+    });
+
     $effect(() => {
         // Trigger on track change
         audioState.index;
