@@ -102,7 +102,7 @@
 </script>
 
 {#snippet cardCover(coverArt)}
-    <div class="flex size-[3rem] rounded p-0.5 items-center justify-center select-none">
+    <div class="z-10 flex size-[3rem] rounded p-0.5 items-center justify-center select-none">
         <FadeImage class="max-h-full max-w-full rounded object-contain" src={coverArt} alt="cover" loading="lazy" />
     </div>
 {/snippet}
@@ -117,12 +117,12 @@
     <!-- Background effect when hovered -->
     {#if hovered || dropdownOpen}
         <div
-            class="absolute inset-0 -z-10 rounded bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
+            class="absolute inset-0 rounded bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
         ></div>
     {/if}
     <!-- Track number -->
     {#if columns.includes('track')}
-        <div class="w-[3rem] text-center text-base text-ink-800 select-none">
+        <div class="z-10 w-[3rem] text-center text-base text-ink-800 select-none">
             {#if variant === 'album'}
                 {track.track}
             {:else}
@@ -135,7 +135,7 @@
         {@render cardCover(cache.getCoverArt(track.coverArtId, 256))}
     {/if}
     {#if columns.includes('title')}
-        <div class="min-w-0 flex-1 pl-2 select-none">
+        <div class="z-10 min-w-0 flex-1 pl-2 select-none">
             <div class="flex w-full min-w-0 flex-col">
                 <span
                     class="-mt-1 flex w-full items-center text-lg font-semibold text-ink-800"
@@ -156,7 +156,7 @@
     {/if}
     {#if columns.includes('album')}
         <div
-            class="min-w-0 flex-1 truncate pl-2 text-base text-ink-800 select-none"
+            class="z-10 min-w-0 flex-1 truncate pl-2 text-base text-ink-800 select-none"
             title={track.album}
         >
             <a href="/app/album/{track.albumId}" class="hover:underline">
@@ -165,18 +165,18 @@
         </div>
     {/if}
     {#if columns.includes('duration')}
-        <div class="w-[5rem] text-right text-base text-ink-800 select-none">
+        <div class="z-10 w-[5rem] text-right text-base text-ink-800 select-none">
             {formatDuration(track.duration)}
         </div>
     {/if}
     {#if columns.includes('starred')}
-        <div class="flex w-[3rem] items-center justify-center text-ink-800 select-none">
+        <div class="z-10 flex w-[3rem] items-center justify-center text-ink-800 select-none">
             <Star trackId={track.id} size={18} hidden={!hovered} />
         </div>
     {/if}
     {#if columns.includes('quality')}
         <div
-            class="flex w-[5rem] items-center justify-center rounded border-1 border-ink-500 px-2 text-sm text-ink-500 select-none"
+            class="z-10 flex w-[5rem] items-center justify-center rounded border-1 border-ink-500 px-2 text-sm text-ink-500 select-none"
         >
             {track.content}
         </div>
