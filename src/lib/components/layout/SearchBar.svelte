@@ -44,7 +44,7 @@
         {#if searchQuery}
             <button
                 onclick={clearSearch}
-                class="flex-shrink-0 text-ink-400 transition-colors hover:text-ink-800"
+                class="flex-shrink-0 text-ink-400 transition-colors hover:text-primary-10"
                 aria-label="Clear search"
             >
                 <X size={24} />

@@ -34,7 +34,7 @@
     </button>
     <button
         onclick={togglePlay}
-        class="rounded bg-primary-10 p-2 text-surface-20 transition-colors hover:bg-primary-20"
+        class="rounded bg-primary-10 p-2 text-fill transition-colors hover:bg-primary-20"
         title={audioState.playing ? 'Pause' : 'Play'}
     >
         {#if audioState.playing}

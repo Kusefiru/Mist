@@ -48,7 +48,7 @@
     onpointerup={handlePointerUp}
     onpointercancel={handlePointerUp}
 >
-    <div class="relative h-1 w-full grow overflow-hidden rounded-full bg-surface-10">
+    <div class="relative h-1 w-full grow overflow-hidden rounded-full bg-surface-10 dark:bg-surface-50">
         <div class="h-full rounded-full bg-primary-10" style="width: {value}%"></div>
     </div>
 </div>
