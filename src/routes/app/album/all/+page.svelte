@@ -48,7 +48,7 @@
     <div class="mb-4 flex items-center justify-between">
         <div class="flex items-center gap-2">
             <h2 class="text-2xl font-bold text-ink-800">Albums</h2>
-            <div class="rounded bg-ink-500 px-1 text-sm font-semibold text-surface-10 select-none">
+            <div class="rounded bg-primary-20 px-1 text-sm font-semibold text-fill select-none">
                 {albums.length}
             </div>
         </div>

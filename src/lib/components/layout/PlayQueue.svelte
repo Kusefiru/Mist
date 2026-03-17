@@ -55,7 +55,7 @@
     >
         <div class="flex items-center gap-2">
             <h3 class="text-xl font-bold text-ink-800">Play queue</h3>
-            <div class="rounded bg-ink-600 px-1 text-sm font-semibold text-surface-30">
+            <div class="rounded bg-primary-20 px-1 text-sm font-semibold text-fill">
                 {audioState.playQueue.length}
             </div>
         </div>
