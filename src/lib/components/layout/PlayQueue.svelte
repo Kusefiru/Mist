@@ -61,7 +61,7 @@
         </div>
         <button
             onclick={() => audio.clearQueue()}
-            class="flex cursor-pointer items-baseline-last text-sm font-bold text-primary-10 transition hover:text-primary-20 hover:underline"
+            class="flex cursor-pointer items-baseline-last text-sm font-bold text-ink-400 transition hover:text-primary-20 hover:underline"
         >
             Empty queue
         </button>
