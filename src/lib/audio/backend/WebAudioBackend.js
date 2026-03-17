@@ -12,6 +12,9 @@ export class WebAudioBackend extends GenericBackend {
         // Single audio element
         this.audio = null;
 
+        // Status
+        this.stopped = true;
+
         // Web Audio API nodes
         this.audioContext = null;
         this.source = null;
@@ -49,6 +52,9 @@ export class WebAudioBackend extends GenericBackend {
         this.audio = new Audio();
         this.audio.crossOrigin = 'anonymous';
         this.audio.preload = 'auto';
+
+        // Set status
+        this.stopped = false;
 
         // Set initial volume
         this.setVolume(this.audioState.volume);
@@ -98,6 +104,9 @@ export class WebAudioBackend extends GenericBackend {
         if (this.audioContext.state === 'suspended') {
             await this.audioContext.resume();
         }
+
+        // Set status
+        this.stopped = false;
 
         // Start playback if requested
         if (play) {
@@ -166,7 +175,7 @@ export class WebAudioBackend extends GenericBackend {
     }
 
     async play() {
-        if (!this.audio) return;
+        if (!this.audio || this.stopped) return;
 
         // Resume audio context if needed
         if (this.audioContext.state === 'suspended') {
@@ -184,22 +193,44 @@ export class WebAudioBackend extends GenericBackend {
     }
 
     pause() {
-        if (this.audio) {
-            this.audio.pause();
-        }
+        if (!this.audio || this.stopped) return;
+
+        this.audio.pause();
     }
 
     seek(percent) {
-        if (!this.audio) return;
+        if (!this.audio || this.stopped) return;
+
         const duration = this.audio.duration;
         if (isNaN(duration) || duration === 0) return;
+
         // Clamp percentage to 0 - 1
         percent = Math.max(0, Math.min(percent, 1));
         this.audio.currentTime = percent * duration;
+
         // Call onProgress manually if audio is not playing
         if (this.audio.paused && this.onProgress) {
             this.onProgress(this.audio.currentTime);
         }
+    }
+
+    stop() {
+        if (this.audio) {
+            this.audio.onloadedmetadata = null;
+            this.audio.onplay = null;
+            this.audio.onpause = null;
+            this.audio.onended = null;
+            this.audio.onerror = null;
+            this.audio.pause();
+            this.audio.src = '';
+        }
+
+        if (this.frameRequest) {
+            cancelAnimationFrame(this.frameRequest);
+            this.frameRequest = null;
+        }
+        this.currentTrackId = null;
+        this.stopped = true;
     }
 
     setVolume(volume) {

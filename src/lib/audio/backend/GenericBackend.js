@@ -34,6 +34,11 @@ export class GenericBackend {
         throw new Error('seek() must be implemented by subclass');
     }
 
+    /* Completly stop audio (cannot be played again before loading a new track) */
+    stop() {
+        throw new Error('stop() must be implemented by subclass');
+    }
+
     /* Set the volume */
     setVolume(volume) {
         throw new Error('setVolume() must be implemented by subclass');
