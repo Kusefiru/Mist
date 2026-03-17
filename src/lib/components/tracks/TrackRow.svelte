@@ -121,7 +121,7 @@
         <!-- Background effect when hovered -->
         {#if hovered || dropdownOpen}
             <div
-                class="absolute inset-0 rounded bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
+                class="absolute inset-0 rounded bg-surface-30"
             ></div>
         {/if}
         <!-- Track number -->
