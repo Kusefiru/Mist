@@ -5,37 +5,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 
-@theme {
-    --color-ink-50: #f5eeeb;
-    --color-ink-100: #eae3e1;
-    --color-ink-200: #d8d2cf;
-    --color-ink-300: #b4adab;
-    --color-ink-400: #938d8a;
-    --color-ink-500: #6b6563;
-    --color-ink-600: #575250;
-    --color-ink-700: #393432;
-    --color-ink-800: #191412;
-    --color-ink-900: #0f0b0a;
-    --color-dusk-1: #044F67;
-    --color-dusk-2: #DC444E;
-    --color-dusk-3: #FCB045;
-    --color-surface-10: oklch(96.8% 0.007 247.896);
-    --color-surface-20: oklch(92.9% 0.013 255.508);
-    --color-surface-30: oklch(89.9% 0.018 253.894);
-    --color-surface-40: oklch(82.4% 0.026 255.312);
-    --color-surface-50: oklch(70.4% 0.04 256.788);
-    --color-surface-60: oklch(55.4% 0.046 257.417);
-    --color-surface-70: oklch(44.6% 0.043 257.281);
-    --color-primary-00: #dba19e;
-    --color-primary-10: #9d2933;
-    --color-primary-20: #8b262e;
-    --color-primary-30: #792429;
-    --color-primary-40: #672124;
-    --color-primary-50: #561d1f;
-    --color-primary-60: #461a1a;
-    --font-mplus: "M PLUS Rounded 1c", sans-serif; 
-    --default-transition-duration: 300ms;
-}
+@variant dark (&:where(.dark, .dark *));
 
 :root {
     font-family: "IBM Plex Sans", "IBM Plex Sans JP", "Noto Sans Symbols", Avenir, Helvetica, Arial, sans-serif;
@@ -50,6 +20,73 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Colors (Light theme) */
+    --color-ink-50: #f5eeeb;
+    --color-ink-100: #eae3e1;
+    --color-ink-200: #d8d2cf;
+    --color-ink-300: #b4adab;
+    --color-ink-400: #938d8a;
+    --color-ink-500: #6b6563;
+    --color-ink-600: #575250;
+    --color-ink-700: #393432;
+    --color-ink-800: #191412;
+    --color-ink-900: #0f0b0a;
+    --color-surface-10: oklch(96.8% 0.007 247.896);
+    --color-surface-20: oklch(92.9% 0.013 255.508);
+    --color-surface-30: oklch(89.9% 0.018 253.894);
+    --color-surface-40: oklch(82.4% 0.026 255.312);
+    --color-surface-50: oklch(70.4% 0.04 256.788);
+    --color-surface-60: oklch(55.4% 0.046 257.417);
+    --color-surface-70: oklch(44.6% 0.043 257.281);
+    --color-primary-10: oklch(46.67% 0.1514 20.8);
+    --color-primary-20: oklch(43.02% 0.1355 20.72);
+}
+
+:root.dark {
+    --color-ink-50: #0f0b0a;
+    --color-ink-100: #191412;
+    --color-ink-200: #393432;
+    --color-ink-300: #575250;
+    --color-ink-400: #6b6563;
+    --color-ink-500: #938d8a;
+    --color-ink-600: #b4adab;
+    --color-ink-700: #d8d2cf;
+    --color-ink-800: #eae3e1;
+    --color-ink-900: #f5eeeb;
+    --color-surface-50: oklch(17.5% 0.022 257);
+    --color-surface-40: oklch(22.0% 0.025 257);
+    --color-surface-30: oklch(26.5% 0.028 257);
+    --color-surface-20: oklch(30.0% 0.030 257);
+    --color-surface-10: oklch(35.0% 0.032 257);
+    --color-surface-00: oklch(41.0% 0.035 257);
+    --color-primary-10: oklch(65.2% 0.1676 14);
+    --color-primary-20: oklch(49.8% 0.149 14);
+}
+
+@theme {
+    --color-ink-50: --var(--color-ink-50);
+    --color-ink-100: --var(--color-ink-100);
+    --color-ink-200: --var(--color-ink-200);
+    --color-ink-300: --var(--color-ink-300);
+    --color-ink-400: --var(--color-ink-400);
+    --color-ink-500: --var(--color-ink-500);
+    --color-ink-600: --var(--color-ink-600);
+    --color-ink-700: --var(--color-ink-700);
+    --color-ink-800: --var(--color-ink-800);
+    --color-ink-900: --var(--color-ink-900);
+    --color-surface-10: var(--color-surface-10);
+    --color-surface-20: var(--color-surface-20);
+    --color-surface-30: var(--color-surface-30);
+    --color-surface-40: var(--color-surface-40);
+    --color-surface-50: var(--color-surface-50);
+    --color-surface-60: var(--color-surface-60);
+    --color-primary-00: oklch(70.5% 0.145 18);
+    --color-primary-10: var(--color-primary-10);
+    --color-primary-20: var(--color-primary-20);
+    --color-fill: #eae3e1;
+    --font-mplus: "M PLUS Rounded 1c", sans-serif; 
+    --default-transition-duration: 300ms;
 }
 
 body {
