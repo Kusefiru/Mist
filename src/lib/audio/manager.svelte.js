@@ -303,6 +303,23 @@ class AudioManager {
         }
     }
 
+    stop() {
+        if (this.backend) {
+            this.backend.stop();
+        }
+        /* Also reset mediaSession */
+        if (navigator?.mediaSession) {
+            navigator.mediaSession.metadata = null;
+            navigator.mediaSession.setActionHandler('play', null);
+            navigator.mediaSession.setActionHandler('pause', null);
+            navigator.mediaSession.setActionHandler('previoustrack', null);
+            navigator.mediaSession.setActionHandler('nexttrack', null);
+            navigator.mediaSession.setActionHandler('seekbackward', null);
+            navigator.mediaSession.setActionHandler('seekforward', null);
+            navigator.mediaSession.setActionHandler('seekto', null);
+        }
+    }
+
     // Clean up resources
     destroy() {
         if (this.scrobbler) {
