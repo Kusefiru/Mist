@@ -11,11 +11,11 @@
 
 {#snippet cardCover(coverArt)}
     <div
-        class="absolute inset-0 z-0 scale-110 bg-cover bg-center blur-xl transition-transform group-hover:scale-125"
+        class="absolute inset-0 z-0 scale-110 bg-cover bg-center blur-md transition-transform group-hover:scale-125"
         style="background-image: url('{coverArt}');"
     ></div>
     <div
-        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
+        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] dark:bg-surface-50/50"
     ></div>
     <div class="relative z-10 aspect-square overflow-hidden p-2">
         <div class="flex size-full items-center justify-center">
