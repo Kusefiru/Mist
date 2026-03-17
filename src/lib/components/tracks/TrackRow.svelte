@@ -10,6 +10,7 @@
         VinylRecord
     } from 'phosphor-svelte';
 
+    import { lazyLoad } from '$lib/actions/lazyLoad';
     import { formatDuration } from '$lib/utils/format';
     import { audio } from '$lib/audio/manager.svelte.js';
     import { audioState } from '$lib/stores/audio.svelte.js';
@@ -48,6 +49,7 @@
     let starred = $derived(cache.stars.has(trackId));
     let index = queueIds?.indexOf(trackId) || 0;
     let hovered = $state(false);
+    let visible = $state(false);
     let dropdownOpen = $state(false);
     let imageLoaded = $state(false);
 
@@ -108,86 +110,104 @@
 {/snippet}
 
 <div
+    use:lazyLoad={() => (visible = true)}
     onmouseenter={() => (hovered = true)}
     onmouseleave={() => (hovered = false)}
     ondblclick={onDoubleClick}
     class="relative flex h-14 items-center rounded px-2"
     class:shadow={hovered || dropdownOpen}
 >
-    <!-- Background effect when hovered -->
-    {#if hovered || dropdownOpen}
-        <div
-            class="absolute inset-0 rounded bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
-        ></div>
-    {/if}
-    <!-- Track number -->
-    {#if columns.includes('track')}
-        <div class="z-10 w-[3rem] text-center text-base text-ink-800 select-none">
-            {#if variant === 'album'}
-                {track.track}
-            {:else}
-                {index + 1}
-            {/if}
-        </div>
-    {/if}
-    <!-- Album cover -->
-    {#if columns.includes('cover')}
-        {@render cardCover(cache.getCoverArt(track.coverArtId, 256))}
-    {/if}
-    {#if columns.includes('title')}
-        <div class="z-10 min-w-0 flex-1 pl-2 select-none">
-            <div class="flex w-full min-w-0 flex-col">
-                <span
-                    class="-mt-1 flex w-full items-center text-lg font-semibold text-ink-800"
-                    class:gap-1={isCurrentlyPlaying}
-                    class:text-primary-10={isCurrentlyPlaying}
-                >
-                    {#if isCurrentlyPlaying}
-                        <PlayingIndicator size={20} paused={!audioState.playing} />
-                    {/if}
-                    <Explicit explicit={track.explicit} />
-                    <span class="truncate" title={track.title}>{track.title}</span>
-                </span>
-                <span class="w-full truncate text-base text-ink-700" title={track.artistsStr}
-                    ><FormattedArtists text={track.artistsStr} artistMap={track.artistIds} /></span
-                >
+    {#if visible}
+        <!-- Background effect when hovered -->
+        {#if hovered || dropdownOpen}
+            <div
+                class="absolute inset-0 rounded bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
+            ></div>
+        {/if}
+        <!-- Track number -->
+        {#if columns.includes('track')}
+            <div class="z-10 w-[3rem] text-center text-base text-ink-800 select-none">
+                {#if variant === 'album'}
+                    {track.track}
+                {:else}
+                    {index + 1}
+                {/if}
             </div>
-        </div>
-    {/if}
-    {#if columns.includes('album')}
-        <div
-            class="z-10 min-w-0 flex-1 truncate pl-2 text-base text-ink-800 select-none"
-            title={track.album}
-        >
-            <a href="/app/album/{track.albumId}" class="hover:underline">
-                {track.album}
-            </a>
-        </div>
-    {/if}
-    {#if columns.includes('duration')}
-        <div class="z-10 w-[5rem] text-right text-base text-ink-800 select-none">
-            {formatDuration(track.duration)}
-        </div>
-    {/if}
-    {#if columns.includes('starred')}
-        <div class="z-10 flex w-[3rem] items-center justify-center text-ink-800 select-none">
-            <Star trackId={track.id} size={18} hidden={!hovered} />
-        </div>
-    {/if}
-    {#if columns.includes('quality')}
-        <div
-            class="z-10 flex w-[5rem] items-center justify-center rounded border-1 border-ink-500 px-2 text-sm text-ink-500 select-none"
-        >
-            {track.content}
-        </div>
-    {/if}
-    {#if columns.includes('actions')}
-        <div
-            class="relative z-20 flex w-[2rem] items-center justify-center pt-1 text-ink-800 select-none"
-        >
-            {#if hovered || dropdownOpen}
-                <DropdownMenu actions={trackActions} context={track} bind:open={dropdownOpen} />
-            {/if}
-        </div>
+        {/if}
+        <!-- Album cover -->
+        {#if columns.includes('cover')}
+            {@render cardCover(cache.getCoverArt(track.coverArtId, 256))}
+        {/if}
+        {#if columns.includes('title')}
+            <div class="z-10 min-w-0 flex-1 pl-2 select-none">
+                <div class="flex w-full min-w-0 flex-col">
+                    <span
+                        class="-mt-1 flex w-full items-center text-lg font-semibold text-ink-800"
+                        class:gap-1={isCurrentlyPlaying}
+                        class:text-primary-10={isCurrentlyPlaying}
+                    >
+                        {#if isCurrentlyPlaying}
+                            <PlayingIndicator size={20} paused={!audioState.playing} />
+                        {/if}
+                        <Explicit explicit={track.explicit} />
+                        <span class="truncate" title={track.title}>{track.title}</span>
+                    </span>
+                    <span class="w-full truncate text-base text-ink-700" title={track.artistsStr}
+                        ><FormattedArtists text={track.artistsStr} artistMap={track.artistIds} /></span
+                    >
+                </div>
+            </div>
+        {/if}
+        {#if columns.includes('album')}
+            <div
+                class="z-10 min-w-0 flex-1 truncate pl-2 text-base text-ink-800 select-none"
+                title={track.album}
+            >
+                <a href="/app/album/{track.albumId}" class="hover:underline">
+                    {track.album}
+                </a>
+            </div>
+        {/if}
+        {#if columns.includes('duration')}
+            <div class="z-10 w-[5rem] text-right text-base text-ink-800 select-none">
+                {formatDuration(track.duration)}
+            </div>
+        {/if}
+        {#if columns.includes('starred')}
+            <div class="z-10 flex w-[3rem] items-center justify-center text-ink-800 select-none">
+                <Star trackId={track.id} size={18} hidden={!hovered} />
+            </div>
+        {/if}
+        {#if columns.includes('quality')}
+            <div
+                class="z-10 flex w-[5rem] items-center justify-center rounded border-1 border-ink-500 px-2 text-sm text-ink-500 select-none"
+            >
+                {track.content}
+            </div>
+        {/if}
+        {#if columns.includes('actions')}
+            <div
+                class="relative z-20 flex w-[2rem] items-center justify-center pt-1 text-ink-800 select-none"
+            >
+                {#if hovered || dropdownOpen}
+                    <DropdownMenu actions={trackActions} context={track} bind:open={dropdownOpen} />
+                {/if}
+            </div>
+        {/if}
+    {:else}
+        <!-- Album cover -->
+        {#if columns.includes('track')}
+            <div class="h-3 w-[2.5rem] animate-pulse rounded bg-surface-20"></div>
+        {/if}
+        {#if columns.includes('cover')}
+            <div
+                class="relative z-10 m-2 aspect-square w-[3rem] animate-pulse overflow-hidden rounded bg-surface-20"
+            ></div>
+        {/if}
+        {#if columns.includes('title')}
+            <div class="z-10 min-w-0 flex-1 flex">
+                <div class="h-4 w-2/3 animate-pulse rounded bg-surface-20"></div>
+            </div>
+        {/if}
     {/if}
 </div>
