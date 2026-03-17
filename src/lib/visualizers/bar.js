@@ -27,12 +27,7 @@ export class BarVisualizer {
         const gap = unitWidth * CONFIG.GAP_RATIO;
         const maxBarHeight = height * CONFIG.MAX_HEIGHT_RATIO;
 
-        ctx.fillStyle = `rgba(
-            ${CONFIG.BASE_COLOR.r},
-            ${CONFIG.BASE_COLOR.g},
-            ${CONFIG.BASE_COLOR.b},
-            0.4
-        )`;
+        ctx.fillStyle = this.color;
 
         for (let i = 0; i < CONFIG.BAR_COUNT; i++) {
             let sum = 0;

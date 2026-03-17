@@ -59,6 +59,12 @@
             visualizer.reset();
         }
     });
+
+    $effect(() => {
+        /* Set visualizer color to match CSS color */
+        const color = getComputedStyle(canvas).color;
+        visualizer.color = color.replace(')', ' / 0.4)');
+    })
 </script>
 
-<canvas bind:this={canvas} class="absolute inset-0 h-full w-full"></canvas>
+<canvas bind:this={canvas} class="absolute inset-0 h-full w-full text-primary-10"></canvas>
