@@ -11,6 +11,7 @@ A modern, desktop-focused web client for OpenSubsonic-compatible music servers.
 - Clean, responsive UI built with [Svelte 5](https://svelte.dev/)
 - Client only: all data is stored locally
 - Scrobble tracks to your server
+- Light and Dark themes support
 - Immersive fullscreen mode
 
 ## Screenshots
@@ -30,6 +31,14 @@ A modern, desktop-focused web client for OpenSubsonic-compatible music servers.
         </a></td>
         <td><a href="./media/screenshot_03_player.png">
             <img src="./media/screenshot_03_player.png" width="100%"> 
+        </a></td>
+    </tr>
+    <tr>
+        <td><a href="./media/screenshot_04_album_id-dark.png">
+            <img src="./media/screenshot_04_album_id-dark.png" width="100%"> 
+        </a></td>
+        <td><a href="./media/screenshot_05_player-dark.png">
+            <img src="./media/screenshot_05_player-dark.png" width="100%"> 
         </a></td>
     </tr>
 </table>
