@@ -36,8 +36,10 @@
     class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded shadow"
 >
     {#if visible}
-        {@render cardCover(cache.getCoverArt(album.coverArtId))}
-        <div class="z-10 flex h-20 flex-col gap-1 px-2 pb-2">
+    {@render cardCover(cache.getCoverArt(album.coverArtId))}
+        <div
+            class="z-10 mx-2 mb-2 flex flex-1 flex-col gap-1 rounded transition-colors group-hover:bg-surface-10/30 dark:group-hover:bg-surface-50/30"
+        >
             <p
                 class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
                 title={album.name}

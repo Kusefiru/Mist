@@ -33,7 +33,9 @@
     class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded shadow "
 >
     {@render cardCover(cache.getCoverArt(album.coverArtId))}
-    <div class="z-10 flex flex-1 flex-col justify-end py-2">
+    <div
+        class="z-10 my-2 mr-2 flex flex-1 flex-col gap-1 justify-end rounded transition-colors group-hover:bg-surface-10/30 dark:group-hover:bg-surface-50/30"
+    >
         <p
             class="line-clamp-2 text-xl font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
             title={album.name}
