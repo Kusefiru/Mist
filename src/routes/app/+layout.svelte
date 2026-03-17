@@ -1,6 +1,6 @@
 <!-- src/routes/app/+layout.svelte -->
 <script>
-    import { ArrowClockwise, SignOut } from 'phosphor-svelte';
+    import { ArrowClockwise, Palette, SignOut } from 'phosphor-svelte';
     import { session } from '$lib/stores/auth.svelte.js';
     import { ui } from '$lib/stores/ui.svelte.js';
     import { getAvatar, getUser } from '$lib/opensubsonic/api';
@@ -25,6 +25,13 @@
     let avatar = $state(null);
 
     const userActions = [
+        {
+            icon: Palette,
+            label: 'Theme',
+            handler: () => {
+                ui.darkTheme = !ui.darkTheme;
+            }
+        },
         {
             icon: ArrowClockwise,
             label: 'Refresh',
