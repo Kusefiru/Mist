@@ -23,7 +23,9 @@
     </div>
 {/snippet}
 
-<div class="group relative flex items-end overflow-hidden rounded p-4 shadow-md select-none">
+<div
+    class="group relative flex items-end p-4 shadow-md select-none [clip-path:inset(0_round_0.4rem)]"
+>
     {@render cardCover(cache.getCoverArt(artist.coverArtId))}
     <div class="relative z-10 flex flex-col gap-1 pr-12 text-ink-700">
         <h4 class="text-sm font-bold uppercase">Artist</h4>

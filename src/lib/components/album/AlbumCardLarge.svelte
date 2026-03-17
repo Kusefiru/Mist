@@ -30,7 +30,7 @@
 <div
     onmouseenter={() => (hovered = true)}
     onmouseleave={() => (hovered = false)}
-    class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded shadow "
+    class="group relative flex h-full cursor-pointer flex-row shadow [clip-path:inset(0_round_0.4rem)]"
 >
     {@render cardCover(cache.getCoverArt(album.coverArtId))}
     <div

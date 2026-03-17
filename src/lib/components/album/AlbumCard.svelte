@@ -33,7 +33,7 @@
     use:lazyLoad={() => (visible = true)}
     onmouseenter={() => (hovered = true)}
     onmouseleave={() => (hovered = false)}
-    class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded shadow"
+    class="group relative flex h-full cursor-pointer flex-col shadow [clip-path:inset(0_round_0.4rem)]"
 >
     {#if visible}
     {@render cardCover(cache.getCoverArt(album.coverArtId))}
