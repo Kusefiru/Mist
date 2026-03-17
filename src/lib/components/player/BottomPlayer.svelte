@@ -28,7 +28,7 @@
 
     $effect(() => {
         audio.setVolume(audioState.volume);
-    })
+    });
 </script>
 
 <div class="flex h-26 w-full items-center px-4">
@@ -77,7 +77,8 @@
                 onclick={() => {
                     ui.showFullscreenPlayer = !ui.showFullscreenPlayer;
                 }}
-                class="mr-1 rounded p-1 transition-colors hover:bg-surface-10 hover:text-primary-10"
+                disabled={!currentTrack}
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-10 hover:text-primary-10 disabled:text-ink-600"
                 title="Fullscreen mode"
             >
                 <CaretUp size={28} />
