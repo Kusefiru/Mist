@@ -31,7 +31,7 @@
     });
 </script>
 
-<div class="flex h-26 w-full items-center px-4">
+<div class="flex h-[6.5rem] w-full items-center px-4">
     <!-- Left: Cover Art + Track Info -->
     <div class="flex w-[28%]">
         {#if currentTrack}

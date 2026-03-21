@@ -13,10 +13,10 @@
     });
 </script>
 
-<div class="flex w-18 flex-col bg-gradient-to-b from-surface-40 to-surface-10 select-none">
+<div class="flex w-[4rem] flex-col bg-gradient-to-b from-surface-40 to-surface-10 select-none lg:w-[5rem]">
     <aside class="flex flex-col justify-between overflow-y-auto text-ink-800">
         <div class="mt-2 flex flex-col items-center gap-2">
-            <img src={logo} alt="Mist" class="size-14" />
+            <img src={logo} alt="Mist" class="size-[3rem] lg:size-[3.5rem]" />
             <MenuButton href="/app/home" Icon={House} />
             <MenuButton href="/app/album/all" Icon={VinylRecord} />
             <MenuButton href="/app/artist/all" Icon={Users} />

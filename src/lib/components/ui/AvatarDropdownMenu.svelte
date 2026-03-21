@@ -10,7 +10,7 @@
 <div class="relative inline-block">
     <button
         bind:this={buttonElement}
-        class="inline-flex size-12 cursor-pointer items-center justify-center rounded-full hover:outline hover:outline-2 hover:outline-primary-10"
+        class="inline-flex size-[3rem] cursor-pointer items-center justify-center rounded-full hover:outline hover:outline-2 hover:outline-primary-10"
         class:outline-primary-10={open}
         onclick={() => {
             open = !open;

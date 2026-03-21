@@ -42,12 +42,11 @@
 
 <div
     class="mt-4 rounded bg-surface-30/60 px-6 py-4 shadow-xl transition-all"
-    style="width: 700px;"
     transition:slide={{ duration: 300 }}
 >
     <div class="flex items-center justify-between gap-4 text-ink-700">
         <!-- Visualizer selector -->
-        <div class="relative z-50 flex min-w-[160px] items-center gap-2">
+        <div class="relative z-50 flex min-w-[10rem] items-center gap-2">
             <Select items={visualizers} bind:value={visualizerStore.current} />
         </div>
 
@@ -55,8 +54,8 @@
         <PlaybackPanel size={"1.75rem"} />
 
         <!-- Volume and Queue toggle -->
-        <div class="flex min-w-[160px] items-center justify-end gap-2">
-            <div class="w-28">
+        <div class="flex min-w-[10rem] items-center justify-end gap-2">
+            <div class="w-[7rem]">
                 <SliderVolume bind:value={audioState.volume} />
             </div>
             <button

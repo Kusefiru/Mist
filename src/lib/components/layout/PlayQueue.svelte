@@ -51,7 +51,7 @@
 
 <div class="flex h-full flex-col px-2">
     <div
-        class="flex h-18 items-center justify-between px-2 text-xl font-bold text-ink-800 select-none"
+        class="flex h-[4rem] items-center justify-between px-2 text-xl font-bold text-ink-800 select-none lg:h-[5rem]"
     >
         <div class="flex items-center gap-2">
             <h3 class="text-xl font-bold text-ink-800">Play queue</h3>

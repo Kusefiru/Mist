@@ -122,7 +122,7 @@
         <!-- Main Panel OR Fullscreen Player -->
         <div class="relative flex min-w-0 flex-1 flex-col bg-surface-10">
             <!-- Top Bar -->
-            <header class="flex h-18 items-center justify-between px-8">
+            <header class="flex h-[4rem] items-center justify-between px-8 lg:h-[5rem]">
                 <SearchBar />
 
                 <div class="flex items-center select-none">
