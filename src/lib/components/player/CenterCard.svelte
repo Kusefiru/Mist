@@ -11,48 +11,17 @@
 
     const totalTime = $derived(currentTrack?.duration || null);
     const currentTime = $derived(audioState.progress || null);
-
-    let coverSize = $state(350);
-    const padding = 32; // 8 * 4 (p-8)
-    const progressHeight = 48; // Approximate height for progress bar section
-
-    // Calculate card dimensions based on cover size
-    const cardHeight = $derived(coverSize + padding * 2 + progressHeight);
-    const cardWidth = $derived(coverSize * 2 + padding * 3); // Cover + gap + info area
-
-    onMount(() => {
-        const updateSize = () => {
-            const vh = window.innerHeight;
-            const vw = window.innerWidth;
-
-            // Scale cover art based on screen size
-            if (vw < 1400 || vh < 800) {
-                coverSize = 360;
-            } else if (vw < 1800 || vh < 1000) {
-                coverSize = 400;
-            } else {
-                coverSize = 460;
-            }
-        };
-
-        updateSize();
-        window.addEventListener('resize', updateSize);
-
-        return () => {
-            window.removeEventListener('resize', updateSize);
-        };
-    });
 </script>
 
 <div
     class="flex flex-col rounded bg-surface-30/70 p-8 shadow-xl transition-all select-none"
-    style="width: {cardWidth}px; height: {cardHeight}px;"
+    style="width: calc(var(--fs-min-cover-size) * 2 + 2rem * 3); height: calc(var(--fs-min-cover-size) + 2rem * 2 + 3rem);"
 >
     <!-- Cover art and track info - horizontal layout -->
     <div class="flex min-h-0 flex-1 gap-8">
         <div
             class="flex flex-shrink-0 items-center justify-center"
-            style="height: {coverSize}px; width: {coverSize}px;"
+            style="height: var(--fs-min-cover-size); width: var(--fs-min-cover-size);"
         >
             <FadeImage
                 class="max-h-full max-w-full rounded object-contain"
@@ -61,14 +30,17 @@
             />
         </div>
 
-        <div class="flex min-w-0 flex-1 flex-col justify-end gap-2" style="height: {coverSize}px;">
-            <h2 class="text-3xl font-bold text-ink-900">
+        <div
+            class="flex min-w-0 flex-1 flex-col justify-end gap-2"
+            style="height: var(--fs-min-cover-size);"
+        >
+            <h2 class="text-2xl font-bold text-ink-900 lg:text-3xl">
                 {currentTrack.title}
             </h2>
-            <h3 class="text-xl text-ink-800">
+            <h3 class="line-clamp-1 text-lg text-ink-800 lg:text-xl">
                 {currentTrack.artistsStr}
             </h3>
-            <h3 class="text-xl font-semibold text-ink-700">
+            <h3 class="line-clamp-2 text-lg font-semibold text-ink-700 lg:text-xl">
                 {currentTrack.album}
             </h3>
         </div>
@@ -77,14 +49,14 @@
     <!-- Progress bar spanning full width -->
     <div class="mt-6">
         <div class="flex items-center gap-3">
-            <span class="min-w-[45px] shrink-0 text-right text-sm text-ink-700">
+            <span class="min-w-[3rem] shrink-0 text-right text-sm text-ink-700">
                 {formatDuration(currentTrack ? currentTime : null)}
             </span>
             <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
                 onValueCommit={(v) => audio.seek(v / 100)}
             />
-            <span class="min-w-[45px] shrink-0 text-left text-sm text-ink-700">
+            <span class="min-w-[3rem] shrink-0 text-left text-sm text-ink-700">
                 {formatDuration(currentTrack ? totalTime : null)}
             </span>
         </div>
