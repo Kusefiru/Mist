@@ -87,6 +87,55 @@
     --color-fill: #eae3e1;
     --font-mplus: "M PLUS Rounded 1c", sans-serif; 
     --default-transition-duration: 300ms;
+
+    /* Override default breakpoints */
+    --breakpoint-sm: 68rem;
+    --breakpoint-md: 84rem;
+    --breakpoint-lg: 100rem;
+    --breakpoint-xl: 116rem;
+    --breakpoint-2xl: 132rem;
+
+    /* Container sizes */
+    --container-header-4col: 64rem;
+}
+
+@layer base {
+  :root {
+    font-size: 12px;
+    --min-queue-size: 18rem;
+    --fs-min-cover-size: 220px;
+  }
+
+  @media (min-width: theme(--breakpoint-sm)) {
+    :root {
+      font-size: 14px;
+      --min-queue-size: 20rem;
+      --fs-min-cover-size: 280px;
+    }
+  }
+
+  @media (min-width: theme(--breakpoint-md)) {
+    :root {
+      font-size: 15px;
+      --min-queue-size: 22rem;
+      --fs-min-cover-size: 280px;
+    }
+  }
+
+  @media (min-width: theme(--breakpoint-lg)) {
+    :root {
+      font-size: 16px;
+      --min-queue-size: 25rem;
+      --fs-min-cover-size: 420px;
+    }
+  }
+
+  @media (min-width: theme(--breakpoint-2xl)) {
+    :root {
+      --min-queue-size: 28rem;
+      --fs-min-cover-size: 500px;
+    }
+  }
 }
 
 body {
