@@ -1,12 +1,13 @@
 <script>
     import AlbumCard from './AlbumCard.svelte';
     import { CaretLeft, CaretRight } from 'phosphor-svelte';
+import { remToPx } from '$lib/utils/pxmath';
 
     let { albums = [], title = '' } = $props();
 
     let scrollContainer = $state(null);
     let scrollOffset = $state(0);
-    let cardWidth = $state(200);
+    let cardWidth = $state(remToPx(12));
     let gap = 12; // gap-3 = 12px
 
     // Calculate how many cards can fit in the visible area
@@ -33,7 +34,7 @@
         if (scrollContainer) {
             const updateDimensions = () => {
                 const containerWidth = scrollContainer.clientWidth;
-                const minCardWidth = 200;
+                const minCardWidth = remToPx(12);
                 const count = Math.floor((containerWidth + gap) / (minCardWidth + gap));
                 visibleCount = Math.max(1, count);
                 cardWidth = (containerWidth - gap * (count - 1)) / count;

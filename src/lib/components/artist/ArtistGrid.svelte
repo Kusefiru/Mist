@@ -4,7 +4,7 @@
     let { artists } = $props();
 </script>
 
-<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3 pb-4">
+<div class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-3 pb-4">
     {#each artists as artist}
         <a href="/app/artist/{artist.id}">
             <ArtistCard {artist} />
