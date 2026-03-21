@@ -33,14 +33,14 @@
 
 <div class="flex h-[6.5rem] w-full items-center px-4">
     <!-- Left: Cover Art + Track Info -->
-    <div class="flex w-[28%]">
+    <div class="flex w-[30%] lg:w-[28%]">
         {#if currentTrack}
             <TrackCard track={currentTrack} />
         {/if}
     </div>
 
     <!-- Center: Controls and Progress Bar -->
-    <div class="relative flex w-[44%] min-w-0 flex-col items-center justify-center select-none">
+    <div class="relative flex w-[40%] lg:w-[44%] min-w-0 flex-col items-center justify-center select-none">
         <PlaybackPanel size={"1.75rem"} />
         <div class="flex w-full items-center gap-2 pt-2">
             <span class="shrink-0 text-sm text-ink-700"
@@ -56,11 +56,10 @@
         </div>
     </div>
 
-    <!-- Right: (Optional space for future features or keep empty) -->
-    <div class="flex w-[28%] min-w-0 items-center gap-4">
+    <!-- Right: Volume and additional buttons -->
+    <div class="flex w-[30%] lg:w-[28%] min-w-0 items-center gap-4">
         <div class="flex w-full items-center justify-end gap-2 text-ink-800">
-            <!-- TODO: Make as a single component -->
-            <div class="w-36 px-2">
+            <div class="w-[10rem] px-2">
                 <SliderVolume bind:value={audioState.volume} />
             </div>
             <button
