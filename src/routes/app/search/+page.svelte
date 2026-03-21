@@ -42,7 +42,7 @@
     {:then { albums, artists, tracks }}
         {#if tracks?.length > 0}
             <h2 class="flex items-center pt-4 text-2xl font-bold text-ink-800">
-                <MusicNotesSimple size={28} class="mr-2" />
+                <MusicNotesSimple size={"1.75rem"} class="mr-2" />
                 <span>Tracks</span>
             </h2>
             <ul class="py-4">
@@ -59,21 +59,21 @@
         {/if}
         {#if albums?.length > 0}
             <h2 class="flex items-center py-4 text-2xl font-bold text-ink-800">
-                <VinylRecord size={28} class="mr-2" />
+                <VinylRecord size={"1.75rem"} class="mr-2" />
                 <span>Albums</span>
             </h2>
             <AlbumGrid {albums} />
         {/if}
         {#if artists?.length > 0}
             <h2 class="flex items-center py-4 text-2xl font-bold text-ink-800">
-                <Users size={28} class="mr-2" />
+                <Users size={"1.75rem"} class="mr-2" />
                 <span>Artists</span>
             </h2>
             <ArtistGrid {artists} />
         {/if}
         {#if !tracks?.length && !albums?.length && !artists?.length}
             <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
-                <SmileySad size={40} />
+                <SmileySad size={"3rem"} />
                 <p class="text-2xl">No results found for: "{query}"</p>
             </div>
         {/if}

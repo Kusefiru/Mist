@@ -56,7 +56,7 @@
         }}
     >
         <span class="text-base">{label}</span>
-        <CaretDown size={20} />
+        <CaretDown size={"1.25rem"} />
     </button>
 
     {#if open && buttonElement}

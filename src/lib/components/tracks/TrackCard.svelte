@@ -32,5 +32,5 @@
             </a>
         </h4>
     </div>
-    <Star trackId={track.id} size={24} />
+    <Star trackId={track.id} size={"1.5rem"} />
 </div>

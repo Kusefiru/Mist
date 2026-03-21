@@ -39,7 +39,7 @@
                 </ul>
             {:else}
                 <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
-                    <SmileySad size={40} />
+                    <SmileySad size={"3rem"} />
                     <p class="text-xl">Looks like this playlist is empty.</p>
                 </div>
             {/if}

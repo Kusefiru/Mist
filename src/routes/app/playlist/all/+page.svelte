@@ -46,9 +46,9 @@
                 class="mr-1 rounded p-1 transition-colors hover:bg-surface-30/50 hover:text-primary-10"
             >
                 {#if sortOrder === 'asc'}
-                    <SortAscending size={24} />
+                    <SortAscending size={"1.5rem"} />
                 {:else}
-                    <SortDescending size={24} />
+                    <SortDescending size={"1.5rem"} />
                 {/if}
             </button>
         </div>

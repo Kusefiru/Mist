@@ -34,7 +34,7 @@
             <h4 class="text-sm font-bold uppercase">Artist</h4>
             <h2 class="text-3xl font-bold break-words whitespace-normal text-ink-800">
                 {artist.name}
-                <Star size={28} />
+                <Star size={"1.75rem"} />
             </h2>
             <h3 class="truncate text-lg font-semibold">{artist.albumCount} releases</h3>
         </div>

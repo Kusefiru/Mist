@@ -52,7 +52,7 @@
         </div>
 
         <!-- Playback controls -->
-        <PlaybackPanel size={28} />
+        <PlaybackPanel size={"1.75rem"} />
 
         <!-- Volume and Queue toggle -->
         <div class="flex min-w-[160px] items-center justify-end gap-2">
@@ -67,7 +67,7 @@
                 class:text-primary-10={ui.showPlayQueue}
                 title="Toggle queue"
             >
-                <Queue size={28} />
+                <Queue size={"1.75rem"} />
             </button>
         </div>
     </div>

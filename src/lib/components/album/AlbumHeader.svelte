@@ -37,7 +37,7 @@
             <div class="flex flex-row items-baseline gap-2 text-ink-800">
                 <h2 class="text-3xl font-bold break-words whitespace-normal">{album.name}</h2>
                 <h2 class="text-3xl font-bold text-ink-700 italic">{album.version}</h2>
-                <Star size={28} />
+                <Star size={"1.75rem"} />
             </div>
             <h3 class="text-2xl">
                 <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />

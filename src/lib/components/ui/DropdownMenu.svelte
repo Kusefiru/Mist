@@ -74,7 +74,7 @@
             }, 200);
         }}
     >
-        <DotsThreeVertical size={22} weight={'bold'} />
+        <DotsThreeVertical size={"1.5rem"} weight={'bold'} />
     </button>
     {#if open && buttonElement}
         <ul
@@ -88,7 +88,7 @@
                     onclick={() => action.handler(context)}
                 >
                     {#if action.icon}
-                        <action.icon size={22} />
+                        <action.icon size={"1.5rem"} />
                     {/if}
                     {action.label}
                 </button>

@@ -1,7 +1,7 @@
 <script>
     import AlbumCard from './AlbumCard.svelte';
     import { CaretLeft, CaretRight } from 'phosphor-svelte';
-import { remToPx } from '$lib/utils/pxmath';
+    import { remToPx } from '$lib/utils/pxmath';
 
     let { albums = [], title = '' } = $props();
 
@@ -64,7 +64,7 @@ import { remToPx } from '$lib/utils/pxmath';
                 class="rounded p-2 text-ink-800 transition-colors hover:bg-surface-20 hover:text-primary-10 disabled:text-ink-400 disabled:hover:bg-transparent"
                 aria-label="Scroll left"
             >
-                <CaretLeft size={24} weight="bold" />
+                <CaretLeft size={"1.5rem"} weight="bold" />
             </button>
             <button
                 onclick={scrollRight}
@@ -72,7 +72,7 @@ import { remToPx } from '$lib/utils/pxmath';
                 class="rounded p-2 text-ink-800 transition-colors hover:bg-surface-20 hover:text-primary-10 disabled:text-ink-400 disabled:hover:bg-transparent"
                 aria-label="Scroll right"
             >
-                <CaretRight size={24} weight="bold" />
+                <CaretRight size={"1.5rem"} weight="bold" />
             </button>
         </div>
     </div>

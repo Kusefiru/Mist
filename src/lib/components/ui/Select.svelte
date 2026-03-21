@@ -43,7 +43,7 @@
         }}
     >
         <span class="text-base">{label}</span>
-        <CaretDown size={20} />
+        <CaretDown size={"1.25rem"} />
     </button>
 
     {#if open && buttonElement}
@@ -63,7 +63,7 @@
                         onclick={() => handleSelect(item.value)}
                     >
                         {#if item.icon}
-                            <item.icon size={20} />
+                            <item.icon size={"1.25rem"} />
                         {/if}
                         <span>{item.label}</span>
                     </button>

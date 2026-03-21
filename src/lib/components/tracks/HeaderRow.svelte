@@ -8,7 +8,7 @@
     <!-- Track number -->
     {#if columns.includes('track')}
         <div class="flex w-[3rem] justify-center">
-            <Hash size={16} />
+            <Hash size={"1rem"} />
         </div>
     {/if}
     {#if columns.includes('cover')}
@@ -22,12 +22,12 @@
     {/if}
     {#if columns.includes('duration')}
         <div class="flex w-[5rem] justify-end text-center">
-            <Clock size={16} />
+            <Clock size={"1rem"} />
         </div>
     {/if}
     {#if columns.includes('starred')}
         <div class="flex w-[3rem] items-center justify-center">
-            <Heart size={16} />
+            <Heart size={"1rem"} />
         </div>
     {/if}
     {#if columns.includes('quality')}

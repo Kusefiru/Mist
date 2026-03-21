@@ -41,7 +41,7 @@
 
     <!-- Center: Controls and Progress Bar -->
     <div class="relative flex w-[44%] min-w-0 flex-col items-center justify-center select-none">
-        <PlaybackPanel size={28} />
+        <PlaybackPanel size={"1.75rem"} />
         <div class="flex w-full items-center gap-2 pt-2">
             <span class="shrink-0 text-sm text-ink-700"
                 >{formatDuration(currentTrack ? currentTime : null)}</span
@@ -71,7 +71,7 @@
                 class:text-primary-10={ui.showPlayQueue}
                 title="Toggle queue"
             >
-                <Queue size={28} />
+                <Queue size={"1.75rem"} />
             </button>
             <button
                 onclick={() => {
@@ -81,7 +81,7 @@
                 class="mr-1 rounded p-1 transition-colors hover:bg-surface-10 hover:text-primary-10 disabled:text-ink-600"
                 title="Fullscreen mode"
             >
-                <CaretUp size={28} />
+                <CaretUp size={"1.75rem"} />
             </button>
         </div>
     </div>

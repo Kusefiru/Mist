@@ -57,7 +57,7 @@
             {/if}
             {#if topTracks.length > 0}
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <MusicNotesSimple size={28} class="mr-2" />
+                    <MusicNotesSimple size={"1.75rem"} class="mr-2" />
                     <span>Top tracks</span>
                 </h2>
                 <ul>
@@ -74,21 +74,21 @@
             {/if}
             {#if albumsMain.length > 0}
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <VinylRecord size={28} class="mr-2" />
+                    <VinylRecord size={"1.75rem"} class="mr-2" />
                     <span>Albums</span>
                 </h2>
                 <AlbumGrid albums={albumsMain} options={{ showDate: true }} />
             {/if}
             {#if albumsAppear.length > 0}
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <VinylRecord size={28} class="mr-2" />
+                    <VinylRecord size={"1.75rem"} class="mr-2" />
                     <span>Appears on</span>
                 </h2>
                 <AlbumGrid albums={albumsAppear} options={{ showDate: true }} />
             {/if}
             {#if similarArtists.length > 0}
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <Users size={28} class="mr-2" />
+                    <Users size={"1.75rem"} class="mr-2" />
                     <span>Similar Artists</span>
                 </h2>
                 <ArtistGrid artists={similarArtists} />

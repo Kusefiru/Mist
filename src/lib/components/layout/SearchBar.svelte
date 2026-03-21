@@ -32,7 +32,7 @@
     <div
         class="flex items-center rounded border-1 border-transparent bg-surface-20 px-2 transition-colors focus-within:border-primary-10"
     >
-        <MagnifyingGlass size={24} class="flex-shrink-0 text-ink-800" />
+        <MagnifyingGlass size={"1.5rem"} class="flex-shrink-0 text-ink-800" />
         <input
             class="max-w w-full border-none bg-transparent text-ink-800 placeholder-ink-400 focus:border-none focus:ring-0 focus:outline-none"
             type="text"
@@ -47,7 +47,7 @@
                 class="flex-shrink-0 text-ink-400 transition-colors hover:text-primary-10"
                 aria-label="Clear search"
             >
-                <X size={24} />
+                <X size={"1.5rem"} />
             </button>
         {/if}
     </div>

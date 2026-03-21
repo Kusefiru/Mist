@@ -145,9 +145,9 @@
                         title={isInBrowserFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                     >
                         {#if isInBrowserFullscreen}
-                            <CornersIn size={28} />
+                            <CornersIn size={"1.75rem"} />
                         {:else}
-                            <CornersOut size={28} />
+                            <CornersOut size={"1.75rem"} />
                         {/if}
                     </button>
                     <button
@@ -155,7 +155,7 @@
                         class="rounded p-2 text-ink-700 transition-colors hover:bg-surface-30/70 hover:text-primary-10"
                         title="Reduce player"
                     >
-                        <CaretDown size={28} />
+                        <CaretDown size={"1.75rem"} />
                     </button>
                 </div>
             {/if}

@@ -35,7 +35,7 @@
                         onclick={() => action.handler(context)}
                     >
                         {#if action.icon}
-                            <action.icon size={22} />
+                            <action.icon size={"1.5rem"} />
                         {/if}
                         <span>{action.label}</span>
                     </button>
