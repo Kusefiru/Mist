@@ -136,7 +136,7 @@
                 <div
                     class="fixed top-6 z-50 flex items-center gap-3 transition-all"
                     class:right-6={!ui.showPlayQueue}
-                    class:right-[calc(400px+1.5rem)]={ui.showPlayQueue}
+                    class:right-[calc(var(--min-queue-size)+1.5rem)]={ui.showPlayQueue}
                     transition:fade={{ duration: 300 }}
                 >
                     <button
@@ -173,7 +173,7 @@
             <!-- Play Queue Sidebar -->
             {#if ui.showPlayQueue && showControls}
                 <div
-                    class="fixed top-0 right-0 z-30 h-full w-[400px] bg-surface-30/70"
+                    class="fixed top-0 right-0 z-30 h-full w-[var(--min-queue-size)] bg-surface-30/70"
                     transition:fly={{ x: 380, duration: 300, easing: cubicOut }}
                 >
                     <PlayQueue />

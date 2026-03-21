@@ -140,7 +140,7 @@
         <!-- Play Queue Sidebar (conditionally rendered) -->
         {#if ui.showPlayQueue}
             <div
-                class="relative z-30 w-[400px] flex-shrink-0"
+                class="relative z-30 w-[var(--min-queue-size)] flex-shrink-0"
                 transition:slide={{ axis: 'x', duration: 200 }}
             >
                 <PlayQueue />
