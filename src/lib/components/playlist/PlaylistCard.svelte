@@ -14,7 +14,7 @@
         style="background-image: url('{coverArt}');"
     ></div>
     <div
-        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] dark:bg-surface-50/50"
+        class="absolute inset-0 z-5 bg-surface-10/40 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-colors group-hover:bg-surface-10/60 dark:bg-surface-50/40 dark:group-hover:bg-surface-50/60"
     ></div>
     <div class="relative z-10 aspect-square overflow-hidden p-2">
         <div class="flex size-full items-center justify-center">
@@ -37,7 +37,7 @@
     {#if visible}
         {@render cardCover(cache.getCoverArt(playlist.coverArtId))}
         <div
-            class="z-10 mx-2 mb-2 flex flex-1 flex-col gap-1 rounded transition-colors group-hover:bg-surface-10/30 dark:group-hover:bg-surface-50/30"
+            class="z-10 mx-2 mb-2 flex flex-1 flex-col gap-1"
         >
             <p
                 class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
