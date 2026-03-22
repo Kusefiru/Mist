@@ -117,7 +117,7 @@
             {/key}
 
             <div
-                class="absolute inset-0 z-5 bg-surface-10/50 dark:bg-surface-50/50 shadow-[inset_0_0_64px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
+                class="absolute inset-0 z-5 bg-surface-10/40 dark:bg-surface-50/40 shadow-[inset_0_0_64px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
             ></div>
         </div>
 
