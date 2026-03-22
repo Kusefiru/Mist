@@ -75,6 +75,9 @@
     afterNavigate((navigation) => {
         if (!mainElement) return;
 
+        // Focus on mainElement
+        mainElement.focus({ preventScroll: true });
+
         // On back/forward navigation, restore saved position
         if (navigation.type === 'popstate' && navigation.to?.route.id) {
             const savedPosition = scrollPositions.get(navigation.to.route.id);
@@ -129,7 +132,7 @@
             </header>
 
             <!-- Scrollable Content -->
-            <main bind:this={mainElement} class="flex-1 overflow-y-auto">
+            <main bind:this={mainElement} class="flex-1 overflow-y-auto" tabindex="0">
                 {@render children()}
             </main>
         </div>
