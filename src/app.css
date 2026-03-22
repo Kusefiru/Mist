@@ -60,8 +60,8 @@
     --color-surface-20: oklch(30.0% 0.030 257);
     --color-surface-10: oklch(35.0% 0.032 257);
     --color-surface-00: oklch(41.0% 0.035 257);
-    --color-primary-10: oklch(65.2% 0.1676 14);
-    --color-primary-20: oklch(49.8% 0.149 14);
+    --color-primary-10: oklch(67.3% 0.145 14);
+    --color-primary-20: oklch(61.8% 0.159 14);
 }
 
 @theme {
