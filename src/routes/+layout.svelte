@@ -25,7 +25,7 @@
     position="bottom-center"
     containerStyle="bottom: 120px;"
     toastOptions={{
-        className: 'bg-primary-10! text-surface-10! shadow! rounded!'
+        className: 'bg-primary-20! text-fill! font-semibold! shadow! rounded!'
     }}
 />
 
