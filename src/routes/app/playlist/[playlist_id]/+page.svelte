@@ -21,7 +21,7 @@
 </script>
 
 {#await playlistPromise then { playlist }}
-    <div class="relative overflow-hidden px-8 pt-2 pb-12">
+    <div class="relative overflow-auto px-8 pt-2 pb-12">
         <div class="relative z-10 flex flex-col">
             <PlaylistHeader {playlist} />
             {#if playlist.songCount > 0}

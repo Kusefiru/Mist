@@ -7,7 +7,7 @@
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
 
     import * as api from '$lib/opensubsonic/api';
-    import { cache } from "$lib/stores/cache.svelte";
+    import { cache } from '$lib/stores/cache.svelte';
 
     let { params } = $props();
 
@@ -22,16 +22,16 @@
             api.getArtistInfo2(artist.id, { count: 8 })
         ]);
         // Sanitize biography (remove external links)
-        const biography = parser.parseFromString(artistInfo.biography || '', "text/html");
-        biography.querySelectorAll("a").forEach(a => a.remove());
+        const biography = parser.parseFromString(artistInfo.biography || '', 'text/html');
+        biography.querySelectorAll('a').forEach((a) => a.remove());
         // Get data for similar artists
         const similarArtists = await Promise.all(
-            artistInfo.similarArtist?.map(a => cache.getArtist(a.id)) || []
+            artistInfo.similarArtist?.map((a) => cache.getArtist(a.id)) || []
         );
 
-        const albums = artist.albumIds?.map(id => cache.albums.get(id)).filter(Boolean);
-        const albumsMain = albums.filter(al => al.artistIds.some(ar => ar.id === artist.id));
-        const albumsAppear = albums.filter(a => !albumsMain.includes(a));
+        const albums = artist.albumIds?.map((id) => cache.albums.get(id)).filter(Boolean);
+        const albumsMain = albums.filter((al) => al.artistIds.some((ar) => ar.id === artist.id));
+        const albumsAppear = albums.filter((a) => !albumsMain.includes(a));
 
         return {
             artist,
@@ -47,7 +47,7 @@
 </script>
 
 {#await artistPromise then { artist, albumsMain, albumsAppear, topTracks, biography, similarArtists }}
-    <div class="relative px-8 pt-2 pb-12">
+    <div class="relative overflow-auto px-8 pt-2 pb-12">
         <div class="relative z-10 flex flex-col gap-4">
             <ArtistHeader {artist} />
             {#if biography}
@@ -65,7 +65,7 @@
                     {#each topTracks as track}
                         <TrackRow
                             trackId={track.id}
-                            queueIds={topTracks.map(t => t.id)}
+                            queueIds={topTracks.map((t) => t.id)}
                             variant="playlist"
                             {columns}
                         />

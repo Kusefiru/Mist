@@ -34,7 +34,7 @@
     const searchPromise = $derived(loadSearch(query));
 </script>
 
-<div class="relative px-8 pt-2 pb-12">
+<div class="relative overflow-auto px-8 pt-2 pb-12">
     {#await searchPromise}
         <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
             <p class="text-2xl">Searching...</p>

@@ -37,7 +37,7 @@
 </script>
 
 {#await albumPromise then { album, discEntries, albumQueue }}
-    <div class="relative px-8 pt-2 pb-12">
+    <div class="relative overflow-auto px-8 pt-2 pb-12">
         <div class="relative z-10 flex flex-col text-ink-800">
             <AlbumHeader {album} />
             <ControlsRow queue={albumQueue} />
