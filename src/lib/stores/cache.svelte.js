@@ -217,7 +217,7 @@ class Cache {
     async getPlaylist(playlistId) {
         const playlist = this.playlists.get(playlistId);
         if (!playlist) return null;
-        if (playlist.songIds && (playlist.songIds.length == playlist.songCount)) {
+        if (playlist.songIds && (playlist.songCount > 0) && (playlist.songIds.length == playlist.songCount)) {
             return playlist;
         }
 
