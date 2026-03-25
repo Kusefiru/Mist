@@ -65,8 +65,10 @@
                     <SortDescending size={"1.5rem"} />
                 {/if}
             </button>
-            Libraries:
-            <MultiSelect items={libraries} bind:value={selectedLibraries} />
+            {#if libraries.length > 1}
+                Libraries:
+                <MultiSelect items={libraries} bind:value={selectedLibraries} />
+            {/if}
         </div>
     </div>
     <AlbumGrid {albums} />
