@@ -7,10 +7,12 @@
 </script>
 
 {#snippet cardCover(coverArt)}
-    <div
-        class="absolute inset-0 z-0 scale-110 bg-cover bg-center blur-md transition-transform group-hover:scale-125"
-        style="background-image: url('{coverArt}');"
-    ></div>
+    <div class="absolute inset-0 z-0 overflow-hidden rounded-[0.4rem] [filter:blur(0)]">
+        <div
+            class="absolute inset-0 scale-110 bg-cover bg-center blur-md transition-transform group-hover:scale-125 motion-reduce:transition-none"
+            style="background-image: url('{coverArt}');"
+        ></div>
+    </div>
     <div
         class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_48px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] dark:bg-surface-50/50"
     ></div>
@@ -24,7 +26,7 @@
 {/snippet}
 
 <div
-    class="group relative flex items-end p-4 shadow-md select-none [clip-path:inset(0_round_0.4rem)]"
+    class="group relative flex items-end p-4 shadow-md select-none overflow-hidden rounded-[0.4rem]"
 >
     {@render cardCover(cache.getCoverArt(artist.coverArtId))}
     <div class="relative z-10 flex flex-col gap-1 pr-12 text-ink-700">

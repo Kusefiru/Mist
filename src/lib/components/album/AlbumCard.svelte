@@ -9,10 +9,12 @@
 </script>
 
 {#snippet cardCover(coverArt)}
-    <div
-        class="absolute inset-0 z-0 scale-110 bg-cover bg-center blur-md transition-transform group-hover:scale-125"
-        style="background-image: url('{coverArt}');"
-    ></div>
+    <div class="absolute inset-0 z-0 overflow-hidden rounded-[0.4rem] [filter:blur(0)]">
+        <div
+            class="absolute inset-0 scale-110 bg-cover bg-center blur-md transition-transform group-hover:scale-125 motion-reduce:transition-none"
+            style="background-image: url('{coverArt}');"
+        ></div>
+    </div>
     <div
         class="absolute inset-0 z-5 bg-surface-10/40 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-colors group-hover:bg-surface-10/60 dark:bg-surface-50/40 dark:group-hover:bg-surface-50/60"
     ></div>         
@@ -30,7 +32,7 @@
 
 <div
     use:lazyLoad={() => (visible = true)}
-    class="group relative flex h-full cursor-pointer flex-col shadow [clip-path:inset(0_round_0.4rem)]"
+    class="group relative flex h-full cursor-pointer flex-col shadow overflow-hidden rounded-[0.4rem]"
 >
     {#if visible}
         {@render cardCover(cache.getCoverArt(album.coverArtId))}
