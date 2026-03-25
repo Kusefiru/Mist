@@ -31,6 +31,7 @@ export class BarVisualizer {
         const maxBarHeight = this._height * CONFIG.MAX_HEIGHT_RATIO;
 
         ctx.fillStyle = this.color;
+        ctx.beginPath();
 
         for (let i = 0; i < CONFIG.BAR_COUNT; i++) {
             let sum = 0;
@@ -47,7 +48,6 @@ export class BarVisualizer {
             const offset = i * unitWidth + gap / 2;
 
             // Right side
-            ctx.beginPath();
             ctx.roundRect(
                 centerX + offset,
                 this._height,
@@ -55,10 +55,8 @@ export class BarVisualizer {
                 -barHeight,
                 2
             );
-            ctx.fill();
 
             // Left side (mirrored)
-            ctx.beginPath();
             ctx.roundRect(
                 centerX - offset - barWidth,
                 this._height,
@@ -66,8 +64,9 @@ export class BarVisualizer {
                 -barHeight,
                 2
             );
-            ctx.fill();
         }
+
+        ctx.fill();
     }
 
     reset() { 
