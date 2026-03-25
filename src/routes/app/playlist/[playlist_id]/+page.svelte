@@ -6,43 +6,56 @@
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
 
     import { cache } from '$lib/stores/cache.svelte';
+    import { untrack } from 'svelte';
 
     let { params } = $props();
 
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
 
-    async function loadPlaylist(playlistId) {
-        const playlist = await cache.getPlaylist(playlistId);
+    /* Content states */
+    let playlist = $state(null);
 
-        return { playlist };
+    /* This function clears state so that switching album does not look weird */
+    function clearState() {
+        playlist = null;
     }
 
-    const playlistPromise = $derived(loadPlaylist(params.playlist_id));
+    async function loadPlaylist(playlistId) {
+        playlist = await cache.getPlaylist(playlistId);
+    }
+
+    $effect(() => {
+        const playlistId = params.playlist_id;
+        clearState();
+        untrack(() => loadPlaylist(playlistId));
+    });
 </script>
 
-{#await playlistPromise then { playlist }}
-    <div class="relative overflow-auto px-8 pt-2 pb-12">
-        <div class="relative z-10 flex flex-col">
-            <PlaylistHeader {playlist} />
+<div class="relative overflow-auto px-8 pt-2 pb-12">
+    <div class="relative z-10 flex flex-col">
+        <PlaylistHeader {playlist} />
+        {#if playlist}
             {#if playlist.songCount > 0}
                 <ControlsRow queue={playlist.songIds} />
-                <ul class="py-4">
-                    <HeaderRow {columns} />
-                    {#each playlist.songIds as trackId}
-                        <TrackRow
-                            {trackId}
-                            queueIds={playlist.songIds}
-                            variant="playlist"
-                            {columns}
-                        />
-                    {/each}
-                </ul>
+                <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
+                    <ul class="py-4">
+                        <HeaderRow {columns} />
+                        {#each playlist.songIds as trackId}
+                            <TrackRow
+                                {trackId}
+                                queueIds={playlist.songIds}
+                                variant="playlist"
+                                {columns}
+                            />
+                        {/each}
+                    </ul>
+                </div>
             {:else}
                 <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
                     <SmileySad size={"3rem"} />
                     <p class="text-xl">Looks like this playlist is empty.</p>
                 </div>
             {/if}
-        </div>
+        {/if}
     </div>
-{/await}
+</div>
