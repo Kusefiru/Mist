@@ -18,15 +18,13 @@
     <div
         class="absolute inset-0 z-5 bg-surface-10/40 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-colors group-hover:bg-surface-10/60 dark:bg-surface-50/40 dark:group-hover:bg-surface-50/60"
     ></div>         
-    <div class="relative z-10 aspect-square overflow-hidden p-2">
-        <div class="flex size-full items-center justify-center">
-            <FadeImage
-                class="max-h-full max-w-full rounded object-contain"
-                src={coverArt}
-                alt={album.name}
-                loading="lazy"
-            />
-        </div>
+    <div class="relative z-10 flex aspect-square items-center justify-center p-2">
+        <FadeImage
+            class="max-h-full max-w-full rounded object-contain"
+            src={coverArt}
+            alt={album.name}
+            loading="lazy"
+        />
     </div>
 {/snippet}
 
