@@ -195,19 +195,39 @@
             </div>
         {/if}
     {:else}
-        <!-- Album cover -->
-        {#if columns.includes('track')}
-            <div class="h-3 w-[2.5rem] animate-pulse rounded bg-surface-20"></div>
-        {/if}
-        {#if columns.includes('cover')}
-            <div
-                class="relative z-10 m-2 aspect-square w-[3rem] animate-pulse overflow-hidden rounded bg-surface-20"
-            ></div>
-        {/if}
-        {#if columns.includes('title')}
-            <div class="z-10 min-w-0 flex-1 flex">
-                <div class="h-4 w-2/3 animate-pulse rounded bg-surface-20"></div>
-            </div>
-        {/if}
+        <!-- Basic placeholder while item isn't visible -->
+        <div class="flex w-full animate-pulse items-center">
+            {#if columns.includes('track')}
+                <div class="h-3 w-[2.5rem] rounded bg-surface-20"></div>
+            {/if}
+            {#if columns.includes('cover')}
+                <div
+                    class="relative m-2 aspect-square w-[3rem] overflow-hidden rounded bg-surface-20"
+                ></div>
+            {/if}
+            {#if columns.includes('title')}
+                <div class="flex min-w-0 flex-1 flex-col gap-2">
+                    <div class="h-4 w-1/3 rounded bg-surface-20"></div>
+                    <div class="h-3 w-1/3 rounded bg-surface-20"></div>
+                </div>
+            {/if}
+            {#if columns.includes('album')}
+                <div class="flex min-w-0 flex-1">
+                    <div class="h-4 w-1/3 rounded bg-surface-20"></div>
+                </div>
+            {/if}
+            {#if columns.includes('duration')}
+                <div class="h-3 w-[5rem] rounded bg-surface-20"></div>
+            {/if}
+            {#if columns.includes('starred')}
+                <div class="w-[3rem]"></div>
+            {/if}
+            {#if columns.includes('quality')}
+                <div class="w-[5rem]"></div>
+            {/if}
+            {#if columns.includes('actions')}
+                <div class="w-[2rem]"></div>
+            {/if}
+        </div>
     {/if}
 </div>
