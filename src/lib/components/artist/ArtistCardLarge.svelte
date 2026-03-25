@@ -26,7 +26,7 @@
 {/snippet}
 
 <div
-    class="group relative flex h-full cursor-pointer flex-row shadow overflow-hidden rounded-[0.4rem]"
+    class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-30"
 >
     {@render cardCover(cache.getCoverArt(artist.coverArtId))}
     <div

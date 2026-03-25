@@ -28,7 +28,7 @@
 {/snippet}
 
 <div
-    class="group relative flex items-end p-4 shadow-md select-none overflow-hidden rounded-[0.4rem]"
+    class="group relative flex items-end overflow-hidden rounded-[0.4rem] p-4 shadow-md shadow-surface-30 select-none"
 >
     {@render cardCover(cache.getCoverArt(album.coverArtId))}
     <div class="relative z-10 flex flex-col gap-1 pr-12 text-ink-700">

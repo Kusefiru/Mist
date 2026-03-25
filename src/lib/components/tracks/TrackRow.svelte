@@ -115,7 +115,8 @@
     onmouseleave={() => (hovered = false)}
     ondblclick={onDoubleClick}
     class="relative flex h-14 items-center rounded px-2"
-    class:shadow={hovered || dropdownOpen}
+    class:shadow-surface-30={hovered || dropdownOpen}
+    class:shadow-sm={hovered || dropdownOpen}
 >
     {#if visible}
         <!-- Background effect when hovered -->

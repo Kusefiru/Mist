@@ -30,7 +30,7 @@
 
 <div
     use:lazyLoad={() => (visible = true)}
-    class="group relative flex h-full cursor-pointer flex-col shadow overflow-hidden rounded-[0.4rem]"
+    class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-30"
 >
     {#if visible}
         {@render cardCover(cache.getCoverArt(album.coverArtId))}
