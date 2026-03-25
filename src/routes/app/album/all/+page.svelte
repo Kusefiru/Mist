@@ -71,5 +71,11 @@
             {/if}
         </div>
     </div>
-    <AlbumGrid {albums} />
+    {#if albums.length > 0}
+        <AlbumGrid {albums} />
+    {:else}
+        <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
+            <p class="text-xl">No library selected.</p>
+        </div>
+    {/if}
 </div>
