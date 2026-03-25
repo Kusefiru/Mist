@@ -35,9 +35,7 @@
 >
     {#if visible}
         {@render cardCover(cache.getCoverArt(artist.coverArtId))}
-        <div
-            class="z-10 mx-2 mb-2 flex flex-1 flex-col gap-1"
-        >
+        <div class="z-10 mx-2 mb-2 flex flex-1 flex-col gap-1">
             <p
                 class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
                 title={artist.name}
@@ -48,13 +46,9 @@
         </div>
     {:else}
         <!-- Basic placeholder while item isn't visible -->
-        <div
-            class="relative z-10 m-2 aspect-square animate-pulse overflow-hidden rounded bg-surface-20"
-        ></div>
-        <div class="z-10 flex h-20 flex-col gap-1 px-2 pb-2">
-            <div class="h-4 w-full animate-pulse rounded bg-surface-20"></div>
-            <div class="h-4 w-3/4 animate-pulse rounded bg-surface-20"></div>
-            <div class="h-4 w-1/2 animate-pulse rounded bg-surface-20"></div>
+        <div class="animate-pulse bg-surface-20">
+            <div class="m-2 aspect-square overflow-hidden rounded bg-surface-30"></div>
+            <div class="m-2 flex h-18 flex-col rounded bg-surface-30"></div>
         </div>
     {/if}
 </div>
