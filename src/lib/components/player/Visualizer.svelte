@@ -23,7 +23,7 @@
         if (analyser) {
             if (!freqData) freqData = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(freqData);
-            visualizer.render(ctx, canvas.offsetWidth, canvas.offsetHeight, freqData);
+            visualizer.render(ctx, freqData);
         }
 
         animationId = requestAnimationFrame(animate);
@@ -36,6 +36,7 @@
         canvas.width = canvas.offsetWidth * dpr;
         canvas.height = canvas.offsetHeight * dpr;
         ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+        visualizer.resize(canvas.offsetHeight, canvas.offsetWidth);
     }
 
     onMount(() => {
@@ -49,9 +50,7 @@
     });
 
     onDestroy(() => {
-        if (animationId) {
-            cancelAnimationFrame(animationId);
-        }
+        cancelAnimationFrame(animationId);
         window.removeEventListener('resize', resizeCanvas);
 
         // Clean up visualizer
@@ -64,6 +63,7 @@
         /* Set visualizer color to match CSS color */
         const color = getComputedStyle(canvas).color;
         visualizer.color = color.replace(')', ' / 0.4)');
+        visualizer.resize(canvas.offsetWidth, canvas.offsetHeight);
     })
 </script>
 

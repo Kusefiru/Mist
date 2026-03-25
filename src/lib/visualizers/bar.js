@@ -10,13 +10,16 @@ const CONFIG = {
 export class BarVisualizer {
     constructor() {
         this._values = new Float32Array(CONFIG.BAR_COUNT);
+        /* Canvas size */
+        this._width = 1;
+        this._height = 1;
     }
 
-    render(ctx, width, height, frequencyData) {
-        ctx.clearRect(0, 0, width, height);
+    render(ctx, frequencyData) {
+        ctx.clearRect(0, 0, this._width, this._height);
         if (!frequencyData) return;
 
-        const centerX = width / 2;
+        const centerX = this._width / 2;
 
         // One visual bar represents binsPerBar FFT bins
         // - 2 is a bit agressive but it filters last datas which are usually 0...
@@ -25,7 +28,7 @@ export class BarVisualizer {
         const unitWidth = centerX / CONFIG.BAR_COUNT;
         const barWidth = unitWidth * CONFIG.BAR_WIDTH_RATIO;
         const gap = unitWidth * CONFIG.GAP_RATIO;
-        const maxBarHeight = height * CONFIG.MAX_HEIGHT_RATIO;
+        const maxBarHeight = this._height * CONFIG.MAX_HEIGHT_RATIO;
 
         ctx.fillStyle = this.color;
 
@@ -47,7 +50,7 @@ export class BarVisualizer {
             ctx.beginPath();
             ctx.roundRect(
                 centerX + offset,
-                height,
+                this._height,
                 barWidth,
                 -barHeight,
                 2
@@ -58,7 +61,7 @@ export class BarVisualizer {
             ctx.beginPath();
             ctx.roundRect(
                 centerX - offset - barWidth,
-                height,
+                this._height,
                 barWidth,
                 -barHeight,
                 2
@@ -69,5 +72,10 @@ export class BarVisualizer {
 
     reset() { 
         this._values.fill(0);
+    }
+
+    resize(height, width) {
+        this._height = height;
+        this._width = width;
     }
 }
