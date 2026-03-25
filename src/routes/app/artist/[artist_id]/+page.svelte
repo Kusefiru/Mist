@@ -8,91 +8,119 @@
 
     import * as api from '$lib/opensubsonic/api';
     import { cache } from '$lib/stores/cache.svelte';
+    import { untrack } from 'svelte';
+    import { fade } from 'svelte/transition';
 
     let { params } = $props();
 
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
 
+    /* Content states */
+    let artist = $state(null);
+    let biography = $state('');
+    let albumsMain = $state([]);
+    let albumsAppear = $state([]);
+    let topTrackIds = $state([]);
+    let similarArtists = $state([]);
+
+    /* This function clears state so that switching artist does not look weird */
+    function clearState() {
+        artist = null;
+        biography = '';
+        albumsMain = [];
+        albumsAppear = [];
+        topTrackIds = [];
+        similarArtists = [];
+    }
+
     async function loadArtist(artistId) {
         const parser = new DOMParser();
 
-        const artist = await cache.getArtist(artistId);
-        const [topTracks, artistInfo] = await Promise.all([
-            cache.getTopTracks(artist.name),
-            api.getArtistInfo2(artist.id, { count: 8 })
-        ]);
+        artist = await cache.getArtist(artistId);
+
+        const topTracks = await cache.getTopTracks(artist.name);
+        topTrackIds = topTracks.map((t) => t.id);
+
+        const artistInfo = await api.getArtistInfo2(artist.id, { count: 8 });
         // Sanitize biography (remove external links)
-        const biography = parser.parseFromString(artistInfo.biography || '', 'text/html');
-        biography.querySelectorAll('a').forEach((a) => a.remove());
-        // Get data for similar artists
-        const similarArtists = await Promise.all(
-            artistInfo.similarArtist?.map((a) => cache.getArtist(a.id)) || []
-        );
+        const bio_html = parser.parseFromString(artistInfo.biography || '', 'text/html');
+        bio_html.querySelectorAll('a').forEach((a) => a.remove());
+        biography = bio_html.body.innerHTML;
 
         const albums = artist.albumIds?.map((id) => cache.albums.get(id)).filter(Boolean);
-        const albumsMain = albums.filter((al) => al.artistIds.some((ar) => ar.id === artist.id));
-        const albumsAppear = albums.filter((a) => !albumsMain.includes(a));
+        albumsMain = albums.filter((al) => al.artistIds.some((ar) => ar.id === artist.id));
+        albumsAppear = albums.filter((a) => !albumsMain.includes(a));
 
-        return {
-            artist,
-            albumsMain,
-            albumsAppear,
-            topTracks,
-            biography: biography.body.innerHTML,
-            similarArtists
-        };
+        similarArtists = [];
+        artistInfo.similarArtist?.forEach((a) =>
+            cache.getArtist(a.id).then((artist) => {
+                similarArtists.push(artist);
+            })
+        );
     }
 
-    const artistPromise = $derived(loadArtist(params.artist_id));
+    $effect(() => {
+        const artistId = params.artist_id;
+        clearState();
+        untrack(() => loadArtist(artistId));
+    });
 </script>
 
-{#await artistPromise then { artist, albumsMain, albumsAppear, topTracks, biography, similarArtists }}
-    <div class="relative overflow-auto px-8 pt-2 pb-12">
-        <div class="relative z-10 flex flex-col gap-4">
-            <ArtistHeader {artist} />
-            {#if biography}
-                <span class="mx-16 rounded bg-surface-20 p-4 text-lg text-ink-700 select-none"
-                    >{@html biography}</span
-                >
-            {/if}
-            {#if topTracks.length > 0}
+<div class="relative overflow-auto px-8 pt-2 pb-12">
+    <div class="relative z-10 flex flex-col gap-4">
+        <ArtistHeader {artist} />
+        {#if biography}
+            <span
+                in:fade={{ duration: 300 }}
+                class="mx-16 rounded bg-surface-20 p-4 text-lg text-ink-700 select-none"
+                >{@html biography}</span
+            >
+        {/if}
+        {#if topTrackIds.length > 0}
+            <div in:fade={{ duration: 300 }} class="flex flex-col gap-4">
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <MusicNotesSimple size={"1.75rem"} class="mr-2" />
+                    <MusicNotesSimple size={'1.75rem'} class="mr-2" />
                     <span>Top tracks</span>
                 </h2>
                 <ul>
                     <HeaderRow {columns} />
-                    {#each topTracks as track}
+                    {#each topTrackIds as trackId}
                         <TrackRow
-                            trackId={track.id}
-                            queueIds={topTracks.map((t) => t.id)}
+                            {trackId}
+                            queueIds={topTrackIds}
                             variant="playlist"
                             {columns}
                         />
                     {/each}
                 </ul>
-            {/if}
-            {#if albumsMain.length > 0}
+            </div>
+        {/if}
+        {#if albumsMain.length > 0}
+            <div in:fade={{ duration: 300 }} class="flex flex-col gap-4">
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <VinylRecord size={"1.75rem"} class="mr-2" />
+                    <VinylRecord size={'1.75rem'} class="mr-2" />
                     <span>Albums</span>
                 </h2>
                 <AlbumGrid albums={albumsMain} options={{ showDate: true }} />
-            {/if}
-            {#if albumsAppear.length > 0}
+            </div>
+        {/if}
+        {#if albumsAppear.length > 0}
+            <div in:fade={{ duration: 300 }} class="flex flex-col gap-4">
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <VinylRecord size={"1.75rem"} class="mr-2" />
+                    <VinylRecord size={'1.75rem'} class="mr-2" />
                     <span>Appears on</span>
                 </h2>
                 <AlbumGrid albums={albumsAppear} options={{ showDate: true }} />
-            {/if}
-            {#if similarArtists.length > 0}
+            </div>
+        {/if}
+        {#if similarArtists.length > 0}
+            <div in:fade={{ duration: 300 }} class="flex flex-col gap-4">
                 <h2 class="flex items-center text-2xl font-bold text-ink-800">
-                    <Users size={"1.75rem"} class="mr-2" />
+                    <Users size={'1.75rem'} class="mr-2" />
                     <span>Similar Artists</span>
                 </h2>
                 <ArtistGrid artists={similarArtists} />
-            {/if}
-        </div>
+            </div>
+        {/if}
     </div>
-{/await}
+</div>
