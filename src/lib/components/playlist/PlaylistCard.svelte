@@ -4,7 +4,6 @@
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
 
     let { playlist } = $props();
-    let hovered = $state(false);
     let visible = $state(false);
 </script>
 
@@ -30,8 +29,6 @@
 
 <div
     use:lazyLoad={() => (visible = true)}
-    onmouseenter={() => (hovered = true)}
-    onmouseleave={() => (hovered = false)}
     class="group relative flex h-full cursor-pointer flex-col shadow [clip-path:inset(0_round_0.4rem)]"
 >
     {#if visible}

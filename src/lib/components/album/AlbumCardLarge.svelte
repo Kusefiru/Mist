@@ -4,7 +4,6 @@
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
 
     let { album, showDate = false } = $props();
-    let hovered = $state(false);
 </script>
 
 {#snippet cardCover(coverArt)}
@@ -28,8 +27,6 @@
 {/snippet}
 
 <div
-    onmouseenter={() => (hovered = true)}
-    onmouseleave={() => (hovered = false)}
     class="group relative flex h-full cursor-pointer flex-row shadow [clip-path:inset(0_round_0.4rem)]"
 >
     {@render cardCover(cache.getCoverArt(album.coverArtId))}

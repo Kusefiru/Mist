@@ -3,7 +3,6 @@
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
 
     let { artist, showDate = false } = $props();
-    let hovered = $state(false);
 </script>
 
 {#snippet cardCover(coverArt)}
@@ -27,8 +26,6 @@
 {/snippet}
 
 <div
-    onmouseenter={() => (hovered = true)}
-    onmouseleave={() => (hovered = false)}
     class="group relative flex h-full cursor-pointer flex-row shadow [clip-path:inset(0_round_0.4rem)]"
 >
     {@render cardCover(cache.getCoverArt(artist.coverArtId))}
