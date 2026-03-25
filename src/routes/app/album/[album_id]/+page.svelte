@@ -6,16 +6,27 @@
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
     import { cache } from '$lib/stores/cache.svelte';
     import { untrack } from 'svelte';
+    import { fade } from 'svelte/transition';
 
     let { params } = $props();
-    let albumPromise = $state(loadAlbum(params.album_id));
+
+    /* Content states */
+    let album = $state(null);
+    let discEntries = $state([]);
+    let albumQueue = $state([]);
+
+    /* This function clears state so that switching album does not look weird */
+    function clearState() {
+        album = null;
+        discEntries = [];
+        albumQueue = [];
+    }
 
     async function loadAlbum(albumId) {
-        const album = await cache.getAlbum(albumId);
-        if (!album?.songIds) return { album, discEntries: [] };
+        album = await cache.getAlbum(albumId);
 
         const tracks = album.songIds
-            .map(id => cache.tracks.get(id))
+            .map((id) => cache.tracks.get(id))
             .sort((a, b) => (a.disc ?? 1) - (b.disc ?? 1) || a.track - b.track);
 
         const discs = {};
@@ -24,24 +35,24 @@
             if (!discs[disc]) discs[disc] = [];
             discs[disc].push(track.id);
         }
-        const discEntries = Object.entries(discs);
-        const albumQueue = discEntries.flatMap(([, t]) => t);
+        discEntries = Object.entries(discs);
 
-        return { album, discEntries, albumQueue };
+        albumQueue = discEntries.flatMap(([, t]) => t);
     }
 
     $effect(() => {
         const albumId = params.album_id;
-        albumPromise = untrack(() => loadAlbum(albumId));
-    })
+        clearState();
+        untrack(() => loadAlbum(albumId));
+    });
 </script>
 
-{#await albumPromise then { album, discEntries, albumQueue }}
-    <div class="relative overflow-auto px-8 pt-2 pb-12">
-        <div class="relative z-10 flex flex-col text-ink-800">
-            <AlbumHeader {album} />
-            <ControlsRow queue={albumQueue} />
-            <div class="flex-1 overflow-x-hidden overflow-y-auto">
+<div class="relative overflow-auto px-8 pt-2 pb-12">
+    <div class="relative z-10 flex flex-col text-ink-800">
+        <AlbumHeader {album} />
+        <ControlsRow queue={albumQueue} />
+        {#if discEntries.length > 0}
+            <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
                 <ul class="py-4">
                     <HeaderRow />
                     {#each discEntries as [disc, trackIds]}
@@ -52,6 +63,6 @@
                     {/each}
                 </ul>
             </div>
-        </div>
+        {/if}
     </div>
-{/await}
+</div>
