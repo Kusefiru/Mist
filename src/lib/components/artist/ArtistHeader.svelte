@@ -25,16 +25,25 @@
     </div>
 {/snippet}
 
-<div
-    class="group relative flex items-end overflow-hidden rounded-[0.4rem] p-4 shadow-md shadow-surface-30 select-none"
->
-    {@render cardCover(cache.getCoverArt(artist.coverArtId))}
-    <div class="relative z-10 flex flex-col gap-1 pr-12 text-ink-700">
-        <h4 class="text-sm font-bold uppercase">Artist</h4>
-        <h2 class="text-3xl font-bold break-words whitespace-normal text-ink-800">
-            {artist.name}
-            <Star size={28} />
-        </h2>
-        <h3 class="truncate text-lg font-semibold">{artist.albumCount} releases</h3>
+{#if artist}
+    <div
+        class="group relative flex items-end overflow-hidden rounded-[0.4rem] p-4 shadow-md shadow-surface-30 select-none"
+    >
+        {@render cardCover(cache.getCoverArt(artist.coverArtId))}
+        <div class="relative z-10 flex flex-col gap-1 pr-12 text-ink-700">
+            <h4 class="text-sm font-bold uppercase">Artist</h4>
+            <h2 class="text-3xl font-bold break-words whitespace-normal text-ink-800">
+                {artist.name}
+                <Star size={28} />
+            </h2>
+            <h3 class="truncate text-lg font-semibold">{artist.albumCount} releases</h3>
+        </div>
     </div>
-</div>
+{:else}
+    <!-- Basic placeholder while item isn't visible -->
+    <div
+        class="relative flex animate-pulse items-end overflow-hidden rounded-[0.4rem] p-4 shadow-md shadow-surface-30"
+    >
+        <div class="mr-4 aspect-square size-64 overflow-hidden rounded bg-surface-30"></div>
+    </div>
+{/if}
