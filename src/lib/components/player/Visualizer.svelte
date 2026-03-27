@@ -62,7 +62,7 @@
     $effect(() => {
         /* Set visualizer color to match CSS color */
         const color = getComputedStyle(canvas).color;
-        visualizer.color = color.replace(')', ' / 0.4)');
+        visualizer.color = color.replace(')', ' / 0.6)');
         visualizer.resize(canvas.offsetWidth, canvas.offsetHeight);
     })
 </script>
