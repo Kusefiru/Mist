@@ -56,7 +56,9 @@
                 <ul class="py-4">
                     <HeaderRow />
                     {#each discEntries as [disc, trackIds]}
+                        {#if discEntries.length > 1}
                         <DiscRow {disc} />
+                        {/if}
                         {#each trackIds as trackId}
                             <TrackRow {trackId} queueIds={albumQueue} variant="album" />
                         {/each}

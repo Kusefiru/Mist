@@ -4,7 +4,7 @@
     let { columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions'] } = $props();
 </script>
 
-<div class="flex h-6 items-center px-2 text-sm text-ink-800 select-none">
+<div class="flex h-8 items-center px-2 text-sm text-ink-800 select-none">
     <!-- Track number -->
     {#if columns.includes('track')}
         <div class="flex w-[3rem] justify-center">
