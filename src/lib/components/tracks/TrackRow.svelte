@@ -137,7 +137,7 @@
         {/if}
         <!-- Album cover -->
         {#if columns.includes('cover')}
-            {@render cardCover(cache.getCoverArt(track.coverArtId, 256))}
+            {@render cardCover(cache.getCoverArt(track.coverArtId, 64))}
         {/if}
         {#if columns.includes('title')}
             <div class="z-10 min-w-0 flex-1 pl-2 select-none">

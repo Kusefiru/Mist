@@ -265,7 +265,7 @@ class Cache {
     }
 
     /* Cover art methods */
-    getCoverArt(id, size = 512) {
+    getCoverArt(id, size = 256) {
         return getCoverArtUrl(id, size);
     }
 }
