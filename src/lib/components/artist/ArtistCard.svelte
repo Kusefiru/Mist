@@ -33,7 +33,7 @@
 >
     {#if visible}
         {@render cardCover(cache.getCoverArt(artist.coverArtId))}
-        <div class="z-10 mx-2 mb-2 flex flex-1 flex-col gap-1">
+        <div class="z-10 mx-2 mb-2 flex h-18 flex-col gap-1">
             <p
                 class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
                 title={artist.name}
