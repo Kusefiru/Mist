@@ -50,7 +50,7 @@
 <div class="relative overflow-auto px-8 pt-2 pb-12">
     <div class="relative z-10 flex flex-col text-ink-800">
         <AlbumHeader {album} />
-        <ControlsRow queue={albumQueue} />
+        <ControlsRow queue={$state.snapshot(albumQueue)} />
         {#if discEntries.length > 0}
             <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
                 <ul class="py-4">

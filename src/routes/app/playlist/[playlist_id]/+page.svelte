@@ -36,7 +36,7 @@
         <PlaylistHeader {playlist} />
         {#if playlist}
             {#if playlist.songCount > 0}
-                <ControlsRow queue={playlist.songIds} />
+                <ControlsRow queue={$state.snapshot(playlist.songIds)} />
                 <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
                     <ul class="py-4">
                         <HeaderRow {columns} />
