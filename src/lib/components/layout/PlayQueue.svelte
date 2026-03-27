@@ -71,7 +71,9 @@
             <ul class="pb-10">
                 {#each audioState.playQueue as trackId, i}
                     <li use:scrollRef={i}>
-                        <TrackRow {trackId} queueIndex={i} variant="queue" {columns} />
+                        {#key trackId}
+                            <TrackRow {trackId} queueIndex={i} variant="queue" {columns} />
+                        {/key}
                     </li>
                 {/each}
             </ul>

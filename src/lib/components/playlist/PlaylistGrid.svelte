@@ -6,8 +6,10 @@
 
 <div class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-3 pb-4">
     {#each playlists as playlist}
-        <a href="/app/playlist/{playlist.id}">
-            <PlaylistCard {playlist} />
-        </a>
+        {#key playlist.id}
+            <a href="/app/playlist/{playlist.id}">
+                <PlaylistCard {playlist} />
+            </a>
+        {/key}
     {/each}
 </div>
