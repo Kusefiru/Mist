@@ -6,7 +6,7 @@
     let { visualizerClass } = $props();
 
     // Canvas state
-    let visualizer = $derived(new visualizerClass());
+    let visualizer = new visualizerClass();
     let canvas;
     let ctx;
     let animationId;
@@ -41,8 +41,10 @@
 
     onMount(() => {
         if (!canvas) return;
-
         ctx = canvas.getContext('2d');
+
+        const color = getComputedStyle(canvas).color;
+        visualizer.color = color.replace(')', ' / 0.6)');
 
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -58,13 +60,6 @@
             visualizer.reset();
         }
     });
-
-    $effect(() => {
-        /* Set visualizer color to match CSS color */
-        const color = getComputedStyle(canvas).color;
-        visualizer.color = color.replace(')', ' / 0.6)');
-        visualizer.resize(canvas.offsetWidth, canvas.offsetHeight);
-    })
 </script>
 
 <canvas bind:this={canvas} class="absolute inset-0 h-full w-full text-primary-10"></canvas>
