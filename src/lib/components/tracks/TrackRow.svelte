@@ -114,14 +114,12 @@
     onmouseleave={() => (hovered = false)}
     ondblclick={onDoubleClick}
     class="relative flex h-14 items-center rounded px-2"
-    class:shadow-surface-30={hovered || dropdownOpen}
-    class:shadow-sm={hovered || dropdownOpen}
 >
     {#if visible}
         <!-- Background effect when hovered -->
         {#if hovered || dropdownOpen}
             <div
-                class="absolute inset-0 rounded bg-surface-30"
+                class="absolute inset-0 rounded bg-surface-30 shadow-surface-30 shadow-sm"
             ></div>
         {/if}
         <!-- Track number -->
