@@ -266,7 +266,11 @@ class Cache {
 
     /* Cover art methods */
     getCoverArt(id, size = 256) {
-        return getCoverArtUrl(id, size);
+        const key = `${id}:${size}`;
+        if (!this.#covers.has(key)) {
+            this.#covers.set(key, getCoverArtUrl(id, size));
+        }
+        return this.#covers.get(key);
     }
 }
 
