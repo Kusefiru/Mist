@@ -75,6 +75,9 @@
     afterNavigate((navigation) => {
         if (!mainElement) return;
 
+        // Close fullscreen
+        ui.showFullscreenPlayer = false;
+
         // Focus on mainElement
         mainElement.focus({ preventScroll: true });
 

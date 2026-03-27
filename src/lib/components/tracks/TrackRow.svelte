@@ -81,7 +81,6 @@
                       icon: VinylRecord,
                       label: 'Go to album',
                       handler: (track) => {
-                          ui.showFullscreenPlayer = false;
                           goto(`/app/album/${track.albumId}`);
                       }
                   },
