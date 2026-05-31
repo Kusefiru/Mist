@@ -1,7 +1,6 @@
 <script>
     import { ArrowBendUpRight, DownloadSimple, ListPlus, Play, Shuffle } from 'phosphor-svelte';
-    import ActionButtonIcon from '$lib/components/ui/ActionButtonIcon.svelte';
-    import ActionButtonPrimary from '$lib/components/ui/ActionButtonPrimary.svelte';
+    import ActionButton from '$lib/components/ui/ActionButton.svelte';
 
     import { download } from '$lib/opensubsonic/api';
     import { audio } from '$lib/audio/manager.svelte.js';
@@ -11,32 +10,41 @@
 
 <div class="flex justify-between pt-4">
     <div class="flex space-x-4">
-        <ActionButtonPrimary
+        <ActionButton
             Icon={Play}
-            text="Play"
-            onClick={() => {
+            title="Play"
+            onclick={() => {
                 audio.setShuffle(false);
                 audio.setQueue(queue);
             }}
         />
-        <ActionButtonIcon
+        <ActionButton
             Icon={Shuffle}
-            onClick={() => {
+            title="Shuffle"
+            onclick={() => {
                 audio.setShuffle(true);
                 audio.setQueue(queue);
             }}
+            primary={false}
+            iconOnly={true}
         />
-        <ActionButtonIcon
+        <ActionButton
             Icon={ArrowBendUpRight}
-            onClick={() => {
+            title="Queue next"
+            onclick={() => {
                 audio.setQueueNext(queue);
             }}
+            primary={false}
+            iconOnly={true}
         />
-        <ActionButtonIcon
+        <ActionButton
             Icon={ListPlus}
-            onClick={() => {
+            title="Queue last"
+            onclick={() => {
                 audio.setQueueLast(queue);
             }}
+            primary={false}
+            iconOnly={true}
         />
     </div>
     <!-- TODO: Add modal to ask if download is ok instead of immediately downloading all items -->
