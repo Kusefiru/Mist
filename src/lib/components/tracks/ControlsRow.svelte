@@ -1,5 +1,5 @@
 <script>
-    import { DownloadSimple, Play, RowsPlusBottom, RowsPlusTop, Shuffle } from 'phosphor-svelte';
+    import { ArrowBendUpRight, DownloadSimple, ListPlus, Play, Shuffle } from 'phosphor-svelte';
     import ActionButtonIcon from '$lib/components/ui/ActionButtonIcon.svelte';
     import ActionButtonPrimary from '$lib/components/ui/ActionButtonPrimary.svelte';
 
@@ -24,15 +24,16 @@
             onClick={() => {
                 audio.setShuffle(true);
                 audio.setQueue(queue);
-            }} />
+            }}
+        />
         <ActionButtonIcon
-            Icon={RowsPlusTop}
+            Icon={ArrowBendUpRight}
             onClick={() => {
                 audio.setQueueNext(queue);
             }}
         />
         <ActionButtonIcon
-            Icon={RowsPlusBottom}
+            Icon={ListPlus}
             onClick={() => {
                 audio.setQueueLast(queue);
             }}

@@ -1,11 +1,11 @@
 <script>
     import { cache } from '$lib/stores/cache.svelte';
     import {
+        ArrowBendUpRight,
         DotsThreeVertical,
         DownloadSimple,
+        ListPlus,
         Play,
-        RowsPlusBottom,
-        RowsPlusTop,
         TrashSimple,
         User,
         VinylRecord
@@ -46,9 +46,13 @@
     let menuActions = $derived.by(() => {
         const playGroup = [{ icon: Play, label: 'Play', handler: onDoubleClick }];
         const queueGroup = [
-            { icon: RowsPlusTop, label: 'Queue next', handler: () => audio.setQueueNext(track.id) },
             {
-                icon: RowsPlusBottom,
+                icon: ArrowBendUpRight,
+                label: 'Queue next',
+                handler: () => audio.setQueueNext(track.id)
+            },
+            {
+                icon: ListPlus,
                 label: 'Queue last',
                 handler: () => audio.setQueueLast(track.id)
             }
