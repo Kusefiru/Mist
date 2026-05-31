@@ -1,12 +1,13 @@
 <script>
     import { cache } from '$lib/stores/cache.svelte';
     import {
+        DotsThreeVertical,
         DownloadSimple,
-        Heart,
         Play,
         RowsPlusBottom,
         RowsPlusTop,
         TrashSimple,
+        User,
         VinylRecord
     } from 'phosphor-svelte';
 
@@ -15,27 +16,14 @@
     import { audio } from '$lib/audio/manager.svelte.js';
     import { audioState } from '$lib/stores/audio.svelte.js';
     import { ui } from '$lib/stores/ui.svelte';
+    import { menu } from '$lib/stores/menu.svelte.js';
     import { download, getCoverArtUrl } from '$lib/opensubsonic/api';
-    import DropdownMenu from '$lib/components/ui/DropdownMenu.svelte';
     import Explicit from '$lib/components/ui/Explicit.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import PlayingIndicator from '$lib/components/ui/PlayingIndicator.svelte';
     import Star from '$lib/components/ui/Star.svelte';
     import { goto } from '$app/navigation';
-
-    const baseActions = [
-        {
-            icon: RowsPlusTop,
-            label: 'Queue next',
-            handler: (track) => audio.setQueueNext(track.id)
-        },
-        {
-            icon: RowsPlusBottom,
-            label: 'Queue last',
-            handler: (track) => audio.setQueueLast(track.id)
-        }
-    ];
 
     let {
         trackId,
@@ -46,12 +34,66 @@
     } = $props();
 
     let track = $derived(cache.tracks.get(trackId));
-    let starred = $derived(cache.stars.has(trackId));
     let index = queueIds?.indexOf(trackId) || 0;
     let hovered = $state(false);
-    let visible = $state(false);
-    let dropdownOpen = $state(false);
-    let imageLoaded = $state(false);
+    let loaded = $state(false);
+
+    /* Identified elements */
+    let rowEl = $state(null);
+    let buttonEl = $state(null);
+
+    /* Actions */
+    let menuActions = $derived.by(() => {
+        const playGroup = [{ icon: Play, label: 'Play', handler: onDoubleClick }];
+        const queueGroup = [
+            { icon: RowsPlusTop, label: 'Queue next', handler: () => audio.setQueueNext(track.id) },
+            {
+                icon: RowsPlusBottom,
+                label: 'Queue last',
+                handler: () => audio.setQueueLast(track.id)
+            }
+        ];
+        const metaGroup = [
+            ...(variant !== 'album'
+                ? [
+                      {
+                          icon: VinylRecord,
+                          label: 'Go to album',
+                          handler: () => goto(`/app/album/${track.albumId}`)
+                      }
+                  ]
+                : []),
+            {
+                icon: User,
+                label: 'Go to artist...',
+                children: [
+                    track.artistIds.map((a) => ({
+                        icon: User,
+                        label: a.name,
+                        handler: () => goto(`/app/artist/${a.id}`)
+                    }))
+                ]
+            }
+        ];
+        const otherGroup = [
+            ...(variant !== 'queue' && cache.user.canDownload
+                ? [
+                      {
+                          icon: DownloadSimple,
+                          label: 'Download',
+                          handler: () => {
+                              window.location.href = download(track.id);
+                          }
+                      }
+                  ]
+                : []),
+            ...(variant === 'queue'
+                ? [{ icon: TrashSimple, label: 'Remove', handler: () => audio.remove(queueIndex) }]
+                : [])
+        ];
+
+        return [playGroup, queueGroup, metaGroup, otherGroup].filter((g) => g.length > 0);
+    });
 
     /** In 'queue' variant, check that index of track in queue matches played track index
      *  Else, check that ID of track matches played track ID
@@ -61,37 +103,6 @@
             ? queueIndex === audioState.playOrder[audioState.index]
             : trackId === audioState.currentTrackId
     );
-
-    let trackActions = $derived([
-        ...baseActions,
-        ...(variant !== 'queue' && cache.user.canDownload
-            ? [
-                  {
-                      icon: DownloadSimple,
-                      label: 'Download',
-                      handler: (track) => {
-                          window.location.href = download(track.id);
-                      }
-                  }
-              ]
-            : []),
-        ...(variant === 'queue'
-            ? [
-                  {
-                      icon: VinylRecord,
-                      label: 'Go to album',
-                      handler: (track) => {
-                          goto(`/app/album/${track.albumId}`);
-                      }
-                  },
-                  {
-                      icon: TrashSimple,
-                      label: 'Remove',
-                      handler: (track) => audio.remove(queueIndex)
-                  }
-              ]
-            : [])
-    ]);
 
     function onDoubleClick() {
         if (variant === 'queue') {
@@ -103,24 +114,29 @@
 </script>
 
 {#snippet cardCover(coverArt)}
-    <div class="z-10 flex size-[3rem] rounded p-0.5 items-center justify-center select-none">
-        <FadeImage class="max-h-full max-w-full rounded object-contain" src={coverArt} alt="cover" loading="lazy" />
+    <div class="z-10 flex size-[3rem] items-center justify-center rounded p-0.5 select-none">
+        <FadeImage
+            class="max-h-full max-w-full rounded object-contain"
+            src={coverArt}
+            alt="cover"
+            loading="lazy"
+        />
     </div>
 {/snippet}
 
 <div
-    use:lazyLoad={() => (visible = true)}
+    bind:this={rowEl}
+    use:lazyLoad={() => (loaded = true)}
     onmouseenter={() => (hovered = true)}
     onmouseleave={() => (hovered = false)}
+    oncontextmenu={(e) => menu.openFromContext(e, menuActions, rowEl)}
     ondblclick={onDoubleClick}
     class="relative flex h-14 items-center rounded px-2"
 >
-    {#if visible}
+    {#if loaded}
         <!-- Background effect when hovered -->
-        {#if hovered || dropdownOpen}
-            <div
-                class="absolute inset-0 rounded bg-surface-30 shadow-surface-30 shadow-sm"
-            ></div>
+        {#if hovered || menu.isOpenFor(rowEl)}
+            <div class="absolute inset-0 rounded bg-surface-30 shadow-sm shadow-surface-30"></div>
         {/if}
         <!-- Track number -->
         {#if columns.includes('track')}
@@ -151,7 +167,10 @@
                         <span class="truncate" title={track.title}>{track.title}</span>
                     </span>
                     <span class="w-full truncate text-base text-ink-700" title={track.artistsStr}
-                        ><FormattedArtists text={track.artistsStr} artistMap={track.artistIds} /></span
+                        ><FormattedArtists
+                            text={track.artistsStr}
+                            artistMap={track.artistIds}
+                        /></span
                     >
                 </div>
             </div>
@@ -173,7 +192,7 @@
         {/if}
         {#if columns.includes('starred')}
             <div class="z-10 flex w-[3rem] items-center justify-center text-ink-800 select-none">
-                <Star trackId={track.id} size={"1.2rem"} hidden={!hovered} />
+                <Star trackId={track.id} size={'1.2rem'} hidden={!hovered} />
             </div>
         {/if}
         {#if columns.includes('quality')}
@@ -187,8 +206,17 @@
             <div
                 class="relative z-20 flex w-[2rem] items-center justify-center pt-1 text-ink-800 select-none"
             >
-                {#if hovered || dropdownOpen}
-                    <DropdownMenu actions={trackActions} context={track} bind:open={dropdownOpen} />
+                {#if hovered || menu.isOpenFor(rowEl)}
+                    <button
+                        bind:this={buttonEl}
+                        class="cursor-pointer transition-colors hover:text-primary-10"
+                        onclick={(e) => {
+                            e.stopPropagation();
+                            menu.openFromElement(buttonEl, menuActions, rowEl);
+                        }}
+                    >
+                        <DotsThreeVertical size={'1.5rem'} weight="bold" />
+                    </button>
                 {/if}
             </div>
         {/if}
