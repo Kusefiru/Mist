@@ -2,6 +2,7 @@
     import { cache } from '$lib/stores/cache.svelte';
     import {
         ArrowBendUpRight,
+        Broadcast,
         DotsThreeVertical,
         DownloadSimple,
         ListPlus,
@@ -77,6 +78,11 @@
                         handler: () => goto(`/app/artist/${a.id}`)
                     }))
                 ]
+            },
+            {
+                icon: Broadcast,
+                label: 'Track\'s radio',
+                handler: () => goto(`/app/track/${trackId}/radio`)
             }
         ];
         const otherGroup = [
