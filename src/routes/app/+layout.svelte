@@ -9,9 +9,10 @@
     import { afterNavigate, beforeNavigate, goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import { slide } from 'svelte/transition';
-    import toast from 'svelte-french-toast';    
+    import toast from 'svelte-french-toast';
 
-    import AvatarDropdownMenu from '$lib/components/ui/AvatarDropdownMenu.svelte';
+    import MenuPortal from '$lib/components/ui/menu/MenuPortal.svelte';
+    import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import FullscreenPlayer from '$lib/components/player/FullscreenPlayer.svelte';
     import Sidebar from '$lib/components/layout/Sidebar.svelte';
     import Player from '$lib/components/player/BottomPlayer.svelte';
@@ -20,41 +21,46 @@
     import SplashScreen from '$lib/components/layout/SplashScreen.svelte';
     import { audio } from '$lib/audio/manager.svelte.js';
     import { cache } from '$lib/stores/cache.svelte.js';
+    import { menu } from '$lib/stores/menu.svelte.js';
 
     let { data, children } = $props();
     let avatar = $state(null);
 
-    const userActions = [
-        {
-            icon: Palette,
-            label: 'Theme',
-            handler: () => {
-                ui.darkTheme = !ui.darkTheme;
+    let menuButton = $state(null);
+    let menuVisible = $state(null);
+    let menuActions = $derived.by(() => {
+        const optionGroup = [
+            {
+                icon: Palette,
+                label: 'Theme',
+                handler: () => {
+                    ui.darkTheme = !ui.darkTheme;
+                }
             }
-        },
-        {
-            icon: ArrowClockwise,
-            label: 'Refresh',
-            handler: () => {
-                toast.promise(
-                    cache.fetch(),
-                    {
+        ];
+        const serverGroup = [
+            {
+                icon: ArrowClockwise,
+                label: 'Refresh',
+                handler: () => {
+                    toast.promise(cache.fetch(), {
                         loading: 'Refreshing library...',
                         success: 'Library successfully refreshed!',
                         error: 'Failed to refresh library.'
-                    }
-                )
+                    });
+                }
+            },
+            {
+                icon: SignOut,
+                label: 'Logout',
+                handler: () => {
+                    database.clearLogin();
+                    window.location.reload();
+                }
             }
-        },
-        {
-            icon: SignOut,
-            label: 'Logout',
-            handler: () => {
-                database.clearLogin();
-                window.location.reload();
-            }
-        }
-    ];
+        ];
+        return [optionGroup, serverGroup].filter((g) => g.length > 0);
+    });
 
     onMount(async () => {
         audio.restore();
@@ -116,55 +122,72 @@
 {#if !cache.initialized}
     <SplashScreen />
 {:else}
-<div class="fixed inset-0 flex flex-col bg-surface-40">
-    <!-- Main Content Area -->
-    <div class="bg-grain relative flex flex-1 overflow-hidden">
-        <!-- Sidebar -->
-        <Sidebar />
+    <div class="fixed inset-0 flex flex-col bg-surface-40">
+        <!-- Main Content Area -->
+        <div class="bg-grain relative flex flex-1 overflow-hidden">
+            <!-- Sidebar -->
+            <Sidebar />
 
-        <!-- Main Panel OR Fullscreen Player -->
-        <div class="relative flex min-w-0 flex-1 flex-col bg-surface-10">
-            <!-- Top Bar -->
-            <header class="flex h-[4rem] items-center justify-between px-8 lg:h-[5rem]">
-                <SearchBar />
+            <!-- Main Panel OR Fullscreen Player -->
+            <div class="relative flex min-w-0 flex-1 flex-col bg-surface-10">
+                <!-- Top Bar -->
+                <header class="flex h-[4rem] items-center justify-between px-8 lg:h-[5rem]">
+                    <SearchBar />
 
-                <div class="flex items-center select-none">
-                    <span class="text-lg mr-2 text-ink-800">{session.username}</span>
-                    <AvatarDropdownMenu {avatar} actions={userActions} />
+                    <div class="flex items-center select-none">
+                        <span class="mr-2 text-lg text-ink-800">{session.username}</span>
+                        <button
+                            bind:this={menuButton}
+                            class="inline-flex size-[3rem] cursor-pointer items-center justify-center rounded-full hover:outline hover:outline-2 hover:outline-primary-10"
+                            onclick={(e) => {
+                                e.stopPropagation();
+                                menu.openFromElement(menuButton, menuActions);
+                            }}
+                        >
+                            <FadeImage
+                                src={avatar}
+                                alt="Avatar"
+                                class="rounded-full object-cover"
+                            />
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Scrollable Content -->
+                <main bind:this={mainElement} class="flex-1 overflow-y-auto" tabindex="0">
+                    {@render children()}
+                </main>
+            </div>
+
+            <!-- Play Queue Sidebar (conditionally rendered) -->
+            {#if ui.showPlayQueue}
+                <div
+                    class="relative z-30 w-[var(--min-queue-size)] flex-shrink-0"
+                    transition:slide={{ axis: 'x', duration: 200 }}
+                >
+                    <PlayQueue />
                 </div>
-            </header>
+            {/if}
 
-            <!-- Scrollable Content -->
-            <main bind:this={mainElement} class="flex-1 overflow-y-auto" tabindex="0">
-                {@render children()}
-            </main>
+            <!-- Bottom gradient overlay -->
+            <div
+                class="pointer-events-none absolute right-0 bottom-0 left-0 z-40 h-16 bg-gradient-to-b from-transparent to-surface-40"
+            ></div>
         </div>
 
-        <!-- Play Queue Sidebar (conditionally rendered) -->
-        {#if ui.showPlayQueue}
-            <div
-                class="relative z-30 w-[var(--min-queue-size)] flex-shrink-0"
-                transition:slide={{ axis: 'x', duration: 200 }}
-            >
-                <PlayQueue />
+        <!-- Bottom Player -->
+        <footer class="bg-grain relative z-50 inset-shadow-sm inset-shadow-surface-50">
+            <Player />
+        </footer>
+
+        {#if ui.showFullscreenPlayer}
+            <div class="fixed inset-0 z-[100]">
+                <FullscreenPlayer
+                    onClose={() => (ui.showFullscreenPlayer = !ui.showFullscreenPlayer)}
+                />
             </div>
         {/if}
-
-        <!-- Bottom gradient overlay -->
-        <div
-            class="pointer-events-none absolute right-0 bottom-0 left-0 z-40 h-16 bg-gradient-to-b from-transparent to-surface-40"
-        ></div>
     </div>
 
-    <!-- Bottom Player -->
-    <footer class="bg-grain relative z-50 inset-shadow-sm inset-shadow-surface-50">
-        <Player />
-    </footer>
-
-    {#if ui.showFullscreenPlayer}
-        <div class="fixed inset-0 z-[100]">
-            <FullscreenPlayer onClose={() => ui.showFullscreenPlayer = !ui.showFullscreenPlayer} />
-        </div>
-    {/if}
-</div>
+    <MenuPortal />
 {/if}
