@@ -195,6 +195,35 @@ class Cache {
         return topSongs.map((t) => this.tracks.get(t.id));
     }
 
+    async getArtistRadio(artistId) {
+        let artist = this.artists.get(artistId);
+
+        if (!artist) {
+            const ArtistWithAlbumsID3 = await api.getArtist(artistId);
+            artist = Artist.fromOpenSubsonic(ArtistWithAlbumsID3);
+        }
+
+        const similarSongs = await api.getSimilarSongs2(artist.id);
+        for (const songRaw of similarSongs) {
+            const song = Track.fromOpenSubsonic(songRaw);
+            this.tracks.set(song.id, song);
+        }
+        /* Create a fake Playlist object from received data */
+        const radioPlaylist = {
+            id: artist.id,
+            name: `${artist.name} Radio`,
+            comment: "",    // TODO
+            entry: similarSongs,
+            songCount: similarSongs.length,
+            duration: similarSongs.reduce((sum, song) => sum + song.duration, 0),
+            coverArt: artist.coverArtId,
+            created: Date.now(),
+            changed: Date.now()
+        }
+
+        return Playlist.fromOpenSubsonic(radioPlaylist);
+    }
+
     getFilteredArtists(sortBy, filters, sortOrder = 'asc') {
         let filtered_artists = Array.from(this.artists.values());
 
@@ -262,6 +291,36 @@ class Cache {
             this.setTrack(child);
         }
         return this.tracks.get(trackId);
+    }
+
+    async getTrackRadio(trackId) {
+        let track = this.tracks.get(trackId);
+
+        if (!track) {
+            const child = await api.getSong(trackId);
+            this.setTrack(child);
+            track = this.tracks.get(trackId);
+        }
+
+        const similarSongs = await api.getSimilarSongs2(track.id);
+        for (const songRaw of similarSongs) {
+            const song = Track.fromOpenSubsonic(songRaw);
+            this.tracks.set(song.id, song);
+        }
+        /* Create a fake Playlist object from received data */
+        const radioPlaylist = {
+            id: track.id,
+            name: `${track.title} Radio`,
+            comment: "",    // TODO
+            entry: similarSongs,
+            songCount: similarSongs.length,
+            duration: similarSongs.reduce((sum, song) => sum + song.duration, 0),
+            coverArt: track.coverArtId,
+            created: Date.now(),
+            changed: Date.now()
+        }
+
+        return Playlist.fromOpenSubsonic(radioPlaylist);
     }
 
     /* Cover art methods */

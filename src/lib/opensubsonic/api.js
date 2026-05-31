@@ -118,6 +118,11 @@ export async function getPlayQueue() {
     return reply?.playQueue;
 }
 
+export async function getSimilarSongs2(id, options = {}) {
+    const reply = await ask('getSimilarSongs2.view', { id, ...options });
+    return reply?.similarSongs2?.song || [];
+}
+
 export async function getSong(id) {
     const reply = await ask('getSong.view', { id });
     return reply?.song;
