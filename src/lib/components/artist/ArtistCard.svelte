@@ -15,7 +15,7 @@
         ></div>
     </div>
     <div
-        class="absolute inset-0 z-5 bg-surface-10/40 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-colors group-hover:bg-surface-10/60 dark:bg-surface-50/40 dark:group-hover:bg-surface-50/60"
+        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-50/50"
     ></div>
     <div class="relative z-10 flex aspect-square items-center justify-center p-2">
         <FadeImage
@@ -35,7 +35,7 @@
         {@render cardCover(cache.getCoverArt(artist.coverArtId))}
         <div class="z-10 mx-2 mb-2 flex h-18 flex-col gap-1">
             <p
-                class="line-clamp-2 text-base font-semibold text-ink-800 transition-colors group-hover:text-primary-10 hover:underline"
+                class="line-clamp-2 text-base font-semibold text-ink-800 hover:underline"
                 title={artist.name}
             >
                 {artist.name}
