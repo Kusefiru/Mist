@@ -64,7 +64,7 @@
 
         <button
             bind:this={itemRefs[flat]}
-            class="item flex w-full cursor-pointer items-center gap-2 rounded-xs px-2 py-1.5 text-base transition-colors hover:bg-surface-10 hover:text-primary-10"
+            class="item flex w-full cursor-pointer items-center gap-2 rounded-xs px-2 py-1.5 text-base text-ink-700 transition-colors hover:bg-surface-10 hover:text-primary-10"
             class:active={activeIndex === flat}
             onclick={() => handleAction(action)}
             onpointerenter={() => handleItemPointerEnter(flat)}

@@ -1,7 +1,7 @@
 <script>
     let { Icon, title = '', onclick, primary = true, iconOnly = false } = $props();
 
-    let buttonStyle = $derived(primary ? "bg-primary-10 hover:bg-primary-20" : "bg-surface-30 hover:bg-surface-20")
+    let buttonStyle = $derived(primary ? "text-ink-100 bg-primary-10 hover:bg-primary-20 dark:text-ink-800" : "text-ink-800 bg-surface-30 hover:bg-surface-20")
     let iconWeight = $derived(primary ? "fill" : "regular")
 </script>
 
