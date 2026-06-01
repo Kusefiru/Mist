@@ -11,7 +11,7 @@
 {#snippet cardCover(coverArt)}
     <div class="absolute inset-0 z-0 overflow-hidden rounded-[0.4rem] [filter:blur(0)]">
         <div
-            class="absolute inset-0 scale-110 bg-cover bg-center blur-md transition-transform group-hover:scale-125 motion-reduce:transition-none"
+            class="absolute inset-0 scale-110 bg-cover bg-center blur-md"
             style="background-image: url('{coverArt}');"
         ></div>
     </div>
