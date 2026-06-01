@@ -31,22 +31,24 @@
 <div class="overflow-auto px-8 pt-2 pb-10">
     <div class="mb-4 flex items-center justify-between">
         <div class="flex items-center gap-2">
-            <h2 class="text-2xl font-bold text-ink-800">Artists</h2>
-            <div class="rounded bg-primary-20 px-1 text-sm font-semibold text-fill select-none">
+            <h2 class="text-2xl font-bold text-ink-900">Artists</h2>
+            <div
+                class="rounded bg-primary-20 px-1 text-sm font-semibold text-ink-100 select-none dark:text-ink-900"
+            >
                 {artists.length}
             </div>
         </div>
-        <div class="flex items-center gap-2 text-base font-normal text-ink-800">
+        <div class="flex items-center gap-2 text-base font-normal text-ink-900">
             Sort by:
             <Select items={sortOptions} bind:value={sortByFunc} />
             <button
                 onclick={toggleSortOrder}
-                class="mr-1 rounded p-1 transition-colors hover:bg-surface-30/50 hover:text-primary-10"
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-40 hover:text-primary-10"
             >
                 {#if sortOrder === 'asc'}
-                    <SortAscending size={"1.5rem"} />
+                    <SortAscending size={'1.5rem'} />
                 {:else}
-                    <SortDescending size={"1.5rem"} />
+                    <SortDescending size={'1.5rem'} />
                 {/if}
             </button>
         </div>

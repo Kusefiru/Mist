@@ -14,7 +14,7 @@
         ></div>
     </div>
     <div
-        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-50/50"
+        class="absolute inset-0 z-5 bg-surface-30/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-40)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-40/50"
     ></div>
     <div class="relative z-10 flex aspect-square items-center justify-center p-2">
         <FadeImage
@@ -27,17 +27,17 @@
 {/snippet}
 
 <div
-    class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-30"
+    class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-50"
 >
     {@render cardCover(cache.getCoverArt(album.coverArtId))}
     <div class="z-10 my-2 mr-2 flex flex-1 flex-col justify-end gap-1">
         <p
-            class="line-clamp-2 text-xl font-semibold text-ink-800 hover:underline"
+            class="line-clamp-2 text-xl font-semibold text-ink-900 hover:underline"
             title={album.name}
         >
             {album.name}
         </p>
-        <p class="line-clamp-1 text-sm text-ink-700" title={album.artistsStr}>
+        <p class="line-clamp-1 text-sm text-ink-800" title={album.artistsStr}>
             <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />
         </p>
     </div>

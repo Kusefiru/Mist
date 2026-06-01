@@ -22,50 +22,48 @@
     -moz-osx-font-smoothing: grayscale;
 
     /* Colors (Light theme) */
-    --color-ink-50: #f5eeeb;
-    --color-ink-100: #eae3e1;
-    --color-ink-200: #d8d2cf;
-    --color-ink-300: #b4adab;
-    --color-ink-400: #938d8a;
-    --color-ink-500: #6b6563;
-    --color-ink-600: #575250;
-    --color-ink-700: #393432;
-    --color-ink-800: #191412;
-    --color-ink-900: #0f0b0a;
-    --color-surface-10: oklch(96.8% 0.007 247.896);
-    --color-surface-20: oklch(92.9% 0.013 255.508);
-    --color-surface-30: oklch(89.9% 0.018 253.894);
-    --color-surface-40: oklch(82.4% 0.026 255.312);
-    --color-surface-50: oklch(70.4% 0.04 256.788);
-    --color-surface-60: oklch(55.4% 0.046 257.417);
-    --color-surface-70: oklch(44.6% 0.043 257.281);
-    --color-primary-10: oklch(46.67% 0.1514 20.8);
-    --color-primary-20: oklch(43.02% 0.1355 20.72);
+    --color-ink-100: oklch(98% 0.002 258);
+    --color-ink-200: oklch(88% 0.004 258);
+    --color-ink-300: oklch(74% 0.008 258);
+    --color-ink-400: oklch(66% 0.011 258);
+    --color-ink-500: oklch(56% 0.013 258);
+    --color-ink-600: oklch(44% 0.015 258);
+    --color-ink-700: oklch(32% 0.017 258);
+    --color-ink-800: oklch(22% 0.018 258);
+    --color-ink-900: oklch(14% 0.015 258);
+    --color-surface-00: oklch(97.0% 0.005 258);
+    --color-surface-10: oklch(93.5% 0.009 258);
+    --color-surface-20: oklch(89.0% 0.014 258);
+    --color-surface-30: oklch(85.5% 0.020 258);
+    --color-surface-40: oklch(77.5% 0.027 258);
+    --color-surface-50: oklch(70.5% 0.034 258);
+    --color-surface-60: oklch(59.5% 0.043 258);
+    --color-primary-10: oklch(48.5% 0.142 21);
+    --color-primary-20: oklch(41.0% 0.138 21);
 }
 
 :root.dark {
-    --color-ink-50: #0f0b0a;
-    --color-ink-100: #191412;
-    --color-ink-200: #393432;
-    --color-ink-300: #575250;
-    --color-ink-400: #6b6563;
-    --color-ink-500: #938d8a;
-    --color-ink-600: #b4adab;
-    --color-ink-700: #d8d2cf;
-    --color-ink-800: #eae3e1;
-    --color-ink-900: #f5eeeb;
-    --color-surface-50: oklch(17.5% 0.022 257);
-    --color-surface-40: oklch(22.0% 0.025 257);
-    --color-surface-30: oklch(26.5% 0.028 257);
-    --color-surface-20: oklch(30.0% 0.030 257);
-    --color-surface-10: oklch(35.0% 0.032 257);
-    --color-surface-00: oklch(41.0% 0.035 257);
-    --color-primary-10: oklch(67.3% 0.145 14);
-    --color-primary-20: oklch(61.8% 0.159 14);
+    --color-ink-100: oklch(14% 0.015 258);
+    --color-ink-200: oklch(22% 0.018 258);
+    --color-ink-300: oklch(32% 0.017 258);
+    --color-ink-400: oklch(44% 0.015 258);
+    --color-ink-500: oklch(56% 0.013 258);
+    --color-ink-600: oklch(66% 0.011 258);
+    --color-ink-700: oklch(74% 0.008 258);
+    --color-ink-800: oklch(88% 0.004 258);
+    --color-ink-900: oklch(98% 0.002 258);
+    --color-surface-00: oklch(44.5% 0.052 258);
+    --color-surface-10: oklch(38.0% 0.041 258);
+    --color-surface-20: oklch(31.5% 0.034 258);
+    --color-surface-30: oklch(25.5% 0.027 258);
+    --color-surface-40: oklch(22.0% 0.021 258);
+    --color-surface-50: oklch(16.5% 0.016 258);
+    --color-surface-60: oklch(12.0% 0.012 258);
+    --color-primary-10: oklch(62.5% 0.142 14);
+    --color-primary-20: oklch(52.0% 0.138 14);
 }
 
 @theme {
-    --color-ink-50: --var(--color-ink-50);
     --color-ink-100: --var(--color-ink-100);
     --color-ink-200: --var(--color-ink-200);
     --color-ink-300: --var(--color-ink-300);
@@ -75,16 +73,15 @@
     --color-ink-700: --var(--color-ink-700);
     --color-ink-800: --var(--color-ink-800);
     --color-ink-900: --var(--color-ink-900);
+    --color-surface-00: var(--color-surface-00);
     --color-surface-10: var(--color-surface-10);
     --color-surface-20: var(--color-surface-20);
     --color-surface-30: var(--color-surface-30);
     --color-surface-40: var(--color-surface-40);
     --color-surface-50: var(--color-surface-50);
     --color-surface-60: var(--color-surface-60);
-    --color-primary-00: oklch(70.5% 0.145 18);
     --color-primary-10: var(--color-primary-10);
     --color-primary-20: var(--color-primary-20);
-    --color-fill: #eae3e1;
     --font-mplus: "M PLUS Rounded 1c", sans-serif; 
     --default-transition-duration: 300ms;
 
@@ -182,8 +179,8 @@ html, body, #app {
   background-size: 32px 32px;
   background-repeat: repeat;
 
-  opacity: 0.15;
-  mix-blend-mode: multiply;
+  opacity: 0.2;
+  mix-blend-mode: overlay;
 }
 
 /* Hide scrollbar in Chrome, Safari, and Opera */

@@ -14,7 +14,7 @@
 </script>
 
 <div
-    class="flex flex-col rounded bg-surface-30/70 p-8 shadow-xl transition-all select-none"
+    class="flex flex-col rounded bg-surface-50/70 p-8 shadow-xl shadow-neutral-950/50 transition-all select-none"
     style="width: calc(var(--fs-min-cover-size) * 2 + 2rem * 3); height: calc(var(--fs-min-cover-size) + 2rem * 2 + 3rem);"
 >
     <!-- Cover art and track info - horizontal layout -->
@@ -37,10 +37,10 @@
             <h2 class="text-2xl font-bold text-ink-900 lg:text-3xl">
                 {currentTrack.title}
             </h2>
-            <h3 class="line-clamp-1 text-lg text-ink-800 lg:text-xl">
+            <h3 class="line-clamp-1 text-xl font-semibold text-ink-800 lg:text-2xl">
                 {currentTrack.artistsStr}
             </h3>
-            <h3 class="line-clamp-2 text-lg font-semibold text-ink-700 lg:text-xl">
+            <h3 class="line-clamp-2 text-lg text-ink-700 lg:text-xl">
                 {currentTrack.album}
             </h3>
         </div>
@@ -49,14 +49,14 @@
     <!-- Progress bar spanning full width -->
     <div class="mt-6">
         <div class="flex items-center gap-3">
-            <span class="min-w-[3rem] shrink-0 text-right text-sm text-ink-700">
+            <span class="min-w-[3rem] shrink-0 text-right text-sm text-ink-800">
                 {formatDuration(currentTrack ? currentTime : null)}
             </span>
             <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
                 onValueCommit={(v) => audio.seek(v / 100)}
             />
-            <span class="min-w-[3rem] shrink-0 text-left text-sm text-ink-700">
+            <span class="min-w-[3rem] shrink-0 text-left text-sm text-ink-800">
                 {formatDuration(currentTrack ? totalTime : null)}
             </span>
         </div>

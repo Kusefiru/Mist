@@ -117,7 +117,7 @@
             {/key}
 
             <div
-                class="absolute inset-0 z-5 bg-surface-10/40 dark:bg-surface-50/40 shadow-[inset_0_0_64px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)]"
+                class="absolute inset-0 z-5 bg-surface-10/40 dark:bg-surface-50/40 shadow-[inset_0_0_64px_oklch(from_var(--color-surface-20)_l_c_h_/_1.0)]"
             ></div>
         </div>
 
@@ -141,7 +141,7 @@
                 >
                     <button
                         onclick={toggleBrowserFullscreen}
-                        class="rounded p-2 text-ink-700 transition-colors hover:bg-surface-30/70 hover:text-primary-10"
+                        class="rounded p-2 text-ink-800 transition-colors hover:bg-surface-30/70 hover:text-primary-10"
                         title={isInBrowserFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                     >
                         {#if isInBrowserFullscreen}
@@ -152,7 +152,7 @@
                     </button>
                     <button
                         onclick={onClose}
-                        class="rounded p-2 text-ink-700 transition-colors hover:bg-surface-30/70 hover:text-primary-10"
+                        class="rounded p-2 text-ink-800 transition-colors hover:bg-surface-30/70 hover:text-primary-10"
                         title="Reduce player"
                     >
                         <CaretDown size={"1.75rem"} />
@@ -173,7 +173,7 @@
             <!-- Play Queue Sidebar -->
             {#if ui.showPlayQueue && showControls}
                 <div
-                    class="fixed top-0 right-0 z-30 h-full w-[var(--min-queue-size)] bg-surface-30/70"
+                    class="fixed top-0 right-0 z-30 h-full w-[var(--min-queue-size)] bg-surface-50/70"
                     transition:fly={{ x: 380, duration: 300, easing: cubicOut }}
                 >
                     <PlayQueue />

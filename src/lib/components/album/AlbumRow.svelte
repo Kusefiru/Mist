@@ -55,13 +55,13 @@
 <div class="relative flex flex-col w-full gap-4">
     <!-- Title and navigation buttons -->
     <div class="flex items-center justify-between gap-2">
-        <h2 class="text-2xl font-bold text-ink-800">{title}</h2>
+        <h2 class="text-2xl font-bold text-ink-900">{title}</h2>
 
         <div class="flex gap-4">
             <button
                 onclick={scrollLeft}
                 disabled={!canScrollLeft}
-                class="rounded p-2 text-ink-800 transition-colors hover:bg-surface-20 hover:text-primary-10 disabled:text-ink-400 disabled:hover:bg-transparent"
+                class="rounded p-2 text-ink-900 transition-colors hover:bg-surface-40 hover:text-primary-10 disabled:text-ink-500 disabled:hover:bg-transparent"
                 aria-label="Scroll left"
             >
                 <CaretLeft size={"1.5rem"} weight="bold" />
@@ -69,7 +69,7 @@
             <button
                 onclick={scrollRight}
                 disabled={!canScrollRight}
-                class="rounded p-2 text-ink-800 transition-colors hover:bg-surface-20 hover:text-primary-10 disabled:text-ink-400 disabled:hover:bg-transparent"
+                class="rounded p-2 text-ink-900 transition-colors hover:bg-surface-40 hover:text-primary-10 disabled:text-ink-500 disabled:hover:bg-transparent"
                 aria-label="Scroll right"
             >
                 <CaretRight size={"1.5rem"} weight="bold" />

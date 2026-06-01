@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex w-full items-center justify-end">
-    <div class="pr-2 text-lg text-ink-700">
+    <div class="pr-2 text-lg text-ink-800">
         <Icon size={"1.75rem"} />
     </div>
     <Slider bind:value />

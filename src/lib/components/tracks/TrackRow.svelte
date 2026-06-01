@@ -146,11 +146,11 @@
     {#if loaded}
         <!-- Background effect when hovered -->
         {#if hovered || menu.isOpenFor(rowEl)}
-            <div class="absolute inset-0 rounded bg-surface-30 shadow-sm shadow-surface-30"></div>
+            <div class="absolute inset-0 rounded bg-surface-10 shadow-sm shadow-surface-50"></div>
         {/if}
         <!-- Track number -->
         {#if columns.includes('track')}
-            <div class="z-10 w-[3rem] text-center text-base text-ink-800 select-none">
+            <div class="z-10 w-[3rem] text-center text-base text-ink-900 select-none">
                 {#if variant === 'album'}
                     {track.track}
                 {:else}
@@ -166,7 +166,7 @@
             <div class="z-10 min-w-0 flex-1 pl-2 select-none">
                 <div class="flex w-full min-w-0 flex-col">
                     <span
-                        class="-mt-1 flex w-full items-center text-lg font-semibold text-ink-800"
+                        class="-mt-1 flex w-full items-center text-lg font-semibold text-ink-900"
                         class:gap-1={isCurrentlyPlaying}
                         class:text-primary-10={isCurrentlyPlaying}
                     >
@@ -176,7 +176,7 @@
                         <Explicit explicit={track.explicit} />
                         <span class="truncate" title={track.title}>{track.title}</span>
                     </span>
-                    <span class="w-full truncate text-base text-ink-700" title={track.artistsStr}
+                    <span class="w-full truncate text-base text-ink-800" title={track.artistsStr}
                         ><FormattedArtists
                             text={track.artistsStr}
                             artistMap={track.artistIds}
@@ -187,7 +187,7 @@
         {/if}
         {#if columns.includes('album')}
             <div
-                class="z-10 min-w-0 flex-1 truncate pl-2 text-base text-ink-800 select-none"
+                class="z-10 min-w-0 flex-1 truncate pl-2 text-base text-ink-900 select-none"
                 title={track.album}
             >
                 <a href="/app/album/{track.albumId}" class="hover:underline">
@@ -196,25 +196,25 @@
             </div>
         {/if}
         {#if columns.includes('duration')}
-            <div class="z-10 w-[5rem] text-right text-base text-ink-800 select-none">
+            <div class="z-10 w-[5rem] text-right text-base text-ink-900 select-none">
                 {formatDuration(track.duration)}
             </div>
         {/if}
         {#if columns.includes('starred')}
-            <div class="z-10 flex w-[3rem] items-center justify-center text-ink-800 select-none">
+            <div class="z-10 flex w-[3rem] items-center justify-center text-ink-900 select-none">
                 <Star trackId={track.id} size={'1.2rem'} hidden={!hovered} />
             </div>
         {/if}
         {#if columns.includes('quality')}
             <div
-                class="z-10 flex w-[5rem] items-center justify-center rounded border-1 border-ink-500 px-2 text-sm text-ink-500 select-none"
+                class="z-10 flex w-[5rem] items-center justify-center rounded border-1 border-ink-600 px-2 text-sm text-ink-500 select-none"
             >
                 {track.content}
             </div>
         {/if}
         {#if columns.includes('actions')}
             <div
-                class="relative z-20 flex w-[2rem] items-center justify-center pt-1 text-ink-800 select-none"
+                class="relative z-20 flex w-[2rem] items-center justify-center pt-1 text-ink-900 select-none"
             >
                 {#if hovered || menu.isOpenFor(rowEl)}
                     <button

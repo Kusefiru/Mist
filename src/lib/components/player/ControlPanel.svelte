@@ -41,10 +41,10 @@
 </script>
 
 <div
-    class="mt-4 rounded bg-surface-30/60 px-6 py-4 shadow-xl transition-all"
+    class="mt-4 rounded bg-surface-50/70 px-6 py-4 shadow-xl shadow-neutral-950/50 transition-all"
     transition:slide={{ duration: 300 }}
 >
-    <div class="flex items-center justify-between gap-4 text-ink-700">
+    <div class="flex items-center justify-between gap-4 text-ink-800">
         <!-- Visualizer selector -->
         <div class="relative z-50 flex min-w-[10rem] items-center gap-2">
             <Select items={visualizers} bind:value={visualizerStore.current} />
@@ -62,7 +62,7 @@
                 onclick={() => {
                     ui.showPlayQueue = !ui.showPlayQueue;
                 }}
-                class="mr-1 rounded p-1 transition-colors hover:bg-surface-10 hover:text-primary-10"
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
                 class:text-primary-10={ui.showPlayQueue}
                 title="Toggle queue"
             >

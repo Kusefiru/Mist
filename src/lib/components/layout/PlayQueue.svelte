@@ -50,18 +50,21 @@
 </script>
 
 <div class="flex h-full flex-col px-2">
-    <div
-        class="flex h-[4rem] items-center justify-between px-2 text-xl font-bold text-ink-800 select-none lg:h-[5rem]"
-    >
+    <div class="flex h-[4rem] items-center justify-between px-2 text-xl select-none lg:h-[5rem]">
         <div class="flex items-center gap-2">
-            <h3 class="text-xl font-bold text-ink-800">Play queue</h3>
-            <div class="rounded bg-primary-20 px-1 text-sm font-semibold text-fill">
+            <h3 class="text-xl font-bold text-ink-900">Play queue</h3>
+            <div
+                class="rounded bg-primary-20 px-1 text-sm font-semibold text-ink-100 dark:text-ink-900"
+            >
                 {audioState.playQueue.length}
             </div>
         </div>
         <button
-            onclick={() => {audio.clearQueue(); audio.stop()}}
-            class="flex cursor-pointer items-baseline-last text-sm font-bold text-ink-400 transition hover:text-primary-20 hover:underline"
+            onclick={() => {
+                audio.clearQueue();
+                audio.stop();
+            }}
+            class="flex cursor-pointer items-baseline-last text-sm font-bold text-ink-600 transition-colors hover:text-primary-10"
         >
             Empty queue
         </button>

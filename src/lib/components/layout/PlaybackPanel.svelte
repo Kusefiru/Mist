@@ -14,9 +14,9 @@
     }
 </script>
 
-<div class="flex items-center justify-center gap-2 text-ink-800">
+<div class="flex items-center justify-center gap-2 text-ink-900">
     <button
-        class="mx-2 rounded p-1 transition-colors hover:bg-surface-20 hover:text-primary-10"
+        class="mx-2 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
         class:text-primary-10={audioState.shuffled}
         onclick={() => {
             audio.setShuffle(!audioState.shuffled);
@@ -26,7 +26,7 @@
         <Shuffle {size} />
     </button>
     <button
-        class="mr-3 rounded p-1 transition-colors hover:bg-surface-20 hover:text-primary-10"
+        class="mr-3 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
         onclick={() => audio.previous()}
         title="Previous"
     >
@@ -34,7 +34,7 @@
     </button>
     <button
         onclick={togglePlay}
-        class="rounded bg-primary-10 p-2 text-fill transition-colors hover:bg-primary-20"
+        class="rounded bg-primary-10 p-2 text-ink-100 transition-colors hover:bg-primary-20 dark:text-ink-900"
         title={audioState.playing ? 'Pause' : 'Play'}
     >
         {#if audioState.playing}
@@ -44,14 +44,14 @@
         {/if}
     </button>
     <button
-        class="ml-3 rounded p-1 transition-colors hover:bg-surface-20 hover:text-primary-10"
+        class="ml-3 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
         onclick={() => audio.next()}
         title="Next"
     >
         <SkipForward {size} />
     </button>
     <button
-        class="mx-2 rounded p-1 transition-colors hover:bg-surface-20 hover:text-primary-10"
+        class="mx-2 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
         class:text-primary-10={audioState.looping}
         onclick={() => {
             audioState.looping = !audioState.looping;

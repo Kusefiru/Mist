@@ -19,14 +19,14 @@
     <div class="flex flex-col gap-2 rounded-[0.4rem] bg-surface-20 px-4 py-3">
         <div
             bind:this={contentEl}
-            class="overflow-hidden transition-[height] duration-300 ease-in-out"
+            class="overflow-hidden text-ink-900 transition-[height] duration-300 ease-in-out"
             style:height
         >
             {@html sanitized}
         </div>
 
         <button
-            class="flex text-sm font-bold text-ink-500 transition-colors hover:text-primary-10"
+            class="flex text-sm font-bold text-ink-600 transition-colors hover:text-primary-10"
             onclick={() => (expanded = !expanded)}
         >
             {#if expanded}

@@ -45,7 +45,7 @@
 <div class="relative inline-block">
     <button
         bind:this={buttonElement}
-        class="flex min-w-[10rem] items-center justify-between gap-2 rounded px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-20 hover:text-primary-10"
+        class="flex min-w-[10rem] items-center justify-between gap-2 rounded px-3 py-1.5 text-ink-800 transition-colors hover:bg-surface-40 hover:text-primary-10"
         onclick={() => {
             open = !open;
         }}
@@ -61,7 +61,7 @@
 
     {#if open && buttonElement}
         <ul
-            class="absolute z-50 mt-1 min-w-[10rem] rounded border border-surface-50 bg-surface-30 p-1 shadow-lg {positionClasses[
+            class="absolute z-50 mt-1 min-w-[10rem] rounded border border-surface-60 bg-surface-10 p-1 shadow-lg {positionClasses[
                 position
             ]}"
             style="min-width: {buttonElement.offsetWidth}px;"
@@ -69,7 +69,7 @@
             {#each items as item}
                 <li>
                     <button
-                        class="flex w-full items-center gap-2 rounded px-2 py-1.5 truncate text-base text-ink-700 transition-colors hover:bg-surface-10 hover:text-primary-10"
+                        class="flex w-full items-center gap-2 rounded px-2 py-1.5 truncate text-base text-ink-900 transition-colors hover:bg-surface-10 hover:text-primary-10"
                         onclick={() => onToggle(item.value)}
                     >
                         <input

@@ -41,7 +41,7 @@
         </div>
     {:then { albums, artists, tracks }}
         {#if tracks?.length > 0}
-            <h2 class="flex items-center pt-4 text-2xl font-bold text-ink-800">
+            <h2 class="flex items-center pt-4 text-2xl font-bold text-ink-900">
                 <MusicNotesSimple size={"1.75rem"} class="mr-2" />
                 <span>Tracks</span>
             </h2>
@@ -58,14 +58,14 @@
             </ul>
         {/if}
         {#if albums?.length > 0}
-            <h2 class="flex items-center py-4 text-2xl font-bold text-ink-800">
+            <h2 class="flex items-center py-4 text-2xl font-bold text-ink-900">
                 <VinylRecord size={"1.75rem"} class="mr-2" />
                 <span>Albums</span>
             </h2>
             <AlbumGrid {albums} />
         {/if}
         {#if artists?.length > 0}
-            <h2 class="flex items-center py-4 text-2xl font-bold text-ink-800">
+            <h2 class="flex items-center py-4 text-2xl font-bold text-ink-900">
                 <Users size={"1.75rem"} class="mr-2" />
                 <span>Artists</span>
             </h2>

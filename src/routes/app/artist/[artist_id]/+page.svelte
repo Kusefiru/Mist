@@ -147,7 +147,7 @@
 
         {#if topTrackIds.length > 0}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-3">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-800">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-900">
                     <MusicNotesSimple size="1.5rem" class="text-primary-10" />
                     Top Tracks
                 </h2>
@@ -174,7 +174,7 @@
 
         {#if albumsSorted.main.length > 0}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-800">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-900">
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Albums</span>
                 </h2>
@@ -184,7 +184,7 @@
 
         {#if albumsSorted.singles.length > 0}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-800">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-900">
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Singles & EPs</span>
                 </h2>
@@ -194,7 +194,7 @@
 
         {#if albumsSorted.others.length > 0}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-800">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-900">
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Others</span>
                 </h2>
@@ -204,7 +204,7 @@
 
         {#if albumsSorted.appears.length > 0}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-800">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-900">
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Appears on</span>
                 </h2>
@@ -214,7 +214,7 @@
 
         {#if similarArtists.length > 0}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-800">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-ink-900">
                     <Users size={'1.5rem'} class="text-primary-10" />
                     <span>Similar Artists</span>
                 </h2>

@@ -122,23 +122,25 @@
 {#if !cache.initialized}
     <SplashScreen />
 {:else}
-    <div class="fixed inset-0 flex flex-col bg-surface-40">
+    <div class="fixed inset-0 flex flex-col bg-surface-50">
         <!-- Main Content Area -->
         <div class="bg-grain relative flex flex-1 overflow-hidden">
             <!-- Sidebar -->
-            <Sidebar />
+            <div class="flex w-[4rem] flex-col select-none lg:w-[5rem]">
+                <Sidebar />
+            </div>
 
             <!-- Main Panel OR Fullscreen Player -->
-            <div class="relative flex min-w-0 flex-1 flex-col bg-surface-10">
+            <div class="relative flex min-w-0 flex-1 flex-col bg-surface-30">
                 <!-- Top Bar -->
                 <header class="flex h-[4rem] items-center justify-between px-8 lg:h-[5rem]">
                     <SearchBar />
 
                     <div class="flex items-center select-none">
-                        <span class="mr-2 text-lg text-ink-800">{session.username}</span>
+                        <span class="mr-4 text-lg text-ink-900">{session.username}</span>
                         <button
                             bind:this={menuButton}
-                            class="inline-flex size-[3rem] cursor-pointer items-center justify-center rounded-full hover:outline hover:outline-2 hover:outline-primary-10"
+                            class="inline-flex size-[3rem] cursor-pointer items-center justify-center rounded-full outline outline-2 outline-transparent transition-colors hover:outline-primary-20"
                             onclick={(e) => {
                                 e.stopPropagation();
                                 menu.openFromElement(menuButton, menuActions);
@@ -171,12 +173,12 @@
 
             <!-- Bottom gradient overlay -->
             <div
-                class="pointer-events-none absolute right-0 bottom-0 left-0 z-40 h-16 bg-gradient-to-b from-transparent to-surface-40"
+                class="pointer-events-none absolute right-0 bottom-0 left-0 z-40 h-8 bg-gradient-to-b from-transparent to-surface-50"
             ></div>
         </div>
 
         <!-- Bottom Player -->
-        <footer class="bg-grain relative z-50 inset-shadow-sm inset-shadow-surface-50">
+        <footer class="relative z-50 bg-surface-50 inset-shadow-sm inset-shadow-surface-30">
             <Player />
         </footer>
 

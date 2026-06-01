@@ -15,7 +15,7 @@
         ></div>
     </div>
     <div
-        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-50/50"
+        class="absolute inset-0 z-5 bg-surface-30/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-40)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-40/50"
     ></div>
     <div class="relative z-10 flex aspect-square items-center justify-center p-2">
         <FadeImage
@@ -29,24 +29,24 @@
 
 <div
     use:lazyLoad={() => (visible = true)}
-    class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-30"
+    class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-50"
 >
     {#if visible}
         {@render cardCover(cache.getCoverArt(playlist.coverArtId))}
         <div class="z-10 mx-2 mb-2 flex h-18 flex-col gap-1">
             <p
-                class="line-clamp-2 text-base font-semibold text-ink-800 hover:underline"
+                class="line-clamp-2 text-base font-semibold text-ink-900 hover:underline"
                 title={playlist.name}
             >
                 {playlist.name}
             </p>
-            <p class="line-clamp-1 text-sm text-ink-700">{playlist.songCount} tracks</p>
+            <p class="line-clamp-1 text-sm text-ink-800">{playlist.songCount} tracks</p>
         </div>
     {:else}
         <!-- Basic placeholder while item isn't visible -->
-        <div class="animate-pulse bg-surface-20">
-            <div class="m-2 aspect-square overflow-hidden rounded bg-surface-30"></div>
-            <div class="m-2 flex h-12 flex-col rounded bg-surface-30"></div>
+        <div class="animate-pulse bg-surface-40">
+            <div class="m-2 aspect-square overflow-hidden rounded bg-surface-50/50"></div>
+            <div class="m-2 flex h-12 flex-col rounded bg-surface-50/50"></div>
         </div>
     {/if}
 </div>

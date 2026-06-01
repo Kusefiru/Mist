@@ -31,7 +31,7 @@
     });
 </script>
 
-<div class="flex h-[6.5rem] w-full items-center px-4">
+<div class="flex h-[7rem] w-full items-center px-4">
     <!-- Left: Cover Art + Track Info -->
     <div class="flex w-[30%] lg:w-[28%]">
         {#if currentTrack}
@@ -43,14 +43,14 @@
     <div class="relative flex w-[40%] lg:w-[44%] min-w-0 flex-col items-center justify-center select-none">
         <PlaybackPanel size={"1.75rem"} />
         <div class="flex w-full items-center gap-2 pt-2">
-            <span class="shrink-0 text-sm text-ink-700"
+            <span class="shrink-0 text-sm text-ink-800"
                 >{formatDuration(currentTrack ? currentTime : null)}</span
             >
             <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
                 onValueCommit={(v) => audio.seek(v / 100)}
             />
-            <span class="shrink-0 text-sm text-ink-700"
+            <span class="shrink-0 text-sm text-ink-800"
                 >{formatDuration(currentTrack ? totalTime : null)}</span
             >
         </div>
@@ -66,7 +66,7 @@
                 onclick={() => {
                     ui.showPlayQueue = !ui.showPlayQueue;
                 }}
-                class="mr-1 rounded p-1 transition-colors hover:bg-surface-10 hover:text-primary-10"
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
                 class:text-primary-10={ui.showPlayQueue}
                 title="Toggle queue"
             >
@@ -77,7 +77,7 @@
                     ui.showFullscreenPlayer = !ui.showFullscreenPlayer;
                 }}
                 disabled={!currentTrack}
-                class="mr-1 rounded p-1 transition-colors hover:bg-surface-10 hover:text-primary-10 disabled:text-ink-600"
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10 disabled:text-ink-500"
                 title="Fullscreen mode"
             >
                 <CaretUp size={"1.75rem"} />

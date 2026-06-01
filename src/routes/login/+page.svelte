@@ -80,17 +80,20 @@
 
 <div class="fixed inset-0 flex flex-col bg-surface-10">
     <div class="bg-grain flex flex-1 items-center justify-center">
-        <div class="flex flex-col rounded bg-surface-30 p-8 shadow-xl" style="width: 420px;">
+        <div
+            class="flex flex-col rounded bg-surface-50 p-8 shadow-md shadow-surface-50"
+            style="width: 420px;"
+        >
             <!-- Logo and Title -->
             <div class="mb-8 flex items-center justify-center gap-4">
                 <img src={logo} alt="Mist" class="h-20 w-20" />
-                <h1 class="font-mplus text-4xl font-bold text-surface-70">Mist</h1>
+                <h1 class="font-mplus text-4xl font-bold text-ink-100 dark:text-ink-900">Mist</h1>
             </div>
 
             <!-- Input Fields -->
             <div class="flex flex-col gap-4">
                 <input
-                    class="w-full border-b-2 border-ink-300 bg-transparent px-4 py-2 text-ink-800 placeholder-ink-400 transition-colors autofill:bg-transparent autofill:text-ink-800 focus:border-primary-10 focus:outline-none"
+                    class="w-full rounded border-1 border-transparent bg-surface-10 px-4 py-2 text-ink-900 placeholder-ink-500 transition-colors autofill:bg-transparent autofill:text-ink-900 focus:border-primary-10 focus:outline-none"
                     bind:value={serverUrl}
                     placeholder="Server URL"
                     disabled={loading}
@@ -98,7 +101,7 @@
                     autocomplete="url"
                 />
                 <input
-                    class="w-full border-b-2 border-ink-300 bg-transparent px-4 py-2 text-ink-800 placeholder-ink-400 transition-colors autofill:bg-transparent autofill:text-ink-800 focus:border-primary-10 focus:outline-none"
+                    class="w-full rounded border-1 border-transparent bg-surface-10 px-4 py-2 text-ink-900 placeholder-ink-500 transition-colors autofill:bg-transparent autofill:text-ink-900 focus:border-primary-10 focus:outline-none"
                     bind:value={username}
                     placeholder="Username"
                     disabled={loading}
@@ -106,7 +109,7 @@
                     autocomplete="username"
                 />
                 <input
-                    class="w-full border-b-2 border-ink-300 bg-transparent px-4 py-2 text-ink-800 placeholder-ink-400 transition-colors autofill:bg-transparent autofill:text-ink-800 focus:border-primary-10 focus:outline-none"
+                    class="w-full rounded border-1 border-transparent bg-surface-10 px-4 py-2 text-ink-900 placeholder-ink-500 transition-colors autofill:bg-transparent autofill:text-ink-900 focus:border-primary-10 focus:outline-none"
                     bind:value={password}
                     type="password"
                     placeholder="Password"
@@ -118,7 +121,7 @@
 
             <!-- Login Button -->
             <button
-                class="mt-8 rounded bg-primary-10 px-6 py-3 font-medium text-surface-20 transition-colors hover:bg-primary-20 disabled:cursor-not-allowed disabled:opacity-50"
+                class="mt-8 rounded bg-primary-10 px-6 py-3 font-medium text-ink-100 transition-colors hover:bg-primary-20 disabled:cursor-not-allowed disabled:opacity-50 dark:text-ink-900"
                 onclick={login}
                 disabled={loading}
             >

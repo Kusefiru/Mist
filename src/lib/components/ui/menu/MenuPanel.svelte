@@ -54,17 +54,17 @@
         offset: 4
     }}
     class:fixed={!root}
-    class="panel z-50 w-max max-w-[24rem] min-w-[12rem] rounded border border-surface-50 bg-surface-30 p-1 shadow-lg"
+    class="panel z-50 w-max max-w-[24rem] min-w-[12rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"
     onpointerleave={handlePanelPointerLeave}
 >
     {#each flatItems as { action, gi, flat }, i}
         {#if i > 0 && flatItems[i - 1].gi !== gi}
-            <div class="mx-1 my-1 border-t border-surface-50" role="separator" />
+            <div class="mx-1 my-1 border-t border-ink-500" role="separator" />
         {/if}
 
         <button
             bind:this={itemRefs[flat]}
-            class="item flex w-full cursor-pointer items-center gap-2 rounded-xs px-2 py-1.5 text-base text-ink-700 transition-colors hover:bg-surface-10 hover:text-primary-10"
+            class="item flex w-full cursor-pointer items-center gap-2 rounded-xs px-2 py-1.5 text-base text-ink-800 transition-colors hover:bg-surface-10 hover:text-primary-10"
             class:active={activeIndex === flat}
             onclick={() => handleAction(action)}
             onpointerenter={() => handleItemPointerEnter(flat)}
@@ -73,7 +73,7 @@
                 <action.icon size="1.25rem" class="shrink-0" />
             {/if}
 
-            <span class="line-clamp-1 flex-1 text-left">
+            <span class="line-clamp-1 flex-1 text-left text-ink-900">
                 {action.label}
             </span>
 

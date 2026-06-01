@@ -13,7 +13,7 @@
         ></div>
     </div>
     <div
-        class="absolute inset-0 z-5 bg-surface-10/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-30)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-50/50"
+        class="absolute inset-0 z-5 bg-surface-30/50 shadow-[inset_0_0_32px_oklch(from_var(--color-surface-40)_l_c_h_/_1.0)] transition-shadow group-hover:shadow-[inset_0_0_32px_oklch(from_var(--color-primary-10)_l_c_h_/_1.0)] dark:bg-surface-40/50"
     ></div>
     <div class="relative z-10 flex aspect-square items-center justify-center p-2">
         <FadeImage
@@ -26,18 +26,18 @@
 {/snippet}
 
 <div
-    class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-30"
+    class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-50"
 >
     {@render cardCover(cache.getCoverArt(artist.coverArtId))}
     <div
         class="z-10 my-2 mr-2 flex flex-1 flex-col gap-1 justify-end"
     >
         <p
-            class="line-clamp-2 text-xl font-semibold text-ink-800 hover:underline"
+            class="line-clamp-2 text-xl font-semibold text-ink-900 hover:underline"
             title={artist.name}
         >
             {artist.name}
         </p>
-        <p class="text-sm text-ink-700">{artist.albumCount} releases</p>
+        <p class="text-sm text-ink-800">{artist.albumCount} releases</p>
     </div>
 </div>

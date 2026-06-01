@@ -8,7 +8,7 @@
 
 <a
     {href}
-    class="flex cursor-pointer items-center gap-2 rounded p-2 font-medium transition-colors select-none hover:bg-surface-10 hover:text-primary-10"
+    class="flex cursor-pointer items-center gap-2 rounded p-2 font-medium transition-colors select-none hover:bg-surface-30 hover:text-primary-10"
     class:text-primary-10={(route === href)}
 >
     <Icon size={"2rem"} class="shrink-0" />

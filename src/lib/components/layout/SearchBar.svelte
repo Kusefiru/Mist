@@ -30,11 +30,11 @@
 
 <div class="w-1/2 space-x-2">
     <div
-        class="flex items-center rounded border-1 border-transparent bg-surface-20 px-2 transition-colors focus-within:border-primary-10"
+        class="flex items-center rounded border-1 border-transparent bg-surface-10 px-2 transition-colors focus-within:border-primary-20"
     >
         <MagnifyingGlass size={"1.5rem"} class="flex-shrink-0 text-ink-800" />
         <input
-            class="max-w w-full border-none bg-transparent text-ink-800 placeholder-ink-400 focus:border-none focus:ring-0 focus:outline-none"
+            class="max-w w-full border-none bg-transparent text-ink-800 placeholder-ink-500 focus:border-none focus:ring-0 focus:outline-none"
             type="text"
             placeholder="Search..."
             bind:value={searchQuery}
@@ -44,7 +44,7 @@
         {#if searchQuery}
             <button
                 onclick={clearSearch}
-                class="flex-shrink-0 text-ink-400 transition-colors hover:text-primary-10"
+                class="flex-shrink-0 text-ink-500 transition-colors hover:text-primary-10"
                 aria-label="Clear search"
             >
                 <X size={"1.5rem"} />
