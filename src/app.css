@@ -31,9 +31,9 @@
     --color-ink-700: oklch(32% 0.017 258);
     --color-ink-800: oklch(22% 0.018 258);
     --color-ink-900: oklch(14% 0.015 258);
-    --color-surface-00: oklch(97.0% 0.005 258);
-    --color-surface-10: oklch(93.5% 0.009 258);
-    --color-surface-20: oklch(89.0% 0.014 258);
+    --color-surface-00: oklch(98.0% 0.004 258);
+    --color-surface-10: oklch(94.0% 0.009 258);
+    --color-surface-20: oklch(89.5% 0.014 258);
     --color-surface-30: oklch(85.5% 0.020 258);
     --color-surface-40: oklch(77.5% 0.027 258);
     --color-surface-50: oklch(70.5% 0.034 258);
