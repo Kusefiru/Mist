@@ -156,7 +156,7 @@
                 </header>
 
                 <!-- Scrollable Content -->
-                <main bind:this={mainElement} class="flex-1 overflow-y-auto" tabindex="0">
+                <main bind:this={mainElement} class="flex-1 overflow-y-auto focus:outline-none" tabindex="0">
                     {@render children()}
                 </main>
             </div>
