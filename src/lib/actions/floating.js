@@ -17,6 +17,9 @@ export function floating(node, options = {}) {
         const reference = options?.reference;
         if (!reference) return;
 
+        const mainAxis = options.offset?.mainAxis ?? 0;
+        const crossAxis = options.offset?.crossAxis ?? 0;
+
         cleanup = autoUpdate(
             reference,
             node,
@@ -27,7 +30,7 @@ export function floating(node, options = {}) {
                     {
                         placement: options.placement ?? 'bottom-start',
                         middleware: [
-                            offset({ mainAxis: 4, crossAxis: -4 }), // account for internal menu padding
+                            offset({ mainAxis, crossAxis }),
                             flip(),
                             shift({ padding: 8 })
                         ]

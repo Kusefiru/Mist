@@ -51,7 +51,7 @@
     use:floating={{
         reference: !root ? reference : null,
         placement: 'right-start',
-        offset: 4
+        offset: { mainAxis: 4, crossAxis : -4 }
     }}
     class:fixed={!root}
     class="panel z-50 w-max max-w-[24rem] min-w-[12rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"

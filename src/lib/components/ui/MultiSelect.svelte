@@ -1,23 +1,18 @@
 <script>
     import { CaretDown } from 'phosphor-svelte';
-
-    const positionClasses = {
-        'bottom-right': 'top-full right-0 mt-1',
-        'bottom-left': 'top-full left-0 mt-1',
-        'top-right': 'bottom-full right-0 mb-1',
-        'top-left': 'bottom-full left-0 mb-1'
-    };
+    import { floating } from '$lib/actions/floating';
 
     let {
         items = [],
-        value = $bindable([]), // Array of selected values
+        value = $bindable([]),
         onValueChange = () => {},
         open = $bindable(false),
-        position = 'bottom-left',
+        placement = 'bottom-start',
         placeholder = 'Select...'
     } = $props();
 
     let buttonElement = $state(null);
+    let dropdownEl = $state(null);
 
     let label = $derived.by(() => {
         if (value.length === 0) return placeholder;
@@ -37,50 +32,69 @@
         onValueChange(value);
     }
 
-    function isChecked(itemValue) {
-        return value.includes(itemValue);
+    function portal(node) {
+        document.body.appendChild(node);
+        return {
+            destroy() {
+                node.remove();
+            }
+        };
     }
+
+    function handlePointerDown(event) {
+        if (dropdownEl?.contains(event.target)) return;
+        if (buttonElement?.contains(event.target)) return;
+        open = false;
+    }
+
+    function handleScroll() {
+        open = false;
+    }
+
+    $effect(() => {
+        if (!open) return;
+
+        document.addEventListener('pointerdown', handlePointerDown);
+        window.addEventListener('scroll', handleScroll, true);
+
+        return () => {
+            document.removeEventListener('pointerdown', handlePointerDown);
+            window.removeEventListener('scroll', handleScroll, true);
+        };
+    });
 </script>
 
-<div class="relative inline-block">
-    <button
-        bind:this={buttonElement}
-        class="flex min-w-[10rem] items-center justify-between gap-2 rounded px-3 py-1.5 text-ink-800 transition-colors hover:bg-surface-40 hover:text-primary-10"
-        onclick={() => {
-            open = !open;
-        }}
-        onfocusout={() => {
-            setTimeout(() => {
-                open = false;
-            }, 200);
-        }}
-    >
-        <span class="text-base">{label}</span>
-        <CaretDown size={"1.25rem"} />
-    </button>
+<button
+    bind:this={buttonElement}
+    class="flex min-w-[10rem] items-center justify-between gap-2 rounded px-3 py-1.5 text-ink-800 transition-colors hover:bg-surface-40 hover:text-primary-10"
+    onclick={() => (open = !open)}
+>
+    <span class="text-base">{label}</span>
+    <CaretDown size={'1.25rem'} />
+</button>
 
-    {#if open && buttonElement}
-        <ul
-            class="absolute z-50 mt-1 min-w-[10rem] rounded border border-surface-60 bg-surface-10 p-1 shadow-lg {positionClasses[
-                position
-            ]}"
-            style="min-width: {buttonElement.offsetWidth}px;"
-        >
-            {#each items as item}
-                <li>
-                    <button
-                        class="flex w-full items-center gap-2 rounded px-2 py-1.5 truncate text-base text-ink-900 transition-colors hover:bg-surface-10 hover:text-primary-10"
-                        onclick={() => onToggle(item.value)}
-                    >
-                        <input
-                            type="checkbox"
-                            checked={isChecked(item.value)}
-                            class="pointer-events-none rounded border-primary-10 text-primary-10"
-                        />
-                        <span>{item.label}</span>
-                    </button>
-                </li>
-            {/each}
-        </ul>
-    {/if}
-</div>
+{#if open && buttonElement}
+    <ul
+        bind:this={dropdownEl}
+        use:portal
+        use:floating={{ reference: buttonElement, placement }}
+        class="fixed z-50 min-w-[10rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"
+        style="min-width: {buttonElement.offsetWidth}px;"
+    >
+        {#each items as item}
+            <li>
+                <button
+                    class="flex w-full items-center gap-2 truncate rounded px-2 py-1.5 text-base text-ink-900 transition-colors hover:bg-surface-00"
+                    onclick={() => onToggle(item.value)}
+                >
+                    <input
+                        type="checkbox"
+                        checked={value.includes(item.value)}
+                        class="pointer-events-none rounded border-primary-10 text-primary-10"
+                    />
+                    <span>{item.label}</span>
+                </button>
+            </li>
+        {/each}
+    </ul>
+{/if}
