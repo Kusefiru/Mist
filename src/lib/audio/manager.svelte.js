@@ -24,6 +24,7 @@ class AudioManager {
 
         // Set up backend callbacks
         this.backend.onTrackEnd = () => {
+            audioState.progress = 0;
             // Track ended, move to next
             this.next();
         };
