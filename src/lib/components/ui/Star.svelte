@@ -3,19 +3,19 @@
     import { cache } from '$lib/stores/cache.svelte.js';
     import { star, unstar } from '$lib/opensubsonic/api';
 
-    let { trackId, size = 20, hidden = false } = $props();
+    let { id, size = 20, hidden = false } = $props();
 
-    const starred = $derived(cache.stars.has(trackId));
+    const starred = $derived(cache.stars.has(id));
 
     let hovered = $state(false);
 
     function toggleStar() {
         if (!starred) {
-            cache.stars.add(trackId);
-            star(trackId);
+            cache.stars.add(id);
+            star(id);
         } else {
-            cache.stars.delete(trackId);
-            unstar(trackId);
+            cache.stars.delete(id);
+            unstar(id);
         }
     }
 </script>

@@ -39,7 +39,7 @@
                     {album.name}
                 </h2>
                 <h2 class="text-2xl font-bold text-ink-800 italic lg:text-3xl">{album.version}</h2>
-                <Star size={'1.75rem'} />
+                <Star id={album.id} size={'1.75rem'} />
             </div>
             <h3 class="text-xl lg:text-2xl">
                 <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />

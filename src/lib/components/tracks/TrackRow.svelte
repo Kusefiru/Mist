@@ -202,7 +202,7 @@
         {/if}
         {#if columns.includes('starred')}
             <div class="z-10 flex w-[3rem] items-center justify-center text-ink-900 select-none">
-                <Star trackId={track.id} size={'1.2rem'} hidden={!hovered} />
+                <Star id={track.id} size={'1.2rem'} hidden={!hovered} />
             </div>
         {/if}
         {#if columns.includes('quality')}
