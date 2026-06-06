@@ -148,8 +148,8 @@ class Cache {
             filtered_albums = filtered_albums.filter(a => this.stars.has(a.id));
         }
 
-        if (filters.get("libraries")) {
-            filtered_albums = filtered_albums.filter(a => filters.get("libraries").has(a.folderId));
+        if (filters.libraries) {
+            filtered_albums = filtered_albums.filter(a => filters.libraries.has(a.folderId));
         }
 
         if (sortBy) {

@@ -1,6 +1,6 @@
 <!-- src/routes/app/album/all/+page.svelte -->
 <script>
-    import { SortAscending, SortDescending } from 'phosphor-svelte';
+    import { Heart, SortAscending, SortDescending } from 'phosphor-svelte';
     import { cache } from '$lib/stores/cache.svelte';
     import {
         sortByArtist,
@@ -22,28 +22,26 @@
         { value: sortByName, label: 'Name' },
         { value: sortByRandom, label: 'Random' },
         { value: sortByDateAdded, label: 'Recently added' },
-        { value: sortByDateReleased, label: 'Release Date' },
+        { value: sortByDateReleased, label: 'Release Date' }
     ];
 
     let sortByFunc = $state(sortByDateAdded);
     let sortOrder = $state('asc');
-    let filters = new SvelteMap();
-    let albums = $derived.by(() =>
-        cache.getFilteredAlbums(sortByFunc, $state.snapshot(filters), sortOrder)
-    );
+    let filterFavorite = $state(false);
 
     const libraries = $derived.by(() =>
         Array.from(cache.folders, (f) => ({ value: f[0], label: f[1] }))
     );
     let selectedLibraries = $derived(Array.from(cache.folders.keys()));
 
-    $effect(() => {
-        filters.set('libraries', new Set(selectedLibraries));
+    const filters = $derived({
+        libraries: new Set(selectedLibraries),
+        starred: filterFavorite
     });
 
-    function toggleSortOrder() {
-        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    }
+    const albums = $derived.by(() =>
+        cache.getFilteredAlbums(sortByFunc, $state.snapshot(filters), sortOrder)
+    );
 </script>
 
 <div class="overflow-auto px-8 pt-2 pb-10">
@@ -60,14 +58,23 @@
             Sort by:
             <Select items={sortOptions} bind:value={sortByFunc} />
             <button
-                onclick={toggleSortOrder}
+                onclick={() => (sortOrder = sortOrder === 'asc' ? 'desc' : 'asc')}
                 class="mr-1 rounded p-1 transition-colors hover:bg-surface-40 hover:text-primary-10"
+                title={sortOrder}
             >
                 {#if sortOrder === 'asc'}
                     <SortAscending size={'1.5rem'} />
                 {:else}
                     <SortDescending size={'1.5rem'} />
                 {/if}
+            </button>
+            <button
+                onclick={() => (filterFavorite = !filterFavorite)}
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-40 hover:text-primary-10"
+                class:text-primary-10={filterFavorite}
+                title="Favorites"
+            >
+                <Heart size={'1.5rem'} weight={filterFavorite ? 'fill' : 'regular'} />
             </button>
             {#if libraries.length > 1}
                 Libraries:
@@ -78,8 +85,10 @@
     {#if albums.length > 0}
         <AlbumGrid {albums} />
     {:else}
-        <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
-            <p class="text-xl">No library selected.</p>
+        <div
+            class="flex flex-col items-center gap-4 py-12 text-center font-medium text-ink-500 select-none"
+        >
+            <span>No album match set filters.</span>
         </div>
     {/if}
 </div>
