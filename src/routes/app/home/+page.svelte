@@ -20,7 +20,7 @@
 {#await homepagePromise then { newest, recent, random, artist }}
     <div class="flex flex-col gap-4 overflow-x-clip overflow-y-auto px-8 pt-2 pb-12 lg:gap-6">
         <div class="@container relative flex w-full flex-col gap-4">
-            <h2 class="text-2xl font-bold text-ink-900">Welcome, {cache.user.id}</h2>
+            <h2 class="text-2xl font-bold text-ink-900 select-none">Welcome, {cache.user.id}</h2>
             {#if recent.length > 0}
                 <div
                     class="grid h-[12.5rem] grid-cols-2 grid-rows-2 gap-3 @header-4col:h-[7.5rem] @header-4col:grid-cols-4 @header-4col:grid-rows-1"
@@ -36,7 +36,7 @@
         <AlbumRow title="New albums" albums={newest} />
         <AlbumRow title="Random albums" albums={random} />
         <div class="@container relative flex w-full flex-col gap-4">
-            <h2 class="text-2xl font-bold text-ink-900">Random artists</h2>
+            <h2 class="text-2xl font-bold text-ink-900 select-none">Random artists</h2>
             <div
                 class="grid h-[12.5rem] grid-cols-2 grid-rows-2 gap-3 @header-4col:h-[7.5rem] @header-4col:grid-cols-4 @header-4col:grid-rows-1"
             >

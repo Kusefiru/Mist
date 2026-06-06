@@ -55,7 +55,7 @@
 <div class="relative flex flex-col w-full gap-4">
     <!-- Title and navigation buttons -->
     <div class="flex items-center justify-between gap-2">
-        <h2 class="text-2xl font-bold text-ink-900">{title}</h2>
+        <h2 class="text-2xl font-bold text-ink-900 select-none">{title}</h2>
 
         <div class="flex gap-4">
             <button
