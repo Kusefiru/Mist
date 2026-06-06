@@ -1,5 +1,5 @@
 <script>
-    import { SortAscending, SortDescending } from 'phosphor-svelte';
+    import { Heart, SortAscending, SortDescending } from 'phosphor-svelte';
     import { cache } from '$lib/stores/cache.svelte';
     import {
         sortByArtist,
@@ -20,12 +20,13 @@
 
     let sortByFunc = $state(sortByName);
     let sortOrder = $state('asc');
-    let filters = $state({});
-    let artists = $derived.by(() => cache.getFilteredArtists(sortByFunc, filters, sortOrder));
+    let filterFavorite = $state(false);
 
-    function toggleSortOrder() {
-        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    }
+    const filters = $derived({
+        starred: filterFavorite
+    });
+
+    const artists = $derived.by(() => cache.getFilteredArtists(sortByFunc, filters, sortOrder));
 </script>
 
 <div class="overflow-auto px-8 pt-2 pb-10">
@@ -42,7 +43,7 @@
             Sort by:
             <Select items={sortOptions} bind:value={sortByFunc} />
             <button
-                onclick={toggleSortOrder}
+                onclick={() => (sortOrder = sortOrder === 'asc' ? 'desc' : 'asc')}
                 class="mr-1 rounded p-1 transition-colors hover:bg-surface-40 hover:text-primary-10"
             >
                 {#if sortOrder === 'asc'}
@@ -50,6 +51,14 @@
                 {:else}
                     <SortDescending size={'1.5rem'} />
                 {/if}
+            </button>
+            <button
+                onclick={() => (filterFavorite = !filterFavorite)}
+                class="mr-1 rounded p-1 transition-colors hover:bg-surface-40 hover:text-primary-10"
+                class:text-primary-10={filterFavorite}
+                title="Favorites"
+            >
+                <Heart size={'1.5rem'} weight={filterFavorite ? 'fill' : 'regular'} />
             </button>
         </div>
     </div>
