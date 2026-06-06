@@ -244,20 +244,20 @@ class Cache {
 
     /* Playlist methods */
     async getPlaylist(playlistId) {
-        const playlist = this.playlists.get(playlistId);
-        if (!playlist) return null;
-        if (playlist.songIds && (playlist.songCount > 0) && (playlist.songIds.length == playlist.songCount)) {
+        let playlist = this.playlists.get(playlistId);
+
+        if (playlist && playlist.songIds && (playlist.songCount > 0) && (playlist.songIds.length == playlist.songCount)) {
             return playlist;
         }
 
-        const playlistWithSongs = await api.getPlaylist(playlist.id);
+        const playlistWithSongs = await api.getPlaylist(playlistId);
         for (const trackRaw of playlistWithSongs.entry) {
             // Cache track
             const track = Track.fromOpenSubsonic(trackRaw);
             this.tracks.set(track.id, track);
         }
         const updatedPlaylist = Playlist.fromOpenSubsonic(playlistWithSongs);
-        this.playlists.set(playlist.id, updatedPlaylist);
+        this.playlists.set(playlistId, updatedPlaylist);
 
         return updatedPlaylist;
     }
