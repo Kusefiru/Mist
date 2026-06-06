@@ -4,6 +4,7 @@
     import { cache } from '$lib/stores/cache.svelte';
     import {
         sortByArtist,
+        sortByDateAdded,
         sortByDateReleased,
         sortByDuration,
         sortByName,
@@ -16,14 +17,15 @@
     import { SvelteMap } from 'svelte/reactivity';
 
     const sortOptions = [
-        { value: sortByName, label: 'Name' },
         { value: sortByArtist, label: 'Artist' },
         { value: sortByDuration, label: 'Duration' },
+        { value: sortByName, label: 'Name' },
+        { value: sortByRandom, label: 'Random' },
+        { value: sortByDateAdded, label: 'Recently added' },
         { value: sortByDateReleased, label: 'Release Date' },
-        { value: sortByRandom, label: 'Random' }
     ];
 
-    let sortByFunc = $state(sortByName);
+    let sortByFunc = $state(sortByDateAdded);
     let sortOrder = $state('asc');
     let filters = new SvelteMap();
     let albums = $derived.by(() =>
