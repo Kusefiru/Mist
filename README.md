@@ -37,8 +37,8 @@ A modern, desktop-focused web client for OpenSubsonic-compatible music servers.
         <td><a href="./media/screenshot_04_album_id-dark.png">
             <img src="./media/screenshot_04_album_id-dark.png" width="100%"> 
         </a></td>
-        <td><a href="./media/screenshot_05_player-dark.png">
-            <img src="./media/screenshot_05_player-dark.png" width="100%"> 
+        <td><a href="./media/screenshot_05_artist_id-dark.png">
+            <img src="./media/screenshot_05_artist_id-dark.png" width="100%"> 
         </a></td>
     </tr>
 </table>
