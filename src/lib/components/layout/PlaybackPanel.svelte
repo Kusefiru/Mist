@@ -1,6 +1,6 @@
 <script>
-    import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from 'phosphor-svelte';
-    import { audioState } from '$lib/stores/audio.svelte';
+    import { Pause, Play, Repeat, RepeatOnce, Shuffle, SkipBack, SkipForward } from 'phosphor-svelte';
+    import { audioState, RepeatMode } from '$lib/stores/audio.svelte';
     import { audio } from '$lib/audio/manager.svelte';
 
     let { size } = $props();
@@ -52,12 +52,16 @@
     </button>
     <button
         class="mx-2 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
-        class:text-primary-10={audioState.looping}
+        class:text-primary-10={audioState.repeat > RepeatMode.NONE}
         onclick={() => {
-            audioState.looping = !audioState.looping;
+            audioState.repeat = (audioState.repeat + 1) % Object.keys(RepeatMode).length;
         }}
         title="Repeat"
     >
-        <Repeat {size} />
+        {#if audioState.repeat == RepeatMode.TRACK}
+            <RepeatOnce {size} />
+        {:else}
+            <Repeat {size} />
+        {/if}
     </button>
 </div>

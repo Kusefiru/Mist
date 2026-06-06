@@ -1,4 +1,4 @@
-import { audioState } from '$lib/stores/audio.svelte';
+import { audioState, RepeatMode } from '$lib/stores/audio.svelte';
 import { cache } from '$lib/stores/cache.svelte';
 import { shuffleArray } from '$lib/utils/shuffle';
 import { Scrobbler } from './scrobbler.svelte';
@@ -25,8 +25,8 @@ class AudioManager {
         // Set up backend callbacks
         this.backend.onTrackEnd = () => {
             audioState.progress = 0;
-            // Track ended, move to next
-            this.next();
+            // Track ended, move to next - repeat if mode requires so
+            this.next(audioState.repeat == RepeatMode.TRACK);
         };
 
         this.backend.onPlayStateChange = (playing) => {
@@ -237,8 +237,8 @@ class AudioManager {
             } else if (audioState.index >= audioState.playOrder.length) {
                 // Reset to first track of queue
                 audioState.index = 0;
-                // Only auto-play if looping is enabled AND was playing
-                this.playTrack(this._getTrackIdFromIndex(audioState.index), audioState.looping && audioState.playing);
+                // Only auto-play if repeat is enabled AND was playing
+                this.playTrack(this._getTrackIdFromIndex(audioState.index), (audioState.repeat != RepeatMode.NONE) && audioState.playing);
             } else {
                 // Continue playing the next track in queue only if was playing
                 this.playTrack(this._getTrackIdFromIndex(audioState.index), audioState.playing);
@@ -262,13 +262,15 @@ class AudioManager {
     }
 
     // Skip to next track in the queue
-    next() {
-        audioState.index = audioState.index + 1;
+    next(repeat = false) {
+        if (!repeat) {
+            audioState.index = audioState.index + 1;
+        }
         if (audioState.index >= audioState.playOrder.length) {
             // Reset to first track of queue
             audioState.index = 0;
-            // Only auto-play if looping is enabled
-            this.playTrack(this._getTrackIdFromIndex(audioState.index), audioState.looping);
+            // Only auto-play if repeat is enabled
+            this.playTrack(this._getTrackIdFromIndex(audioState.index), audioState.repeat != RepeatMode.NONE);
         } else {
             // Continue playing the next track in queue
             this.playTrack(this._getTrackIdFromIndex(audioState.index));

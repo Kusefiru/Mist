@@ -3,6 +3,12 @@ import { database } from '$lib/db/index';
 import { throttle } from '$lib/utils/throttle';
 import { cache } from './cache.svelte';
 
+export const RepeatMode = {
+    NONE: 0,
+    QUEUE: 1,
+    TRACK: 2
+};
+
 class AudioState {
     // Current session info
     serverId = $state('');
@@ -17,7 +23,7 @@ class AudioState {
     playOrder = $state([]);
     index = $state(0);
     shuffled = $state(false);
-    looping = $state(false);
+    repeat = $state(RepeatMode.NONE);
 
     // Unsaved (runtime only)
     playing = $state(false);
@@ -55,7 +61,7 @@ class AudioState {
                 this.playOrder = audioState.queue?.playOrder || [];
                 this.playQueue = audioState.queue?.playQueue || [];
                 this.shuffled = audioState.queue?.shuffled || false;
-                this.looping = audioState.queue?.looping || false;
+                this.repeat = audioState.queue?.repeat || RepeatMode.NONE;
             }
 
             const trackData = await database.getTrackData(this.serverId, this.userId);
@@ -92,7 +98,7 @@ class AudioState {
                 playOrder: $state.snapshot(this.playOrder),
                 playQueue: $state.snapshot(this.playQueue),
                 shuffled: $state.snapshot(this.shuffled),
-                looping: $state.snapshot(this.looping)
+                repeat: $state.snapshot(this.repeat)
             };
             await database.setAudioQueue(this.serverId, this.userId, queueData);
             await database.setTrackData(this.serverId, this.userId, Array.from(this.playQueue.map(t => cache.tracks.get(t))));
@@ -108,7 +114,7 @@ class AudioState {
         this.playQueue = [];
         this.index = 0;
         this.shuffled = false;
-        this.looping = false;
+        this.repeat = false;
         this.playing = false;
         this.currentTrackId = null;
 
@@ -124,7 +130,7 @@ class AudioState {
                     playOrder: [],
                     playQueue: [],
                     shuffled: false,
-                    looping: false
+                    repeat: false
                 });
             } catch (error) {
                 console.error('Failed to clear audio state:', error);

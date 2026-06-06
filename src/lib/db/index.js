@@ -5,6 +5,7 @@ import { Album } from "./models/Album";
 import { Artist } from "./models/Artist";
 import { Playlist } from "./models/Playlist";
 import { Track } from "./models/Track";
+import { RepeatMode } from "$lib/stores/audio.svelte";
 
 let db = null;
 
@@ -56,7 +57,7 @@ class DB {
                 playOrder: [],
                 playQueue: [],
                 shuffled: false,
-                looping: false
+                repeat: RepeatMode.NONE
             },
             progress: {
                 progress: 0,
