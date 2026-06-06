@@ -1,81 +1,204 @@
 <script>
-    import { SmileySad, MusicNotesSimple, Users, VinylRecord } from 'phosphor-svelte';
+    import { CircleNotch, MusicNotesSimple, Users, VinylRecord } from 'phosphor-svelte';
     import { page } from '$app/stores';
+    import { goto } from '$app/navigation';
+    import { onDestroy } from 'svelte';
+    import ActionButton from '$lib/components/ui/ActionButton.svelte';
     import AlbumGrid from '$lib/components/album/AlbumGrid.svelte';
     import ArtistGrid from '$lib/components/artist/ArtistGrid.svelte';
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
-    import { Track } from '$lib/db/models/Track.js';
     import { search3 } from '$lib/opensubsonic/api';
     import { cache } from '$lib/stores/cache.svelte';
 
-    let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
+    const TRACK_COLUMNS = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
+    const PAGE_SIZE = 50;
 
-    let albums = $state([]);
-    let artists = $state([]);
+    const TYPE_OPTIONS = [
+        { value: 'tracks', label: 'Tracks', icon: MusicNotesSimple },
+        { value: 'artists', label: 'Artists', icon: Users },
+        { value: 'albums', label: 'Albums', icon: VinylRecord }
+    ];
+
+    let loadedQuery = $state('');
+
     let tracks = $state([]);
-    let { data } = $props();
+    let artists = $state([]);
+    let albums = $state([]);
 
-    // Access search query from URL
-    async function loadSearch(query) {
-        const results = await search3(query.trim());
+    const hasMoreTracks = $derived(tracks.length > 0 && tracks.length % PAGE_SIZE === 0);
+    const hasMoreArtists = $derived(artists.length > 0 && artists.length % PAGE_SIZE === 0);
+    const hasMoreAlbums = $derived(albums.length > 0 && albums.length % PAGE_SIZE === 0);
 
-        albums = await Promise.all(results.album?.map((a) => cache.getAlbum(a.id)) || []);
-        artists = await Promise.all(results.artist?.map((a) => cache.getArtist(a.id)) || []);
-        results.song?.forEach((s) => {
-            cache.setTrack(s);
-        });
-        tracks = await Promise.all(results.song?.map((s) => cache.getTrack(s.id)) || []);
+    let fetching = $state(false);
+    let initialized = $state(false);
 
-        return { albums, artists, tracks };
+    let sentinelEl = $state(null);
+    let observer = null;
+
+    // Format raw data to cache model
+    async function formatAndAppend(raw, type) {
+        if (type === 'tracks') {
+            const songsRaw = raw.song || [];
+            songsRaw.forEach((s) => cache.setTrack(s));
+            const songsCache = await Promise.all(songsRaw.map((s) => cache.getTrack(s.id)));
+            tracks = [...tracks, ...songsCache];
+        } else if (type === 'artists') {
+            const artistsRaw = raw.artist || [];
+            const artistsCache = await Promise.all(artistsRaw.map((a) => cache.getArtist(a.id)));
+            artists = [...artists, ...artistsCache];
+        } else if (type === 'albums') {
+            const albumsRaw = raw.album || [];
+            const albumsCache = await Promise.all(albumsRaw.map((a) => cache.getAlbum(a.id)));
+            albums = [...albums, ...albumsCache];
+        }
     }
 
-    const query = $derived($page.url.searchParams.get('q'));
-    const searchPromise = $derived(loadSearch(query));
+    // First query (get PAGE_SIZE of each type)
+    async function initQuery(query) {
+        loadedQuery = query;
+        tracks = [];
+        artists = [];
+        albums = [];
+        fetching = false;
+        initialized = false;
+
+        fetching = true;
+        try {
+            const raw = await search3(query, PAGE_SIZE, 0, PAGE_SIZE, 0, PAGE_SIZE, 0);
+            if (!raw) return;
+            await Promise.all([
+                formatAndAppend(raw, 'tracks'),
+                formatAndAppend(raw, 'artists'),
+                formatAndAppend(raw, 'albums')
+            ]);
+        } finally {
+            fetching = false;
+            initialized = true;
+        }
+    }
+
+    // Subsequent pages: only fetch the active category
+    async function fetchNextPage(query, type) {
+        if (fetching) return;
+        fetching = true;
+        try {
+            const albumCount = type === 'albums' ? PAGE_SIZE : 0;
+            const artistCount = type === 'artists' ? PAGE_SIZE : 0;
+            const songCount = type === 'tracks' ? PAGE_SIZE : 0;
+            const albumOff = type === 'albums' ? albums.length : 0;
+            const artistOff = type === 'artists' ? artists.length : 0;
+            const songOff = type === 'tracks' ? tracks.length : 0;
+
+            const raw = await search3(
+                query,
+                artistCount,
+                artistOff,
+                albumCount,
+                albumOff,
+                songCount,
+                songOff
+            );
+            if (!raw) return;
+            await formatAndAppend(raw, type);
+        } finally {
+            fetching = false;
+        }
+    }
+
+    const query = $derived($page.url.searchParams.get('q') || '');
+    const activeType = $derived($page.url.searchParams.get('type') || 'tracks');
+
+    const activeHasMore = $derived(
+        activeType === 'tracks'
+            ? hasMoreTracks
+            : activeType === 'artists'
+              ? hasMoreArtists
+              : hasMoreAlbums
+    );
+
+    // Only re-init when the query actually changes
+    $effect(() => {
+        if (query && query !== loadedQuery) {
+            initQuery(query);
+        }
+    });
+
+    // IntersectionObserver for infinite scroll (next pages only)
+    $effect(() => {
+        if (observer) {
+            observer.disconnect();
+            observer = null;
+        }
+        if (!sentinelEl) return;
+
+        observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !fetching && activeHasMore && initialized) {
+                    fetchNextPage(query, activeType);
+                }
+            },
+            { rootMargin: '200px' }
+        );
+        observer.observe(sentinelEl);
+    });
+
+    onDestroy(() => observer?.disconnect());
 </script>
 
-<div class="relative overflow-auto px-8 pt-2 pb-12">
-    {#await searchPromise}
-        <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
-            <p class="text-2xl">Searching...</p>
+<div class="relative overflow-auto px-8 pt-4 pb-12">
+    <div class="mb-4 flex flex-col gap-4">
+        <h2 class="text-lg font-medium text-ink-900 select-none">
+            Results for <span class="font-semibold">"{query}"</span>
+        </h2>
+
+        <div class="flex space-x-4">
+            {#each TYPE_OPTIONS as opt}
+                <ActionButton
+                    Icon={opt.icon}
+                    onclick={() =>
+                        goto(`/app/search?q=${encodeURIComponent(query)}&type=${opt.value}`, {
+                            replaceState: true
+                        })}
+                    title={opt.label}
+                    primary={activeType === opt.value}
+                />
+            {/each}
         </div>
-    {:then { albums, artists, tracks }}
-        {#if tracks?.length > 0}
-            <h2 class="flex items-center pt-4 text-2xl font-bold text-ink-900">
-                <MusicNotesSimple size={"1.75rem"} class="mr-2" />
-                <span>Tracks</span>
-            </h2>
-            <ul class="py-4">
-                <HeaderRow {columns} />
+    </div>
+
+    {#if activeType === 'tracks'}
+        {#if tracks.length > 0}
+            <ul class="pb-2">
+                <HeaderRow columns={TRACK_COLUMNS} />
                 {#each tracks as track}
                     <TrackRow
                         trackId={track.id}
                         queueIds={tracks.map((t) => t.id)}
                         variant="playlist"
-                        {columns}
+                        columns={TRACK_COLUMNS}
                     />
                 {/each}
             </ul>
         {/if}
-        {#if albums?.length > 0}
-            <h2 class="flex items-center py-4 text-2xl font-bold text-ink-900">
-                <VinylRecord size={"1.75rem"} class="mr-2" />
-                <span>Albums</span>
-            </h2>
-            <AlbumGrid {albums} />
-        {/if}
-        {#if artists?.length > 0}
-            <h2 class="flex items-center py-4 text-2xl font-bold text-ink-900">
-                <Users size={"1.75rem"} class="mr-2" />
-                <span>Artists</span>
-            </h2>
+    {:else if activeType === 'artists'}
+        {#if artists.length > 0}
             <ArtistGrid {artists} />
         {/if}
-        {#if !tracks?.length && !albums?.length && !artists?.length}
-            <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
-                <SmileySad size={"3rem"} />
-                <p class="text-2xl">No results found for: "{query}"</p>
-            </div>
+    {:else if activeType === 'albums'}
+        {#if albums.length > 0}
+            <AlbumGrid {albums} />
         {/if}
-    {/await}
+    {/if}
+
+    <!-- sentinel (triggers loading more item if scrolling past this) -->
+    {#if activeHasMore}
+        <div bind:this={sentinelEl} class="flex justify-center py-6">
+            {#if fetching}
+                <CircleNotch size="1.5rem" class="animate-spin text-ink-400" />
+            {/if}
+        </div>
+    {:else if initialized}
+        <span class="flex text-sm font-bold text-ink-500 select-none">End of results</span>
+    {/if}
 </div>
