@@ -167,8 +167,8 @@ export async function scrobble(id, time, submission = false) {
     return reply?.status;
 }
 
-export async function search3(query) {
-    const reply = await ask('search3.view', { query, songCount: 10 });
+export async function search3(query, artistCount = 10, artistOffset = 0, albumCount = 10, albumOffset = 0, songCount = 10, songOffset = 0) {
+    const reply = await ask('search3.view', { query, artistCount, artistOffset, albumCount, albumOffset, songCount, songOffset });
     return reply?.searchResult3;
 }
 

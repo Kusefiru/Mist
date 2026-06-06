@@ -17,7 +17,7 @@
     import Sidebar from '$lib/components/layout/Sidebar.svelte';
     import Player from '$lib/components/player/BottomPlayer.svelte';
     import PlayQueue from '$lib/components/layout/PlayQueue.svelte';
-    import SearchBar from '$lib/components/layout/SearchBar.svelte';
+    import SearchBar from '$lib/components/ui/search/SearchBar.svelte';
     import SplashScreen from '$lib/components/layout/SplashScreen.svelte';
     import { audio } from '$lib/audio/manager.svelte.js';
     import { cache } from '$lib/stores/cache.svelte.js';
