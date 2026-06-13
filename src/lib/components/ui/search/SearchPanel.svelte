@@ -120,7 +120,7 @@
         <div class="mx-1 border-t border-ink-500"></div>
         <button
             class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-b-md px-4 py-2.5 text-sm font-medium text-primary-10 transition-colors hover:bg-surface-10"
-            onclick={onViewAll}
+            onclick={() => onViewAll()}
         >
             <span>View all results for "<span class="font-semibold">{query}</span>"</span>
             <CaretRight size="1rem" />
