@@ -12,8 +12,12 @@
     let { children } = $props();
 
     $effect(() => {
-        document.documentElement.classList.toggle('dark', ui.darkTheme);
-        saveTheme(ui.darkTheme ? 'dark' : 'light');
+        // dark theme or auto and browser is dark mode
+        const isDark =
+            ui.theme === 'dark' ||
+            (ui.theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', isDark);
+        saveTheme(ui.theme);
     });
 </script>
 

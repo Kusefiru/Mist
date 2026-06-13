@@ -1,6 +1,6 @@
 <!-- src/routes/app/+layout.svelte -->
 <script>
-    import { ArrowClockwise, Palette, SignOut } from 'phosphor-svelte';
+    import { ArrowClockwise, SignOut } from 'phosphor-svelte';
     import { session } from '$lib/stores/auth.svelte.js';
     import { ui } from '$lib/stores/ui.svelte.js';
     import { getAvatar, getUser } from '$lib/opensubsonic/api';
@@ -29,15 +29,6 @@
     let menuButton = $state(null);
     let menuVisible = $state(null);
     let menuActions = $derived.by(() => {
-        const optionGroup = [
-            {
-                icon: Palette,
-                label: 'Theme',
-                handler: () => {
-                    ui.darkTheme = !ui.darkTheme;
-                }
-            }
-        ];
         const serverGroup = [
             {
                 icon: ArrowClockwise,
@@ -59,7 +50,7 @@
                 }
             }
         ];
-        return [optionGroup, serverGroup].filter((g) => g.length > 0);
+        return [serverGroup].filter((g) => g.length > 0);
     });
 
     onMount(async () => {

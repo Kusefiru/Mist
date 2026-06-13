@@ -28,11 +28,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate .env file
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          COMMIT="${{ github.sha }}"
+          TYPE=${{ github.event.release.prerelease == true && '"prerelease"' || '"release"' }}
+
+          cat > .env << EOF
+          PUBLIC_VERSION_TAG=${TAG}
+          PUBLIC_VERSION_COMMIT=${COMMIT}
+          PUBLIC_VERSION_TYPE=${TYPE}
+          EOF
+
       - name: Build
         run: npm run build
 
       - name: Package build artifact
-        run: zip -r mist-${{ github.event.release.tag_name }}.zip build/ run_server.py
+        run: zip -r mist-${{ github.event.release.tag_name }}.zip build/ run_server.py .env
 
       - name: Upload build artifact to release
         uses: softprops/action-gh-release@v2
