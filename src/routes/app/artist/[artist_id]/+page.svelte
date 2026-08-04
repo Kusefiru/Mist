@@ -12,7 +12,7 @@
 
     import AlbumGrid from '$lib/components/album/AlbumGrid.svelte';
     import ArtistGrid from '$lib/components/artist/ArtistGrid.svelte';
-    import ArtistHeader from '$lib/components/artist/ArtistHeader.svelte';
+    import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
     import CollapsibleText from '$lib/components/ui/CollapsibleText.svelte';
@@ -105,9 +105,21 @@
     });
 </script>
 
-<div class="relative overflow-auto px-8 pt-2 pb-12">
+<div class="relative px-8 pt-2 pb-12">
     <div class="relative z-10 flex flex-col gap-4">
-        <ArtistHeader {artist} />
+        <ItemHeader item={artist}>
+            {#snippet title()}
+                <h2 class="break-words whitespace-normal">
+                    {artist.name}
+                </h2>
+            {/snippet}
+            {#snippet category()}
+                Artist
+            {/snippet}
+            {#snippet details()}
+                {artist.albumCount} releases
+            {/snippet}
+        </ItemHeader>
 
         {#if artist !== null}
             <div in:fade={{ duration: 200 }} class="flex space-x-4">
@@ -151,7 +163,7 @@
                     <MusicNotesSimple size="1.5rem" class="text-primary-10" />
                     Top Tracks
                 </h2>
-                <ul>
+                <ul class="overflow-y-hidden">
                     <HeaderRow {columns} />
                     {#each visibleTrackIds as trackId (trackId)}
                         <TrackRow {trackId} queueIds={topTrackIds} variant="playlist" {columns} />

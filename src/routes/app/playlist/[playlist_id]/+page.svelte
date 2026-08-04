@@ -1,11 +1,13 @@
 <script>
     import { SmileySad } from 'phosphor-svelte';
-    import PlaylistHeader from '$lib/components/playlist/PlaylistHeader.svelte';
+    import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import CollapsibleText from '$lib/components/ui/CollapsibleText.svelte';
 
     import { cache } from '$lib/stores/cache.svelte';
+    import { formatDurationReadable } from '$lib/utils/format';
     import { untrack } from 'svelte';
 
     let { params } = $props();
@@ -31,14 +33,32 @@
     });
 </script>
 
-<div class="relative overflow-auto px-8 pt-2 pb-12">
-    <div class="relative z-10 flex flex-col">
-        <PlaylistHeader {playlist} />
+<div class="relative px-8 pt-2 pb-12">
+    <div class="relative z-10 flex flex-col gap-4">
+        <ItemHeader item={playlist}>
+            {#snippet title()}
+                <h2 class="break-words whitespace-normal">
+                    {playlist.name}
+                </h2>
+            {/snippet}
+            {#snippet category()}
+                Playlist
+            {/snippet}
+            {#snippet details()}
+                {playlist.songCount} tracks • {formatDurationReadable(playlist.duration)}
+            {/snippet}
+        </ItemHeader>
+
         {#if playlist}
             {#if playlist.songCount > 0}
                 <ControlsRow queue={$state.snapshot(playlist.songIds)} />
+            {/if}
+            {#if playlist.comment}
+                <CollapsibleText html={playlist.comment} lines={2} />
+            {/if}
+            {#if playlist.songCount > 0}
                 <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
-                    <ul class="py-4">
+                    <ul class="overflow-y-hidden">
                         <HeaderRow {columns} />
                         {#each playlist.songIds as trackId}
                             <TrackRow
@@ -51,7 +71,7 @@
                     </ul>
                 </div>
             {:else}
-                <div class="flex flex-col items-center gap-4 py-12 text-center text-ink-500">
+                <div class="flex flex-col items-center py-12 text-center text-ink-500">
                     <SmileySad size={"3rem"} />
                     <p class="text-xl">Looks like this playlist is empty.</p>
                 </div>
