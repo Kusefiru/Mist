@@ -4,10 +4,10 @@
     import { goto } from '$app/navigation';
     import { onDestroy } from 'svelte';
     import ActionButton from '$lib/components/ui/ActionButton.svelte';
-    import AlbumGrid from '$lib/components/album/AlbumGrid.svelte';
-    import ArtistGrid from '$lib/components/artist/ArtistGrid.svelte';
+    import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import { search3 } from '$lib/opensubsonic/api';
     import { cache } from '$lib/stores/cache.svelte';
 
@@ -183,11 +183,19 @@
         {/if}
     {:else if activeType === 'artists'}
         {#if artists.length > 0}
-            <ArtistGrid {artists} />
+            <ItemGrid items={artists} getHref={(artist) => `/app/artist/${artist.id}`} >
+                {#snippet subtitle(artist)}
+                    {artist.albumCount} releases
+                {/snippet}
+            </ItemGrid>
         {/if}
     {:else if activeType === 'albums'}
         {#if albums.length > 0}
-            <AlbumGrid {albums} />
+            <ItemGrid items={albums} getHref={(album) => `/app/album/${album.id}`} >
+                {#snippet subtitle(album)}
+                    <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />
+                {/snippet}
+            </ItemGrid>
         {/if}
     {/if}
 

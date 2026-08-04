@@ -10,7 +10,7 @@
         sortByRandom
     } from '$lib/utils/sorting';
 
-    import ArtistGrid from '$lib/components/artist/ArtistGrid.svelte';
+    import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import Select from '$lib/components/ui/Select.svelte';
 
     const sortOptions = [
@@ -62,5 +62,17 @@
             </button>
         </div>
     </div>
-    <ArtistGrid {artists} />
+    {#if artists.length > 0}
+        <ItemGrid items={artists} getHref={(artist) => `/app/artist/${artist.id}`} >
+            {#snippet subtitle(artist)}
+                {artist.albumCount} releases
+            {/snippet}
+        </ItemGrid>
+    {:else}
+        <div
+            class="flex flex-col items-center gap-4 py-12 text-center font-medium text-ink-500 select-none"
+        >
+            <span>No artist match set filters.</span>
+        </div>
+    {/if}
 </div>

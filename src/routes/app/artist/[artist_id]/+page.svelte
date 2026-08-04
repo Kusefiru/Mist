@@ -10,8 +10,7 @@
         VinylRecord
     } from 'phosphor-svelte';
 
-    import AlbumGrid from '$lib/components/album/AlbumGrid.svelte';
-    import ArtistGrid from '$lib/components/artist/ArtistGrid.svelte';
+    import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
     import TrackRow from '$lib/components/tracks/TrackRow.svelte';
@@ -190,7 +189,11 @@
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Albums</span>
                 </h2>
-                <AlbumGrid albums={albumsSorted.main} options={{ showDate: true }} />
+                <ItemGrid items={albumsSorted.main} getHref={(album) => `/app/album/${album.id}`} >
+                    {#snippet subtitle(album)}
+                        {album.dateStr}
+                    {/snippet}
+                </ItemGrid>
             </section>
         {/if}
 
@@ -200,7 +203,11 @@
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Singles & EPs</span>
                 </h2>
-                <AlbumGrid albums={albumsSorted.singles} options={{ showDate: true }} />
+                <ItemGrid items={albumsSorted.singles} getHref={(album) => `/app/album/${album.id}`} >
+                    {#snippet subtitle(album)}
+                        {album.dateStr}
+                    {/snippet}
+                </ItemGrid>
             </section>
         {/if}
 
@@ -210,7 +217,11 @@
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Others</span>
                 </h2>
-                <AlbumGrid albums={albumsSorted.others} options={{ showDate: true }} />
+                <ItemGrid items={albumsSorted.others} getHref={(album) => `/app/album/${album.id}`} >
+                    {#snippet subtitle(album)}
+                        {album.dateStr}
+                    {/snippet}
+                </ItemGrid>
             </section>
         {/if}
 
@@ -220,7 +231,11 @@
                     <VinylRecord size={'1.5rem'} class="text-primary-10" />
                     <span>Appears on</span>
                 </h2>
-                <AlbumGrid albums={albumsSorted.appears} options={{ showDate: true }} />
+                <ItemGrid items={albumsSorted.appears} getHref={(album) => `/app/album/${album.id}`} >
+                    {#snippet subtitle(album)}
+                        {album.dateStr}
+                    {/snippet}
+                </ItemGrid>
             </section>
         {/if}
 
@@ -230,7 +245,11 @@
                     <Users size={'1.5rem'} class="text-primary-10" />
                     <span>Similar Artists</span>
                 </h2>
-                <ArtistGrid artists={similarArtists} />
+                <ItemGrid items={similarArtists} getHref={(artist) => `/app/artist/${artist.id}`} >
+                    {#snippet subtitle(artist)}
+                        {artist.albumCount} releases
+                    {/snippet}
+                </ItemGrid>
             </section>
         {/if}
     </div>

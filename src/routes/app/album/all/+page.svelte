@@ -11,9 +11,10 @@
         sortByRandom
     } from '$lib/utils/sorting';
 
-    import AlbumGrid from '$lib/components/album/AlbumGrid.svelte';
-    import Select from '$lib/components/ui/Select.svelte';
+    import ItemGrid from '$lib/components/item/ItemGrid.svelte';
+    import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import MultiSelect from '$lib/components/ui/MultiSelect.svelte';
+    import Select from '$lib/components/ui/Select.svelte';
     import { SvelteMap } from 'svelte/reactivity';
 
     const sortOptions = [
@@ -83,7 +84,11 @@
         </div>
     </div>
     {#if albums.length > 0}
-        <AlbumGrid {albums} />
+        <ItemGrid items={albums} getHref={(album) => `/app/album/${album.id}`} >
+            {#snippet subtitle(album)}
+                <FormattedArtists text={album.artistsStr} artistMap={album.artistIds} />
+            {/snippet}
+        </ItemGrid>
     {:else}
         <div
             class="flex flex-col items-center gap-4 py-12 text-center font-medium text-ink-500 select-none"

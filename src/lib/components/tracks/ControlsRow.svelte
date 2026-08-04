@@ -8,7 +8,7 @@
     let { queue, starId = null } = $props();
 </script>
 
-<div class="flex justify-between pt-4">
+<div class="flex justify-between">
     <div class="flex space-x-4">
         <ActionButton
             Icon={Play}

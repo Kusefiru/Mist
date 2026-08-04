@@ -11,7 +11,7 @@
         sortByRandom
     } from '$lib/utils/sorting';
 
-    import PlaylistGrid from '$lib/components/playlist/PlaylistGrid.svelte';
+    import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import Select from '$lib/components/ui/Select.svelte';
 
     const sortOptions = [
@@ -55,5 +55,9 @@
             </button>
         </div>
     </div>
-    <PlaylistGrid {playlists} />
+    <ItemGrid items={playlists} getHref={(playlist) => `/app/playlist/${playlist.id}`} >
+        {#snippet subtitle(playlist)}
+            {playlist.songCount} tracks
+        {/snippet}
+    </ItemGrid>
 </div>
