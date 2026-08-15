@@ -1,5 +1,5 @@
 <script>
-    import { CaretRight } from 'phosphor-svelte';
+    import { CaretRight, MagnifyingGlass } from 'phosphor-svelte';
     import { floating } from '$lib/actions/floating';
 
     let {
@@ -8,16 +8,33 @@
         activePath = [],
         onPathChange,
         onClose,
+        // Contains a search bar
+        searchable = false,
         // Parent menu item for submenus
         reference = null,
         // Only true for the root menu
         root = false
     } = $props();
 
+    let searchQuery = $state('');
+    let searchInputEl = $state(null);
+
+    $effect(() => {
+        if (searchable) searchInputEl?.focus();
+    });
+
+    let filteredGroups = $derived.by(() => {
+        if (!searchable || !searchQuery.trim()) return groups;
+        const q = searchQuery.trim().toLowerCase();
+        return groups
+            .map((group) => group.filter((action) => action.label?.toLowerCase().includes(q)))
+            .filter((group) => group.length > 0);
+    });
+
     let activeIndex = $derived(activePath[depth] ?? -1);
 
     let flatItems = $derived(
-        groups.flatMap((group, gi) =>
+        filteredGroups.flatMap((group, gi) =>
             group.map((action, ai) => ({
                 action,
                 gi,
@@ -54,9 +71,25 @@
         offset: { mainAxis: 4, crossAxis : -4 }
     }}
     class:fixed={!root}
-    class="panel z-50 w-max max-w-[24rem] min-w-[12rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"
+    class="panel z-50 w-max max-w-[14rem] min-w-[10rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"
     onpointerleave={handlePanelPointerLeave}
 >
+    {#if searchable}
+        <div class="mb-1 flex items-center gap-2 rounded-xs bg-surface-10 px-2 py-1.5">
+            <MagnifyingGlass size="1rem" class="shrink-0 text-ink-500" />
+            <input
+                bind:this={searchInputEl}
+                bind:value={searchQuery}
+                type="text"
+                placeholder="Search..."
+                class="w-full border-none bg-transparent p-0 text-sm text-ink-900 placeholder-ink-500 focus:border-none focus:ring-0 focus:outline-none"
+            />
+        </div>
+        {#if flatItems.length === 0}
+            <div class="px-2 py-1.5 text-sm text-ink-500 select-none">No matches</div>
+        {/if}
+    {/if}
+
     {#each flatItems as { action, gi, flat }, i}
         {#if i > 0 && flatItems[i - 1].gi !== gi}
             <div class="mx-1 my-1 border-t border-ink-500" role="separator" />
@@ -89,6 +122,7 @@
                 {activePath}
                 {onPathChange}
                 {onClose}
+                searchable={action.searchable}
                 reference={itemRefs[flat]}
             />
         {/if}
