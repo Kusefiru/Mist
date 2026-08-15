@@ -12,6 +12,11 @@ export class Playlist extends Base {
         this.songIds = data.songIds;
         this.songCount = data.songCount;
         this.duration = data.duration;
+        // Management
+        this.owner = data.owner;
+        this.users = data.users;
+        this.readonly = data.readonly;
+        this.expiry = data.expiry;
         // Metadata
         this.created = data.created;
         this.updated = data.updated;
@@ -32,6 +37,11 @@ export class Playlist extends Base {
             songIds: data.entry?.map(e => e.id) || [],
             songCount: data.songCount,
             duration: data.duration,
+            // Playlist management
+            owner: data.owner || "",
+            users: data.allowedUser || [],
+            readonly: data.readonly ?? null,
+            expiry: data.validUntil ?? null,
             // Metadata
             coverArtId: data.coverArt || "",
             created: data.created,
@@ -48,6 +58,10 @@ export class Playlist extends Base {
             songIds: this.songIds,
             songCount: this.songCount,
             duration: this.duration,
+            owner: this.owner,
+            users: this.users,
+            readonly: this.readonly,
+            expiry: this.expiry,
             created: this.created,
             updated: this.updated,
             coverArtId: this.coverArtId,
