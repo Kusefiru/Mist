@@ -181,3 +181,8 @@ export async function unstar(id) {
     const reply = await ask('unstar.view', { id });
     return reply?.status;
 }
+
+export async function updatePlaylist(playlistId, options = {}) {
+    const reply = await ask('updatePlaylist.view', { playlistId, ...options });
+    return reply?.status;
+}
