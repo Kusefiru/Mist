@@ -262,6 +262,25 @@ class Cache {
         return updatedPlaylist;
     }
 
+    getEditablePlaylists() {
+        let editable_playlists = Array.from(this.playlists.values());
+
+        editable_playlists = editable_playlists.filter(p => {
+            // Rely on readonly if defined
+            if (p.readonly !== null) {
+                return p.readonly === false;
+            }
+            // Or rely on owner if defined
+            if (p.owner !== "") {
+                return p.owner === this.user?.id;
+            }
+            // Else defaults to editable
+            return true;
+        });
+
+        return editable_playlists;
+    }
+
     getFilteredPlaylists(sortBy, filters, sortOrder = 'asc') {
         let filtered_playlists = Array.from(this.playlists.values());
 
@@ -278,6 +297,14 @@ class Cache {
         }
 
         return filtered_playlists;
+    }
+
+    async addToPlaylist(playlistId, trackId) {
+        await api.updatePlaylist(playlistId, { songIdToAdd: trackId });
+
+        /* Refetch playlist for update */
+        const playlistWithSongs = await api.getPlaylist(playlistId);
+        this.playlists.set(playlistId, Playlist.fromOpenSubsonic(playlistWithSongs));
     }
 
     /* Track methods */

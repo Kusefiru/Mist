@@ -7,10 +7,12 @@
         DownloadSimple,
         ListPlus,
         Play,
+        Playlist,
         TrashSimple,
         User,
         VinylRecord
     } from 'phosphor-svelte';
+    import toast from 'svelte-french-toast';
 
     import { lazyLoad } from '$lib/actions/lazyLoad';
     import { formatDuration } from '$lib/utils/format';
@@ -18,7 +20,7 @@
     import { audioState } from '$lib/stores/audio.svelte.js';
     import { ui } from '$lib/stores/ui.svelte';
     import { menu } from '$lib/stores/menu.svelte.js';
-    import { download, getCoverArtUrl } from '$lib/opensubsonic/api';
+    import { download, getCoverArtUrl, updatePlaylist } from '$lib/opensubsonic/api';
     import Explicit from '$lib/components/ui/Explicit.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
@@ -58,6 +60,28 @@
                 handler: () => audio.setQueueLast(track.id)
             }
         ];
+        const playlistGroup = (() => {
+            const editablePlaylists = cache.getEditablePlaylists();
+            if (editablePlaylists.length === 0) return [];
+
+            return [
+                {
+                    icon: Playlist,
+                    label: 'Add to playlist',
+                    searchable: true,
+                    children: [
+                        editablePlaylists.map((p) => ({
+                            icon: Playlist,
+                            label: p.name,
+                            handler: () => {
+                                cache.addToPlaylist(p.id, track.id);
+                                toast.success(`Added to "${p.name}".`);
+                            }
+                        }))
+                    ]
+                }
+            ];
+        })();
         const metaGroup = [
             ...(variant !== 'album'
                 ? [
@@ -102,7 +126,7 @@
                 : [])
         ];
 
-        return [playGroup, queueGroup, metaGroup, otherGroup].filter((g) => g.length > 0);
+        return [playGroup, queueGroup, playlistGroup, metaGroup, otherGroup].filter((g) => g.length > 0);
     });
 
     /** In 'queue' variant, check that index of track in queue matches played track index
