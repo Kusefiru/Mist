@@ -6,6 +6,7 @@
 
     let {
         tracks, // Dict of {section: trackId[]}
+        sourceId = "", // Origin of the tracks (album ID, ...)
         variant = 'album',
         columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions'],
         scrollToId = null, // Where to scroll if needed
@@ -83,6 +84,7 @@
             <li use:scrollRef={row.trackId}>
                 <TrackRow
                     trackId={row.trackId}
+                    {sourceId}
                     {queueIds}
                     index={row.index}
                     {variant}

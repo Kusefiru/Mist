@@ -58,7 +58,7 @@
             {/if}
             {#if playlist.songCount > 0}
                 <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
-                    <TrackList tracks={{ '': playlist.songIds }} variant="playlist" {columns} />
+                    <TrackList tracks={{ '': playlist.songIds }} sourceId={playlist.id} variant="playlist" {columns} />
                 </div>
             {:else}
                 <div class="flex flex-col items-center py-12 text-center text-ink-500">

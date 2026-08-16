@@ -307,6 +307,14 @@ class Cache {
         this.playlists.set(playlistId, Playlist.fromOpenSubsonic(playlistWithSongs));
     }
 
+    async removeFromPlaylist(playlistId, index) {
+        await api.updatePlaylist(playlistId, { songIndexToRemove: index });
+
+        /* Refetch playlist for update */
+        const playlistWithSongs = await api.getPlaylist(playlistId);
+        this.playlists.set(playlistId, Playlist.fromOpenSubsonic(playlistWithSongs));
+    }
+
     /* Track methods */
     setTrack(track) {
         this.tracks.set(track.id, Track.fromOpenSubsonic(track));

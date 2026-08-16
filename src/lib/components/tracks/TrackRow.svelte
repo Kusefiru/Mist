@@ -1,4 +1,7 @@
 <script>
+    import { invalidate } from '$app/navigation';
+    import { page } from '$app/state';
+
     import { cache } from '$lib/stores/cache.svelte';
     import {
         ArrowBendUpRight,
@@ -30,6 +33,7 @@
 
     let {
         trackId,
+        sourceId = '',
         queueIds = null,
         index = 0,
         variant = 'album',
@@ -73,12 +77,27 @@
                             icon: Playlist,
                             label: p.name,
                             handler: () => {
-                                cache.addToPlaylist(p.id, track.id);
+                                cache
+                                    .addToPlaylist(p.id, track.id)
+                                    .then(() => invalidate(page.url));
                                 toast.success(`Added to "${p.name}".`);
                             }
                         }))
                     ]
-                }
+                },
+                ...(variant === 'playlist' && editablePlaylists.some((p) => p.id === sourceId)
+                    ? [
+                          {
+                              icon: TrashSimple,
+                              label: 'Remove from playlist',
+                              handler: () => {
+                                  cache
+                                      .removeFromPlaylist(sourceId, index)
+                                      .then(() => invalidate(page.url));
+                              }
+                          }
+                      ]
+                    : [])
             ];
         })();
         const metaGroup = [
@@ -104,7 +123,7 @@
             },
             {
                 icon: Broadcast,
-                label: 'Track\'s radio',
+                label: "Track's radio",
                 handler: () => goto(`/app/track/${trackId}/radio`)
             }
         ];
@@ -125,7 +144,9 @@
                 : [])
         ];
 
-        return [playGroup, queueGroup, playlistGroup, metaGroup, otherGroup].filter((g) => g.length > 0);
+        return [playGroup, queueGroup, playlistGroup, metaGroup, otherGroup].filter(
+            (g) => g.length > 0
+        );
     });
 
     /** In 'queue' variant, check that index of track in queue matches played track index
