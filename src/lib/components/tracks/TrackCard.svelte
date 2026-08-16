@@ -21,7 +21,9 @@
     </div>
     <div class="flex min-w-0 flex-col">
         <h3 class="truncate text-lg font-semibold" title={track.title}>
-            {track.title}
+            <a href="/app/album/{track.albumId}?t={track.id}" class="hover:underline">
+                {track.title}
+            </a>
         </h3>
         <h4 class="truncate text-base text-ink-800" title={track.artistsStr}>
             <FormattedArtists text={track.artistsStr} artistMap={track.artistIds} />

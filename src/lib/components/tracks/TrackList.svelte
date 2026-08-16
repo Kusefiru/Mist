@@ -28,6 +28,30 @@
         }
         return result;
     });
+
+    // Scroll logic
+    let scrollContainer = $state(null);
+
+    $effect(() => {
+        // Trigger on mount
+        if (scrollContainer) {
+            // Tick to wait for scrollContainer to exist
+            // Untrack to avoid scrollContainer changes from calling this
+            tick().then(() =>
+                untrack(() =>
+                    scrollContainer?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+                )
+            );
+        }
+    });
+
+    function scrollRef(node, trackId) {
+        $effect(() => {
+            if (scrollToId && trackId === scrollToId) {
+                scrollContainer = node;
+            }
+        });
+    }
 </script>
 
 <ul class="overflow-y-hidden">
@@ -36,13 +60,18 @@
         {#if row.type === 'disc'}
             <DiscRow disc={row.disc} />
         {:else}
-            <TrackRow
-                trackId={row.trackId}
-                queueIds={resolvedQueueIds}
-                index={row.index}
-                {variant}
-                {columns}
-            />
+            <!-- Note: we use trackId for reference which could be an issue if tracks are duplicated.
+                 However, only album support scrolling to a given track (and an album should not have duplicate trackIds).
+            -->
+            <li use:scrollRef={row.trackId}>
+                <TrackRow
+                    trackId={row.trackId}
+                    queueIds={resolvedQueueIds}
+                    index={row.index}
+                    {variant}
+                    {columns}
+                />
+            </li>
         {/if}
     {/each}
 </ul>

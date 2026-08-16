@@ -1,4 +1,5 @@
 <script>
+    import { page } from '$app/state';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
@@ -9,6 +10,8 @@
     import { fade } from 'svelte/transition';
 
     let { params } = $props();
+
+    const scrollToId = $derived(page.url.searchParams.get('t'))
 
     /* Content states */
     let album = $state(null);
@@ -69,7 +72,7 @@
 
         <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
             <ControlsRow queue={$state.snapshot(albumQueue)} />
-            <TrackList tracks={discEntries} variant="album" />
+            <TrackList tracks={discEntries} variant="album" {scrollToId} />
         </section>
     </div>
 </div>

@@ -64,7 +64,7 @@
                     {#each results.tracks.slice(0, MAX_DISPLAY) as track}
                         <TrackResult
                             {track}
-                            onclick={() => navigateTo(`/app/album/${track.albumId}`)}
+                            onclick={() => navigateTo(`/app/album/${track.albumId}?t=${track.id}`)}
                         />
                     {/each}
                     {#if results.tracks.length > MAX_DISPLAY}

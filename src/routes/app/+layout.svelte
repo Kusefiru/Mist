@@ -78,15 +78,18 @@
         // Focus on mainElement
         mainElement.focus({ preventScroll: true });
 
+        // Skip scroll reset if navigating to a target (happens only for [album_id] page)
+        const hasTarget = navigation.to?.url.searchParams.has('t');
+
         // On back/forward navigation, restore saved position
         if (navigation.type === 'popstate' && navigation.to?.route.id) {
             const savedPosition = scrollPositions.get(navigation.to.route.id);
             if (savedPosition !== undefined) {
                 mainElement.scrollTop = savedPosition;
-            } else {
+            } else if (!hasTarget) {
                 mainElement.scrollTop = 0;
             }
-        } else {
+        } else if (!hasTarget) {
             // On new navigation (link click, goto), scroll to top
             mainElement.scrollTop = 0;
         }
