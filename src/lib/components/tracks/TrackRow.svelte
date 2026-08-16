@@ -31,13 +31,12 @@
     let {
         trackId,
         queueIds = null,
-        queueIndex = null,
+        index = 0,
         variant = 'album',
         columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions']
     } = $props();
 
     let track = $derived(cache.tracks.get(trackId));
-    let index = queueIds?.indexOf(trackId) || 0;
     let hovered = $state(false);
     let loaded = $state(false);
 
@@ -122,7 +121,7 @@
                   ]
                 : []),
             ...(variant === 'queue'
-                ? [{ icon: TrashSimple, label: 'Remove', handler: () => audio.remove(queueIndex) }]
+                ? [{ icon: TrashSimple, label: 'Remove', handler: () => audio.remove(index) }]
                 : [])
         ];
 
@@ -134,13 +133,13 @@
      */
     let isCurrentlyPlaying = $derived(
         variant === 'queue'
-            ? queueIndex === audioState.playOrder[audioState.index]
+            ? index === audioState.playOrder[audioState.index]
             : trackId === audioState.currentTrackId
     );
 
     function onDoubleClick() {
         if (variant === 'queue') {
-            audio.playIndex(queueIndex);
+            audio.playIndex(index);
         } else {
             audio.setQueue(queueIds, index);
         }
