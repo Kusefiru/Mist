@@ -32,14 +32,14 @@ export class Track extends Base {
         if (this.displayArtist) {
             return this.displayArtist;
         }
-        return data.artistIds?.map(a => a.name).join(", ") || "";
+        return this.artistIds?.map(a => a.name).join(", ") || "";
     }
 
     get albumArtistsStr() {
         if (this.displayAlbumArtist) {
             return this.displayAlbumArtist;
         }
-        return data.albumArtistIds?.map(a => a.name).join(", ") || "";
+        return this.albumArtistIds?.map(a => a.name).join(", ") || "";
     }
 
     get durationStr() {
