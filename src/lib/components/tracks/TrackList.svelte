@@ -6,13 +6,13 @@
 
     let {
         tracks, // Dict of {section: trackId[]}
-        queueIds = null,
         variant = 'album',
         columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions'],
-        scrollToId = null // Where to scroll if needed
+        scrollToId = null, // Where to scroll if needed
+        initialCount = undefined // How much tracks to show initially
     } = $props();
 
-    const resolvedQueueIds = $derived(queueIds ?? Object.values(tracks).flat());
+    const queueIds = $derived(Object.values(tracks).flat());
 
     const rows = $derived.by(() => {
         const result = [];
@@ -25,6 +25,23 @@
                 result.push({ type: 'track', trackId, index });
                 index++;
             }
+        }
+        return result;
+    });
+
+    // Expand logic
+    let expanded = $state(false);
+
+    const visibleRows = $derived.by(() => {
+        if (initialCount == null) return rows;
+        let count = 0;
+        const result = [];
+        for (const row of rows) {
+            if (row.type === 'track') {
+                if (!expanded && count >= initialCount) break;
+                count++;
+            }
+            result.push(row);
         }
         return result;
     });
@@ -56,7 +73,7 @@
 
 <ul class="overflow-y-hidden">
     <HeaderRow {columns} />
-    {#each rows as row}
+    {#each visibleRows as row}
         {#if row.type === 'disc'}
             <DiscRow disc={row.disc} />
         {:else}
@@ -66,7 +83,7 @@
             <li use:scrollRef={row.trackId}>
                 <TrackRow
                     trackId={row.trackId}
-                    queueIds={resolvedQueueIds}
+                    {queueIds}
                     index={row.index}
                     {variant}
                     {columns}
@@ -75,3 +92,11 @@
         {/if}
     {/each}
 </ul>
+{#if initialCount && queueIds.length > initialCount}
+    <button
+        onclick={() => (expanded = !expanded)}
+        class="mt-2 flex text-sm font-bold text-ink-500 transition-colors hover:text-primary-10"
+    >
+        {expanded ? 'Show less' : 'Show more'}
+    </button>
+{/if}

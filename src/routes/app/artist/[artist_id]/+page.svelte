@@ -41,12 +41,7 @@
         appears: []
     });
     let topTrackIds = $state([]);
-    let tracksExpanded = $state(false);
     let similarArtists = $state([]);
-
-    let visibleTrackIds = $derived(
-        tracksExpanded ? topTrackIds : topTrackIds.slice(0, TRACKS_DEFAULT)
-    );
 
     function clearState() {
         artist = null;
@@ -58,7 +53,6 @@
             appears: []
         };
         topTrackIds = [];
-        tracksExpanded = false;
         similarArtists = [];
     }
 
@@ -162,20 +156,8 @@
                     Top Tracks
                 </h2>
                 <ul class="overflow-y-hidden">
-                    <TrackList tracks={{ '': visibleTrackIds }} queueIds={topTrackIds} variant="playlist" {columns} />
+                    <TrackList tracks={{ '': topTrackIds }} variant="playlist" {columns} initialCount={TRACKS_DEFAULT}/>
                 </ul>
-                {#if topTrackIds.length > TRACKS_DEFAULT}
-                    <button
-                        onclick={() => (tracksExpanded = !tracksExpanded)}
-                        class="flex text-sm font-bold text-ink-500 transition-colors hover:text-primary-10"
-                    >
-                        {#if tracksExpanded}
-                            Show less
-                        {:else}
-                            Show more
-                        {/if}
-                    </button>
-                {/if}
             </section>
         {/if}
 
