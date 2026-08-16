@@ -1,9 +1,7 @@
 <script>
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
-    import DiscRow from '$lib/components/tracks/DiscRow.svelte';
-    import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
-    import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import TrackList from '$lib/components/tracks/TrackList.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import { cache } from '$lib/stores/cache.svelte';
     import { formatDurationReadable } from '$lib/utils/format';
@@ -37,9 +35,9 @@
             if (!discs[disc]) discs[disc] = [];
             discs[disc].push(track.id);
         }
-        discEntries = Object.entries(discs);
+        discEntries = discs;
 
-        albumQueue = discEntries.flatMap(([, t]) => t);
+        albumQueue = tracks.map((t) => t.id);
     }
 
     $effect(() => {
@@ -71,19 +69,7 @@
 
         <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
             <ControlsRow queue={$state.snapshot(albumQueue)} />
-            {#if discEntries.length > 0}
-                <ul class="overflow-y-hidden">
-                    <HeaderRow />
-                    {#each discEntries as [disc, trackIds]}
-                        {#if discEntries.length > 1}
-                        <DiscRow {disc} />
-                        {/if}
-                        {#each trackIds as trackId}
-                            <TrackRow {trackId} queueIds={albumQueue} variant="album" />
-                        {/each}
-                    {/each}
-                </ul>
-            {/if}
+            <TrackList tracks={discEntries} variant="album" />
         </section>
     </div>
 </div>

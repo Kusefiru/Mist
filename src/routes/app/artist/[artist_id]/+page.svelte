@@ -12,8 +12,7 @@
 
     import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
-    import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
-    import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import TrackList from '$lib/components/tracks/TrackList.svelte';
     import CollapsibleText from '$lib/components/ui/CollapsibleText.svelte';
 
     import * as api from '$lib/opensubsonic/api';
@@ -163,10 +162,7 @@
                     Top Tracks
                 </h2>
                 <ul class="overflow-y-hidden">
-                    <HeaderRow {columns} />
-                    {#each visibleTrackIds as trackId (trackId)}
-                        <TrackRow {trackId} queueIds={topTrackIds} variant="playlist" {columns} />
-                    {/each}
+                    <TrackList tracks={{ '': visibleTrackIds }} queueIds={topTrackIds} variant="playlist" {columns} />
                 </ul>
                 {#if topTrackIds.length > TRACKS_DEFAULT}
                     <button

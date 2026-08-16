@@ -5,8 +5,7 @@
     import { onDestroy } from 'svelte';
     import ActionButton from '$lib/components/ui/ActionButton.svelte';
     import ItemGrid from '$lib/components/item/ItemGrid.svelte';
-    import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
-    import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import TrackList from '$lib/components/tracks/TrackList.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import { search3 } from '$lib/opensubsonic/api';
     import { cache } from '$lib/stores/cache.svelte';
@@ -169,17 +168,9 @@
 
     {#if activeType === 'tracks'}
         {#if tracks.length > 0}
-            <ul class="pb-2">
-                <HeaderRow columns={TRACK_COLUMNS} />
-                {#each tracks as track}
-                    <TrackRow
-                        trackId={track.id}
-                        queueIds={tracks.map((t) => t.id)}
-                        variant="playlist"
-                        columns={TRACK_COLUMNS}
-                    />
-                {/each}
-            </ul>
+            <div class="pb-2">
+                <TrackList tracks={{ '': tracks.map((t) => t.id) }} variant="playlist" columns={TRACK_COLUMNS} />
+            </div>
         {/if}
     {:else if activeType === 'artists'}
         {#if artists.length > 0}

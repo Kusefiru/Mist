@@ -2,12 +2,12 @@
     import { SmileySad } from 'phosphor-svelte';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
-    import HeaderRow from '$lib/components/tracks/HeaderRow.svelte';
-    import TrackRow from '$lib/components/tracks/TrackRow.svelte';
+    import TrackList from '$lib/components/tracks/TrackList.svelte';
     import CollapsibleText from '$lib/components/ui/CollapsibleText.svelte';
 
     import { cache } from '$lib/stores/cache.svelte';
     import { formatDurationReadable } from '$lib/utils/format';
+    import { fade } from 'svelte/transition';
     import { untrack } from 'svelte';
 
     let { params } = $props();
@@ -58,17 +58,7 @@
             {/if}
             {#if playlist.songCount > 0}
                 <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
-                    <ul class="overflow-y-hidden">
-                        <HeaderRow {columns} />
-                        {#each playlist.songIds as trackId}
-                            <TrackRow
-                                {trackId}
-                                queueIds={playlist.songIds}
-                                variant="playlist"
-                                {columns}
-                            />
-                        {/each}
-                    </ul>
+                    <TrackList tracks={{ '': playlist.songIds }} variant="playlist" {columns} />
                 </div>
             {:else}
                 <div class="flex flex-col items-center py-12 text-center text-ink-500">
