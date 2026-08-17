@@ -1,8 +1,9 @@
 <script>
     import { fade } from 'svelte/transition';
     import { cache } from '$lib/stores/cache.svelte';
+    import { modal } from '$lib/stores/modal.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
-    import ImageModal from '$lib/components/ui/ImageModal.svelte';
+    import ImageModal from '$lib/components/ui/modal/ImageModal.svelte';
     import Star from '$lib/components/ui/Star.svelte';
 
     let {
@@ -13,7 +14,6 @@
         details     // Optional
     } = $props();
 
-    let showModal = $state(false);
     let headerEl = $state(null);
     let stickyVisible = $state(false);
 
@@ -40,7 +40,11 @@
     ></div>
     <button
         class="relative z-10 mr-4 flex size-44 cursor-pointer items-center justify-center sm:size-56 lg:size-64"
-        onclick={() => (showModal = true)}
+        onclick={() =>
+            modal.open(ImageModal, {
+                src: cache.getCoverArt(item.coverArtId, 1024),
+                alt: item.name
+            })}
         aria-label="View cover art"
     >
         <FadeImage src={coverArt} alt={item.name} class="max-h-full max-w-full rounded object-contain" />
@@ -105,10 +109,6 @@
             </div>
         {/if}
     </div>
-
-    {#if showModal}
-        <ImageModal src={cache.getCoverArt(item.coverArtId, 1024)} alt={item.name} onClose={() => (showModal = false)} />
-    {/if}
 {:else}
     <div
         class="relative flex animate-pulse items-end overflow-hidden rounded-[0.4rem] bg-surface-40 p-4 shadow-md shadow-surface-50"

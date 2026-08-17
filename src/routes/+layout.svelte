@@ -4,6 +4,7 @@
     import { cache } from '$lib/stores/cache.svelte.js';
     import { ui } from '$lib/stores/ui.svelte';
     import logo from '$lib/assets/logo.svg';
+    import ModalPortal from '$lib/components/ui/modal/ModalPortal.svelte';
 
     import { onMount } from 'svelte';
     import { Toaster } from 'svelte-french-toast';
@@ -25,6 +26,7 @@
     <link rel="icon" href={logo} />
 </svelte:head>
 
+<ModalPortal />
 <Toaster
     position="bottom-center"
     containerStyle="bottom: 120px;"
