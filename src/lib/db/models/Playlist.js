@@ -15,6 +15,7 @@ export class Playlist extends Base {
         // Management
         this.owner = data.owner;
         this.users = data.users;
+        this.public = data.public;
         this.readonly = data.readonly;
         this.expiry = data.expiry;
         // Metadata
@@ -25,6 +26,19 @@ export class Playlist extends Base {
 
     get durationStr() {
         return formatDuration(this.duration);
+    }
+
+    isEditableBy(userId) {
+        // Rely on readonly if defined
+        if (this.readonly !== null) {
+            return this.readonly === false;
+        }
+        // Or rely on owner if defined
+        if (this.owner !== "") {
+            return this.owner === userId;
+        }
+        // Else defaults to editable
+        return true;
     }
 
     // To reimplement: create class from API data
@@ -40,6 +54,7 @@ export class Playlist extends Base {
             // Playlist management
             owner: data.owner || "",
             users: data.allowedUser || [],
+            public: data.public ?? true,
             readonly: data.readonly ?? null,
             expiry: data.validUntil ?? null,
             // Metadata
@@ -60,6 +75,7 @@ export class Playlist extends Base {
             duration: this.duration,
             owner: this.owner,
             users: this.users,
+            public: this.public,
             readonly: this.readonly,
             expiry: this.expiry,
             created: this.created,

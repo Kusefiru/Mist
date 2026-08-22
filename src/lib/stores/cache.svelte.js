@@ -265,20 +265,7 @@ class Cache {
     getEditablePlaylists() {
         let editable_playlists = Array.from(this.playlists.values());
 
-        editable_playlists = editable_playlists.filter(p => {
-            // Rely on readonly if defined
-            if (p.readonly !== null) {
-                return p.readonly === false;
-            }
-            // Or rely on owner if defined
-            if (p.owner !== "") {
-                return p.owner === this.user?.id;
-            }
-            // Else defaults to editable
-            return true;
-        });
-
-        return editable_playlists;
+        return editable_playlists.filter(p => p.isEditableBy(this.user?.id));
     }
 
     getFilteredPlaylists(sortBy, filters, sortOrder = 'asc') {
