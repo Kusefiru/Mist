@@ -1,5 +1,6 @@
 <script>
-    import { SmileySad } from 'phosphor-svelte';
+    import { GearSix, SmileySad, TrashSimple } from 'phosphor-svelte';
+    import { goto } from '$app/navigation';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
@@ -9,10 +10,42 @@
     import { formatDurationReadable } from '$lib/utils/format';
     import { fade } from 'svelte/transition';
     import { untrack } from 'svelte';
+    import { modal } from '$lib/stores/modal.svelte.js';
+    import PlaylistEditModal from '$lib/components/ui/modal/PlaylistEditModal.svelte';
+    import ConfirmModal from '$lib/components/ui/modal/ConfirmModal.svelte';
+    import toast from 'svelte-french-toast';
 
     let { params } = $props();
 
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
+
+    let menuActions = $derived.by(() => {
+        return [[
+            {
+                icon: GearSix,
+                label: 'Edit playlist',
+                handler: () => {
+                    modal.open(PlaylistEditModal, {
+                        playlist,
+                        onConfirm: () => loadPlaylist(playlist.id)
+                    })
+                }
+            },
+            {
+                icon: TrashSimple,
+                label: 'Delete playlist',
+                handler: () => {
+                    modal.open(ConfirmModal, {
+                        title: 'Delete playlist?',
+                        message: `"${playlist.name}" will be permanently deleted. This cannot be undone.`,
+                        confirmLabel: 'Delete',
+                        danger: true,
+                        onConfirm: deletePlaylist
+                    })
+                }
+            }
+        ]];
+    });
 
     /* Content states */
     let playlist = $state(null);
@@ -24,6 +57,13 @@
 
     async function loadPlaylist(playlistId) {
         playlist = await cache.getPlaylist(playlistId);
+    }
+
+    async function deletePlaylist() {
+        await cache.deletePlaylist(playlist.id);
+        toast.success('Playlist deleted.');
+        modal.close();
+        goto(`/app/playlist/all`);
     }
 
     $effect(() => {
@@ -50,9 +90,7 @@
         </ItemHeader>
 
         {#if playlist}
-            {#if playlist.songCount > 0}
-                <ControlsRow queue={$state.snapshot(playlist.songIds)} />
-            {/if}
+            <ControlsRow queue={$state.snapshot(playlist.songIds)} {menuActions}/>
             {#if playlist.comment}
                 <CollapsibleText html={playlist.comment} lines={2} />
             {/if}
@@ -62,7 +100,7 @@
                 </div>
             {:else}
                 <div class="flex flex-col items-center py-12 text-center text-ink-500">
-                    <SmileySad size={"3rem"} />
+                    <SmileySad size={'3rem'} />
                     <p class="text-xl">Looks like this playlist is empty.</p>
                 </div>
             {/if}
