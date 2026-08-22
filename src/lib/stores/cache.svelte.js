@@ -286,6 +286,28 @@ class Cache {
         return filtered_playlists;
     }
 
+    async editPlaylist(playlistId = null, name = null, comment = null, isPublic = null, trackIds = []) {
+        if (!playlistId) {
+            /* Create new playlist if no ID given */
+            const playlist = await api.createPlaylist(name);
+            if (!playlist) return null;
+            playlistId = playlist.id;
+        }
+
+        /* Update playlist info */
+        await api.updatePlaylist(playlistId, { name, comment, public: isPublic, songIdToAdd: trackIds });
+
+        /* Refetch playlist for update */
+        const playlistWithSongs = await api.getPlaylist(playlistId);
+        this.playlists.set(playlistId, Playlist.fromOpenSubsonic(playlistWithSongs));
+        return this.playlists.get(playlistId);
+    }
+
+    async deletePlaylist(playlistId) {
+        await api.deletePlaylist(playlistId);
+        this.playlists.delete(playlistId);
+    }
+
     async addToPlaylist(playlistId, trackId) {
         await api.updatePlaylist(playlistId, { songIdToAdd: trackId });
 
