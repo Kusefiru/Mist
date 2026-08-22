@@ -11,6 +11,7 @@
         ListPlus,
         Play,
         Playlist,
+        PlusCircle,
         TrashSimple,
         User,
         VinylRecord
@@ -23,12 +24,14 @@
     import { audioState } from '$lib/stores/audio.svelte.js';
     import { ui } from '$lib/stores/ui.svelte';
     import { menu } from '$lib/stores/menu.svelte.js';
+    import { modal } from '$lib/stores/modal.svelte.js';
     import { download, getCoverArtUrl, updatePlaylist } from '$lib/opensubsonic/api';
     import Explicit from '$lib/components/ui/Explicit.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import PlayingIndicator from '$lib/components/ui/PlayingIndicator.svelte';
     import Star from '$lib/components/ui/Star.svelte';
+    import PlaylistEditModal from '../ui/modal/PlaylistEditModal.svelte';
     import { goto } from '$app/navigation';
 
     let {
@@ -67,12 +70,22 @@
             const editablePlaylists = cache.getEditablePlaylists();
             if (editablePlaylists.length === 0) return [];
 
+            const createAction = {
+                icon: PlusCircle,
+                label: 'New playlist',
+                pinned: true,
+                handler: () => {
+                    modal.open(PlaylistEditModal, { trackIds: track.id });
+                }
+            };
+
             return [
                 {
                     icon: Playlist,
                     label: 'Add to playlist',
                     searchable: true,
                     children: [
+                        [createAction],
                         editablePlaylists.map((p) => ({
                             icon: Playlist,
                             label: p.name,

@@ -27,7 +27,7 @@
         if (!searchable || !searchQuery.trim()) return groups;
         const q = searchQuery.trim().toLowerCase();
         return groups
-            .map((group) => group.filter((action) => action.label?.toLowerCase().includes(q)))
+            .map((group) => group.filter((action) => action.pinned || action.label?.toLowerCase().includes(q)))
             .filter((group) => group.length > 0);
     });
 
