@@ -48,6 +48,16 @@ async function ask(endpoint, extraParams = {}) {
 
 // API implementation
 
+export async function createPlaylist(name, songIds = []) {
+    const reply = await ask('createPlaylist.view', { name, songId: songIds });
+    return reply?.playlist || null;
+}
+
+export async function deletePlaylist(id) {
+    const reply = await ask('deletePlaylist.view', { id });
+    return reply?.status;
+}
+
 export function download(id) {
     return buildUrl('download.view', { id });
 }
