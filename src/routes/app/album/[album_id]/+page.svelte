@@ -1,9 +1,12 @@
 <script>
+    import { User } from 'phosphor-svelte';
+    import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
+    import { buildAddToPlaylistGroup } from '$lib/components/ui/menu/actions/playlist';
     import { cache } from '$lib/stores/cache.svelte';
     import { formatDurationReadable } from '$lib/utils/format';
     import { untrack } from 'svelte';
@@ -11,12 +14,31 @@
 
     let { params } = $props();
 
-    const scrollToId = $derived(page.url.searchParams.get('t'))
+    const scrollToId = $derived(page.url.searchParams.get('t'));
 
     /* Content states */
     let album = $state(null);
     let discEntries = $state([]);
     let albumQueue = $state([]);
+
+    let menuActions = $derived.by(() => {
+        return [
+            buildAddToPlaylistGroup(albumQueue),
+            [
+                {
+                    icon: User,
+                    label: 'Go to artist...',
+                    children: [
+                        album?.artistIds.map((a) => ({
+                            icon: User,
+                            label: a.name,
+                            handler: () => goto(`/app/artist/${a.id}`)
+                        }))
+                    ]
+                }
+            ]
+        ];
+    });
 
     /* This function clears state so that switching album does not look weird */
     function clearState() {
@@ -71,7 +93,7 @@
         </ItemHeader>
 
         <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-            <ControlsRow queue={$state.snapshot(albumQueue)} />
+            <ControlsRow queue={$state.snapshot(albumQueue)} {menuActions} />
             <TrackList tracks={discEntries} variant="album" {scrollToId} />
         </section>
     </div>

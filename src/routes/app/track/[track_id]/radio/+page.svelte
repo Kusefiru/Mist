@@ -3,6 +3,7 @@
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
+    import { buildAddToPlaylistGroup } from '$lib/components/ui/menu/actions/playlist';
 
     import { cache } from '$lib/stores/cache.svelte';
     import { formatDurationReadable } from '$lib/utils/format';
@@ -15,6 +16,10 @@
 
     /* Content states */
     let playlist = $state(null);
+
+    let menuActions = $derived.by(() => {
+        return [buildAddToPlaylistGroup(playlist.songIds)];
+    });
 
     /* This function clears state so that switching album does not look weird */
     function clearState() {
@@ -49,9 +54,7 @@
         </ItemHeader>
 
         {#if playlist}
-            {#if playlist.songCount > 0}
-                <ControlsRow queue={$state.snapshot(playlist.songIds)} />
-            {/if}
+            <ControlsRow queue={$state.snapshot(playlist.songIds)} {menuActions} />
             {#if playlist.songCount > 0}
                 <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
                     <TrackList tracks={{ '': playlist.songIds }} variant="playlist" {columns} />

@@ -11,6 +11,7 @@
     import { fade } from 'svelte/transition';
     import { untrack } from 'svelte';
     import { modal } from '$lib/stores/modal.svelte.js';
+    import { buildAddToPlaylistGroup } from '$lib/components/ui/menu/actions/playlist';
     import PlaylistEditModal from '$lib/components/ui/modal/PlaylistEditModal.svelte';
     import ConfirmModal from '$lib/components/ui/modal/ConfirmModal.svelte';
     import toast from 'svelte-french-toast';
@@ -20,31 +21,37 @@
     let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
 
     let menuActions = $derived.by(() => {
-        return [[
-            {
-                icon: GearSix,
-                label: 'Edit playlist',
-                handler: () => {
-                    modal.open(PlaylistEditModal, {
-                        playlist,
-                        onConfirm: () => loadPlaylist(playlist.id)
-                    })
-                }
-            },
-            {
-                icon: TrashSimple,
-                label: 'Delete playlist',
-                handler: () => {
-                    modal.open(ConfirmModal, {
-                        title: 'Delete playlist?',
-                        message: `"${playlist.name}" will be permanently deleted. This cannot be undone.`,
-                        confirmLabel: 'Delete',
-                        danger: true,
-                        onConfirm: deletePlaylist
-                    })
-                }
-            }
-        ]];
+        return [
+            buildAddToPlaylistGroup(playlist.songIds),
+            ...(playlist.isEditableBy(cache.user.id)
+                ? [
+                    {
+                        icon: GearSix,
+                        label: 'Edit playlist',
+                        handler: () => {
+                            modal.open(PlaylistEditModal, {
+                                playlist,
+                                onConfirm: () => loadPlaylist(playlist.id)
+                            })
+                        }
+                    },
+                    {
+                        icon: TrashSimple,
+                        label: 'Delete playlist',
+                        handler: () => {
+                            modal.open(ConfirmModal, {
+                                title: 'Delete playlist?',
+                                message: `"${playlist.name}" will be permanently deleted. This cannot be undone.`,
+                                confirmLabel: 'Delete',
+                                danger: true,
+                                onConfirm: deletePlaylist
+                            })
+                        }
+                    }
+                ]
+                : []
+            )
+        ];
     });
 
     /* Content states */
@@ -90,7 +97,7 @@
         </ItemHeader>
 
         {#if playlist}
-            <ControlsRow queue={$state.snapshot(playlist.songIds)} {menuActions}/>
+            <ControlsRow queue={$state.snapshot(playlist.songIds)} {menuActions} />
             {#if playlist.comment}
                 <CollapsibleText html={playlist.comment} lines={2} />
             {/if}

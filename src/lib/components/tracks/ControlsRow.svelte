@@ -56,7 +56,7 @@
         {/if}
     </div>
     <div class="flex space-x-4">
-        {#if menuActions}
+        {#if menuActions?.length > 0}
             <button
                 bind:this={buttonEl}
                 class="cursor-pointer text-ink-900 transition-colors hover:text-primary-10"
