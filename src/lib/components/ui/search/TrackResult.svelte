@@ -27,7 +27,7 @@
             ><FormattedArtists text={track.artistsStr} artistMap={track.artistIds} /></span
         >
     </div>
-    <div class="w-[3rem] text-right text-sm text-ink-800 select-none">
+    <div class="w-[3rem] text-right text-sm text-ink-800 tabular-nums select-none">
         {formatDuration(track.duration)}
     </div>
 </button>

@@ -204,7 +204,7 @@
             </div>
         {/if}
         {#if columns.includes('duration')}
-            <div class="z-10 w-[5rem] text-right text-base text-ink-900 select-none">
+            <div class="z-10 w-[5rem] text-right text-base text-ink-900 tabular-nums select-none">
                 {formatDuration(track.duration)}
             </div>
         {/if}

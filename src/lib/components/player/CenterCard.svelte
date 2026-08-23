@@ -49,14 +49,14 @@
     <!-- Progress bar spanning full width -->
     <div class="mt-6">
         <div class="flex items-center gap-3">
-            <span class="min-w-[3rem] shrink-0 text-right text-sm text-ink-800">
+            <span class="min-w-[3rem] shrink-0 text-right text-sm text-ink-800 tabular-nums">
                 {formatDuration(currentTrack ? currentTime : null)}
             </span>
             <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
                 onValueCommit={(v) => audio.seek(v / 100)}
             />
-            <span class="min-w-[3rem] shrink-0 text-left text-sm text-ink-800">
+            <span class="min-w-[3rem] shrink-0 text-left text-sm text-ink-800 tabular-nums">
                 {formatDuration(currentTrack ? totalTime : null)}
             </span>
         </div>

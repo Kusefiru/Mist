@@ -43,14 +43,14 @@
     <div class="relative flex w-[40%] lg:w-[44%] min-w-0 flex-col items-center justify-center select-none">
         <PlaybackPanel size={"1.75rem"} />
         <div class="flex w-full items-center gap-2 pt-2">
-            <span class="shrink-0 text-sm text-ink-800"
+            <span class="shrink-0 text-sm text-ink-800 tabular-nums"
                 >{formatDuration(currentTrack ? currentTime : null)}</span
             >
             <Slider
                 value={totalTime ? (currentTime / totalTime) * 100 : 0}
                 onValueCommit={(v) => audio.seek(v / 100)}
             />
-            <span class="shrink-0 text-sm text-ink-800"
+            <span class="shrink-0 text-sm text-ink-800 tabular-nums"
                 >{formatDuration(currentTrack ? totalTime : null)}</span
             >
         </div>

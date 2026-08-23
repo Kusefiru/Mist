@@ -1,6 +1,5 @@
 <script>
     import { cache } from '$lib/stores/cache.svelte';
-    import { formatDuration } from '$lib/utils/format';
     import FadeImage from '../FadeImage.svelte';
     import FormattedArtists from '../FormattedArtists.svelte';
 
