@@ -58,8 +58,11 @@ class Cache {
                     size: pageSize,
                     offset: offset
                 });
-                // Add albums if not yet loaded (skip already fetched albums)
-                albumList.forEach(a => this.albums.set(a.id, Album.fromOpenSubsonic(a, musicFolder.id)));
+
+                // Create album objects then batch update map
+                const newEntries = albumList.map(a => [a.id, Album.fromOpenSubsonic(a, musicFolder.id)]);
+                this.albums = new SvelteMap([...this.albums, ...newEntries]);
+
                 if (albumList.length < pageSize) {
                     hasMore = false;
                 } else {
@@ -76,10 +79,9 @@ class Cache {
         const artistsResponse = await api.getArtists();
         const artistsRaw = artistsResponse.index?.flatMap(idx => idx.artist || []) || [];
 
-        // Set to cache along with cover urls
-        artistsRaw.forEach(a => {
-            this.artists.set(a.id, Artist.fromOpenSubsonic(a));
-        });
+        // Create artist objects then batch update map
+        const newEntries = artistsRaw.map(a => [a.id, Artist.fromOpenSubsonic(a)]);
+        this.artists = new SvelteMap([...newEntries]);
     }
 
     async _fetchPlaylists() {
@@ -87,9 +89,9 @@ class Cache {
 
         const playlistsRaw = await api.getPlaylists();
 
-        playlistsRaw.forEach(p => {
-            this.playlists.set(p.id, Playlist.fromOpenSubsonic(p));
-        });
+        // Create playlist objects then batch update map
+        const newEntries = playlistsRaw.map(p => [p.id, Playlist.fromOpenSubsonic(p)]);
+        this.playlists = new SvelteMap([...newEntries]);
     }
 
     async fetch() {
