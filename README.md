@@ -11,6 +11,7 @@ A modern, desktop-focused web client for OpenSubsonic-compatible music servers.
 - Clean, responsive UI built with [Svelte 5](https://svelte.dev/)
 - Client only: all data is stored locally
 - Scrobble tracks to your server
+- Create, edit and delete playlists
 - Light and Dark themes support
 - Immersive fullscreen mode
 
@@ -95,7 +96,6 @@ Or you can simply run the included run_server.py Python script, assuming you hav
 
 This is a non exhaustive of features planned for future releases:
 
-- [ ] Playlists modification
 - [ ] Lyrics support
 - [ ] Internet radios support
 - [ ] Podcasts support
@@ -111,11 +111,11 @@ Feel free to request additional features if not listed here.
 Mist works with any server implementing the [OpenSubsonic API](https://opensubsonic.netlify.app/).
 
 Tested with:
-- [x] [Navidrome](https://www.navidrome.org/) v0.59.0
+- [x] [Navidrome](https://www.navidrome.org/) v0.63.2
 
 If you encounter problems with a specific server, please open an issue.
 
-> **Note:** Mist is built for desktop browsers. I recommend not using it on mobile at all, it hasn't been developed for it at the moment.
+> **Note:** Mist is built for desktop browsers. I recommend not using it on mobile at all, as the interface hasn't been conceived for it.
 
 ## License
 
