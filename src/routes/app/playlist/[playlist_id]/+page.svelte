@@ -23,7 +23,7 @@
     let menuActions = $derived.by(() => {
         return [
             buildAddToPlaylistGroup(playlist.songIds),
-            ...(playlist.isEditableBy(cache.user.id)
+            (playlist.isEditableBy(cache.user.id)
                 ? [
                     {
                         icon: GearSix,
