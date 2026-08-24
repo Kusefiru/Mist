@@ -174,7 +174,7 @@
             <div class="z-10 min-w-0 flex-1 pl-2 select-none">
                 <div class="flex w-full min-w-0 flex-col">
                     <span
-                        class="-mt-1 flex w-full items-center text-lg font-semibold text-ink-900"
+                        class="flex w-full items-center text-lg font-semibold text-ink-900"
                         class:gap-1={isCurrentlyPlaying}
                         class:text-primary-10={isCurrentlyPlaying}
                     >

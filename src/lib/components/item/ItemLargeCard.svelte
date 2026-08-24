@@ -32,7 +32,7 @@
     class="group relative flex h-full cursor-pointer flex-row overflow-hidden rounded-[0.4rem] shadow-md shadow-surface-50"
 >
     {@render cardCover(cache.getCoverArt(item.coverArtId))}
-    <div class="z-10 my-2 mr-2 flex flex-1 flex-col justify-end gap-1">
+    <div class="z-10 my-2 mr-2 flex flex-1 flex-col justify-end gap-0.5">
         <p
             class="line-clamp-2 text-xl font-semibold text-ink-900 hover:underline"
             title={item.name}

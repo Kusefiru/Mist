@@ -37,7 +37,7 @@
 >
     {#if visible}
         {@render cardCover(cache.getCoverArt(item.coverArtId))}
-        <div class="z-10 mx-2 mb-2 flex h-18 flex-col gap-1">
+        <div class="z-10 mx-2 mb-2 flex h-18 flex-col gap-0.5">
             <p
                 class="line-clamp-2 text-base font-semibold text-ink-900 hover:underline"
                 title={item.name}
