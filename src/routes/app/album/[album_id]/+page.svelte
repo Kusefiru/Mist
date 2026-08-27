@@ -88,13 +88,23 @@
                 {album.typeStr}
             {/snippet}
             {#snippet details()}
-                {album.dateStr} • {album.songCount} tracks • {formatDurationReadable(album.duration)}
+                {#if !album.hasSameReleaseDate}
+                    {album.originalDateStr} • Released {album.releaseDateStr} 
+                {:else}
+                    {album.releaseDateStr} 
+                {/if}
+                • {album.songCount} tracks • {formatDurationReadable(album.duration)}
             {/snippet}
         </ItemHeader>
 
-        <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
-            <ControlsRow queue={$state.snapshot(albumQueue)} {menuActions} />
-            <TrackList tracks={discEntries} variant="album" {scrollToId} />
-        </section>
+        {#if album}
+            <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
+                <ControlsRow queue={$state.snapshot(albumQueue)} {menuActions} />
+                <TrackList tracks={discEntries} variant="album" {scrollToId} />
+                <span class="pl-2 text-sm font-semibold text-ink-600 select-none">
+                    ℗ {album.releaseDate.year} {album.labels.join(', ')}
+                </span>
+            </section>
+        {/if}
     </div>
 </div>

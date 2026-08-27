@@ -1,3 +1,11 @@
+export function formatDate(year, month, day) {
+    if (month && day) {
+        return Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'short', year: 'numeric' })
+        .format(new Date(year, month - 1, day));
+    }
+    return `${year}`;
+}
+
 export function formatDuration(seconds) {
     if (typeof seconds !== 'number') return '0:00';
 

@@ -169,7 +169,7 @@
                 </h2>
                 <ItemGrid items={albumsSorted.main} getHref={(album) => `/app/album/${album.id}`} >
                     {#snippet subtitle(album)}
-                        {album.dateStr}
+                        {album.releaseDateStr}
                     {/snippet}
                 </ItemGrid>
             </section>
@@ -183,7 +183,7 @@
                 </h2>
                 <ItemGrid items={albumsSorted.singles} getHref={(album) => `/app/album/${album.id}`} >
                     {#snippet subtitle(album)}
-                        {album.dateStr}
+                        {album.releaseDateStr}
                     {/snippet}
                 </ItemGrid>
             </section>
@@ -197,7 +197,7 @@
                 </h2>
                 <ItemGrid items={albumsSorted.others} getHref={(album) => `/app/album/${album.id}`} >
                     {#snippet subtitle(album)}
-                        {album.dateStr}
+                        {album.releaseDateStr}
                     {/snippet}
                 </ItemGrid>
             </section>
@@ -211,7 +211,7 @@
                 </h2>
                 <ItemGrid items={albumsSorted.appears} getHref={(album) => `/app/album/${album.id}`} >
                     {#snippet subtitle(album)}
-                        {album.dateStr}
+                        {album.releaseDateStr}
                     {/snippet}
                 </ItemGrid>
             </section>

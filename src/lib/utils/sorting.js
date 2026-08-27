@@ -4,15 +4,15 @@ export function sortByName(a, b) {
 
 export function sortByDateReleased(a, b) {
     const dateA = new Date(
-        a.date.year || 0,
-        (a.date.month || 1) - 1,
-        a.date.day || 1
+        a.originalDate.year || 0,
+        (a.originalDate.month || 1) - 1,
+        a.originalDate.day || 1
     ).getTime();
 
     const dateB = new Date(
-        b.date.year || 0,
-        (b.date.month || 1) - 1,
-        b.date.day || 1
+        b.originalDate.year || 0,
+        (b.originalDate.month || 1) - 1,
+        b.originalDate.day || 1
     ).getTime();
 
     return dateA - dateB; // Ascending (oldest first)
@@ -21,7 +21,7 @@ export function sortByDateReleased(a, b) {
 export function sortByArtist(a, b) {
     const artistCompare = (a.artistsStr || '').localeCompare(b.artistsStr || '');
     if (artistCompare !== 0) return artistCompare;
-    return sortByDateReleased(a, b); // Then by year
+    return sortByDateReleased(a, b); // Then by year, using original release date
 }
 
 export function sortByDateAdded(a, b) {
