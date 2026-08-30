@@ -5,7 +5,7 @@
     import TrackRow from './TrackRow.svelte';
 
     let {
-        tracks, // Dict of {section: trackId[]}
+        discs, // Map<int,Disc>
         sourceId = "", // Origin of the tracks (album ID, ...)
         variant = 'album',
         columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions'],
@@ -13,16 +13,17 @@
         initialCount = undefined // How much tracks to show initially
     } = $props();
 
-    const queueIds = $derived(Object.values(tracks).flat());
+    const discList = $derived(Array.from(discs?.values()));
+    const queueIds = $derived(discList.flatMap((d) => d.songIds));
 
     const rows = $derived.by(() => {
         const result = [];
         let index = 0;
-        for (const [key, trackIds] of Object.entries(tracks)) {
-            if (key !== '' && Object.keys(tracks).length > 1) {
-                result.push({ type: 'disc', disc: key });
+        for (const disc of discList) {
+            if (discList.length > 1) {
+                result.push({ type: 'disc', disc });
             }
-            for (const trackId of trackIds) {
+            for (const trackId of disc.songIds) {
                 result.push({ type: 'track', trackId, index });
                 index++;
             }
