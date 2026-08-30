@@ -1,6 +1,7 @@
 <script>
     import { GearSix, SmileySad, TrashSimple } from 'phosphor-svelte';
     import { goto } from '$app/navigation';
+    import { Disc } from '$lib/db/models/Disc.js';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
@@ -103,7 +104,14 @@
             {/if}
             {#if playlist.songCount > 0}
                 <div in:fade={{ duration: 300 }} class="flex-1 overflow-x-hidden overflow-y-auto">
-                    <TrackList tracks={{ '': playlist.songIds }} sourceId={playlist.id} variant="playlist" {columns} />
+                    <TrackList
+                        discs={new Map([
+                            [1, new Disc(1, '', playlist.coverArtId, playlist.songIds)]
+                        ])}
+                        sourceId={playlist.id}
+                        variant="playlist"
+                        {columns}
+                    />
                 </div>
             {:else}
                 <div class="flex flex-col items-center py-12 text-center text-ink-500">

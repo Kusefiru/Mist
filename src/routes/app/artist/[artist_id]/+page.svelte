@@ -10,6 +10,7 @@
         VinylRecord
     } from 'phosphor-svelte';
 
+    import { Disc } from '$lib/db/models/Disc.js';
     import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
@@ -156,7 +157,14 @@
                     Top Tracks
                 </h2>
                 <ul class="overflow-y-hidden">
-                    <TrackList tracks={{ '': topTrackIds }} variant="playlist" {columns} initialCount={TRACKS_DEFAULT}/>
+                    <TrackList
+                        discs={new Map([
+                            [1, new Disc(1, '', artist.coverArtId, topTrackIds)]
+                        ])}
+                        variant="playlist"
+                        initialCount={TRACKS_DEFAULT}
+                        {columns}
+                    />
                 </ul>
             </section>
         {/if}

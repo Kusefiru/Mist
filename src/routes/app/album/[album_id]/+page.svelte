@@ -2,6 +2,7 @@
     import { User } from 'phosphor-svelte';
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import { Disc } from '$lib/db/models/Disc.js';
     import ItemHeader from '$lib/components/item/ItemHeader.svelte';
     import ControlsRow from '$lib/components/tracks/ControlsRow.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
@@ -49,16 +50,25 @@
 
     async function loadAlbum(albumId) {
         album = await cache.getAlbum(albumId);
+        const tracks = album.songIds.map((id) => cache.tracks.get(id));
 
-        const tracks = album.songIds
-            .map((id) => cache.tracks.get(id))
-            .sort((a, b) => (a.disc ?? 1) - (b.disc ?? 1) || a.track - b.track);
-
-        const discs = {};
-        for (const track of tracks) {
-            const disc = track.disc ?? 1;
-            if (!discs[disc]) discs[disc] = [];
-            discs[disc].push(track.id);
+        let discs;
+        if (album.discs.length > 1) {
+            // Create a map of [index;Disc]
+            discs = new Map(
+                album.discs.map((d) => [
+                    d.disc,
+                    new Disc(d.disc, d.title, d.coverArt, tracks.filter((t) => ((t.disc ?? 1) === d.disc)).map((t) => t.id))
+                ])
+            );
+        } else {
+            // Fallback, create discs manually
+            discs = new Map();
+            for (const track of tracks) {
+                const disc = track.disc ?? 1;
+                if (!discs.get(disc)) discs.set(disc, new Disc(disc, "", album.coverArtId));
+                discs.get(disc).songIds.push(track.id);
+            }
         }
         discEntries = discs;
 
@@ -73,7 +83,7 @@
 </script>
 
 <div class="relative px-8 pt-2 pb-12">
-    <div class="relative z-10 flex flex-col gap-4">
+    <div class="relative z-10 flex flex-col gap-3">
         <ItemHeader item={album}>
             {#snippet title()}
                 <h2 class="break-words whitespace-normal">
@@ -100,7 +110,7 @@
         {#if album}
             <section in:fade={{ duration: 300 }} class="flex flex-col gap-4">
                 <ControlsRow queue={$state.snapshot(albumQueue)} {menuActions} />
-                <TrackList tracks={discEntries} variant="album" {scrollToId} />
+                <TrackList discs={discEntries} variant="album" {scrollToId} />
                 <span class="pl-2 text-sm font-semibold text-ink-600 select-none">
                     ℗ {album.releaseDate.year} {album.labels.join(', ')}
                 </span>

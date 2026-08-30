@@ -3,6 +3,7 @@
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { onDestroy } from 'svelte';
+    import { Disc } from '$lib/db/models/Disc.js';
     import ActionButton from '$lib/components/ui/ActionButton.svelte';
     import ItemGrid from '$lib/components/item/ItemGrid.svelte';
     import TrackList from '$lib/components/tracks/TrackList.svelte';
@@ -169,7 +170,13 @@
     {#if activeType === 'tracks'}
         {#if tracks.length > 0}
             <div class="pb-2">
-                <TrackList tracks={{ '': tracks.map((t) => t.id) }} variant="playlist" columns={TRACK_COLUMNS} />
+                <TrackList
+                    discs={new Map([
+                        [1, new Disc(1, '', '', tracks.map((t) => t.id))]
+                    ])}
+                    variant="playlist"
+                    columns={TRACK_COLUMNS}
+                />
             </div>
         {/if}
     {:else if activeType === 'artists'}

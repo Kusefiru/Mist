@@ -19,6 +19,7 @@ export class Album extends Base {
         this.songIds = data.songIds;
         this.songCount = data.songCount;
         this.duration = data.duration;
+        this.discs = data.discs;
         // Classification
         this.releaseTypes = data.releaseTypes;
         this.compilation = data.compilation;
@@ -91,6 +92,7 @@ export class Album extends Base {
             songIds: data.song?.map(s => s.id) || [],
             songCount: data.songCount,
             duration: data.duration,
+            discs: data.discTitles ?? [],
             // Classification
             releaseTypes: data.releaseTypes || [],
             compilation: data.isCompilation || false,
