@@ -39,7 +39,7 @@
         class="absolute inset-0 z-5 bg-surface-30/50 shadow-[inset_0_0_48px_oklch(from_var(--color-surface-40)_l_c_h_/_1.0)] dark:bg-surface-40/50"
     ></div>
     <button
-        class="relative z-10 mr-4 flex size-44 cursor-pointer items-center justify-center sm:size-56 lg:size-64"
+        class="relative z-10 mr-4 flex size-44 cursor-pointer items-center justify-center sm:size-52 lg:size-60"
         onclick={() =>
             modal.open(ImageModal, {
                 src: cache.getCoverArt(item.coverArtId, 1024),
@@ -114,7 +114,7 @@
         class="relative flex animate-pulse items-end overflow-hidden rounded-[0.4rem] bg-surface-40 p-4 shadow-md shadow-surface-50"
     >
         <div
-            class="mr-4 aspect-square size-44 overflow-hidden rounded bg-surface-50/50 sm:size-56 lg:size-64"
+            class="mr-4 aspect-square size-44 overflow-hidden rounded bg-surface-50/50 sm:size-52 lg:size-60"
         ></div>
     </div>
 {/if}
