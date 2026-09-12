@@ -23,7 +23,7 @@
 
     let menuActions = $derived.by(() => {
         return [
-            buildAddToPlaylistGroup(playlist.songIds),
+            buildAddToPlaylistGroup(playlist.songIds, true),
             (playlist.isEditableBy(cache.user.id)
                 ? [
                     {

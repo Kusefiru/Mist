@@ -64,7 +64,22 @@
                 handler: () => audio.setQueueLast(track.id)
             }
         ];
-        const playlistGroup = buildAddToPlaylistGroup(track.id);
+        const playlistGroup = [
+            ...buildAddToPlaylistGroup(track.id, cache.playlists.has(sourceId)),
+            ...(cache.playlists.has(sourceId)
+                ? [
+                      {
+                          icon: TrashSimple,
+                          label: 'Remove from playlist',
+                          handler: () => {
+                              cache
+                                  .removeFromPlaylist(sourceId, index)
+                                  .then(() => invalidate(page.url));
+                          }
+                      }
+                  ]
+                : [])
+        ];
         const metaGroup = [
             ...(variant !== 'album'
                 ? [
