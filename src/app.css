@@ -36,6 +36,7 @@
     --color-surface-60: oklch(59.5% 0.043 258);
     --color-primary-10: oklch(48.5% 0.142 21);
     --color-primary-20: oklch(41.0% 0.138 21);
+    --color-yellow-10: oklch(75.5% 0.150 104);
 }
 
 :root.dark {
@@ -57,6 +58,7 @@
     --color-surface-60: oklch(12.0% 0.012 258);
     --color-primary-10: oklch(62.5% 0.142 14);
     --color-primary-20: oklch(52.0% 0.138 14);
+    --color-yellow-10: oklch(78.5% 0.165 102);
 }
 
 @theme {
@@ -78,6 +80,7 @@
     --color-surface-60: var(--color-surface-60);
     --color-primary-10: var(--color-primary-10);
     --color-primary-20: var(--color-primary-20);
+    --color-yellow-10: var(--color-yellow-10);
     --font-mplus: "M PLUS Rounded 1c", sans-serif; 
     --default-transition-duration: 300ms;
 

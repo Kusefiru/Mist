@@ -8,7 +8,7 @@
         discs, // Map<int,Disc>
         sourceId = "", // Origin of the tracks (album ID, ...)
         variant = 'album',
-        columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions'],
+        columns = ['track', 'title', 'duration', 'quality', 'rating', 'starred', 'actions'],
         scrollToId = null, // Where to scroll if needed
         initialCount = undefined // How much tracks to show initially
     } = $props();

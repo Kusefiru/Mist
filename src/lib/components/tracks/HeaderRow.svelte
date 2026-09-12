@@ -1,7 +1,7 @@
 <script>
     import { Clock, Hash, Heart } from 'phosphor-svelte';
 
-    let { columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions'] } = $props();
+    let { columns = ['track', 'title', 'duration', 'quality', 'rating', 'starred', 'actions'] } = $props();
 </script>
 
 <div class="flex h-8 items-center px-2 text-sm text-ink-800 select-none">
@@ -21,9 +21,12 @@
         <div class="min-w-0 flex-1 pl-2">Album</div>
     {/if}
     {#if columns.includes('duration')}
-        <div class="flex w-[5rem] justify-end text-center">
+        <div class="flex w-[5rem] justify-end pr-2 text-center">
             <Clock size={"1rem"} />
         </div>
+    {/if}
+    {#if columns.includes('rating')}
+        <div class="flex w-[6rem] pl-4">Rating</div>
     {/if}
     {#if columns.includes('starred')}
         <div class="flex w-[3rem] items-center justify-center">

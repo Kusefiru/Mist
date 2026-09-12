@@ -11,7 +11,7 @@
     import { search3 } from '$lib/opensubsonic/api';
     import { cache } from '$lib/stores/cache.svelte';
 
-    const TRACK_COLUMNS = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
+    const TRACK_COLUMNS = ['track', 'cover', 'title', 'album', 'duration', 'rating', 'starred', 'actions'];
     const PAGE_SIZE = 50;
 
     const TYPE_OPTIONS = [

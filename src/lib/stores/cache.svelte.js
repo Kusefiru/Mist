@@ -20,6 +20,7 @@ class Cache {
     playlists = $state(new SvelteMap());
     tracks = $state(new SvelteMap());
     folders = $state(new SvelteMap());
+    ratings = $state(new SvelteMap());
     stars = $state(new SvelteSet());
 
     #covers = new Map();
@@ -63,6 +64,9 @@ class Cache {
                 const newEntries = albumList.map(a => [a.id, Album.fromOpenSubsonic(a, musicFolder.id)]);
                 this.albums = new SvelteMap([...this.albums, ...newEntries]);
 
+                // Add ratings
+                albumList.forEach(a => {if (a.userRating) this.ratings.set(a.id, a.userRating)});
+
                 if (albumList.length < pageSize) {
                     hasMore = false;
                 } else {
@@ -82,6 +86,9 @@ class Cache {
         // Create artist objects then batch update map
         const newEntries = artistsRaw.map(a => [a.id, Artist.fromOpenSubsonic(a)]);
         this.artists = new SvelteMap([...newEntries]);
+
+        // Add ratings
+        artistsRaw.forEach(a => {if (a.userRating) this.ratings.set(a.id, a.userRating)});
     }
 
     async _fetchPlaylists() {
@@ -121,9 +128,7 @@ class Cache {
             return null;
         }
         for (const trackRaw of AlbumID3WithSongs.song) {
-            // Cache track
-            const track = Track.fromOpenSubsonic(trackRaw);
-            this.tracks.set(track.id, track);
+            this.setTrack(trackRaw);
         }
         const updatedAlbum = Album.fromOpenSubsonic(AlbumID3WithSongs, album?.folderId || -1);
         this.albums.set(albumId, updatedAlbum);
@@ -190,7 +195,7 @@ class Cache {
 
         for (const topSong of topSongs) {
             if (!this.tracks.has(topSong.id)) {
-                this.tracks.set(topSong.id, Track.fromOpenSubsonic(topSong));
+                this.setTrack(topSong);
             }
         }
 
@@ -207,8 +212,7 @@ class Cache {
 
         const similarSongs = await api.getSimilarSongs2(artist.id);
         for (const songRaw of similarSongs) {
-            const song = Track.fromOpenSubsonic(songRaw);
-            this.tracks.set(song.id, song);
+            this.setTrack(songRaw);
         }
         /* Create a fake Playlist object from received data */
         const radioPlaylist = {
@@ -254,9 +258,7 @@ class Cache {
 
         const playlistWithSongs = await api.getPlaylist(playlistId);
         for (const trackRaw of playlistWithSongs.entry) {
-            // Cache track
-            const track = Track.fromOpenSubsonic(trackRaw);
-            this.tracks.set(track.id, track);
+            this.setTrack(trackRaw);
         }
         const updatedPlaylist = Playlist.fromOpenSubsonic(playlistWithSongs);
         this.playlists.set(playlistId, updatedPlaylist);
@@ -329,6 +331,8 @@ class Cache {
     /* Track methods */
     setTrack(track) {
         this.tracks.set(track.id, Track.fromOpenSubsonic(track));
+        // Also update rating
+        if (track.userRating) this.ratings.set(track.id, track.userRating);
     }
 
     async getTrack(trackId) {
@@ -350,8 +354,7 @@ class Cache {
 
         const similarSongs = await api.getSimilarSongs2(track.id);
         for (const songRaw of similarSongs) {
-            const song = Track.fromOpenSubsonic(songRaw);
-            this.tracks.set(song.id, song);
+            this.setTrack(songRaw);
         }
         /* Create a fake Playlist object from received data */
         const radioPlaylist = {

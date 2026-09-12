@@ -27,6 +27,7 @@
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import PlayingIndicator from '$lib/components/ui/PlayingIndicator.svelte';
+    import Rating from '$lib/components/ui/Rating.svelte';
     import Star from '$lib/components/ui/Star.svelte';
     import { buildAddToPlaylistGroup } from '$lib/components/ui/menu/actions/playlist';
     import { goto } from '$app/navigation';
@@ -37,7 +38,7 @@
         queueIds = null,
         index = 0,
         variant = 'album',
-        columns = ['track', 'title', 'duration', 'quality', 'starred', 'actions']
+        columns = ['track', 'title', 'duration', 'quality', 'rating', 'starred', 'actions']
     } = $props();
 
     let track = $derived(cache.tracks.get(trackId));
@@ -204,8 +205,13 @@
             </div>
         {/if}
         {#if columns.includes('duration')}
-            <div class="z-10 w-[5rem] text-right text-base text-ink-900 tabular-nums select-none">
+            <div class="z-10 w-[5rem] pr-2 text-right text-base text-ink-900 tabular-nums select-none">
                 {formatDuration(track.duration)}
+            </div>
+        {/if}
+        {#if columns.includes('rating')}
+            <div class="z-10 flex w-[6rem] pl-4 items-center justify-center text-ink-900 select-none">
+                <Rating id={track.id} size={'1rem'} hidden={!hovered} />
             </div>
         {/if}
         {#if columns.includes('starred')}
@@ -262,6 +268,9 @@
             {/if}
             {#if columns.includes('duration')}
                 <div class="h-3 w-[5rem] rounded bg-surface-20"></div>
+            {/if}
+            {#if columns.includes('rating')}
+                <div class="w-[6rem]"></div>
             {/if}
             {#if columns.includes('starred')}
                 <div class="w-[3rem]"></div>

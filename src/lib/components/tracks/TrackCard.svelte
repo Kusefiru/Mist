@@ -1,6 +1,4 @@
 <script>
-    import { Heart } from 'phosphor-svelte';
-
     import FormattedArtists from '$lib/components/ui/FormattedArtists.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import Star from '$lib/components/ui/Star.svelte';

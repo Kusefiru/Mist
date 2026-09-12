@@ -31,7 +31,7 @@
     const ALBUM_MAIN = new Set(['album', 'lp']);
     const ALBUM_SINGLE = new Set(['single', 'ep']);
 
-    let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
+    let columns = ['track', 'cover', 'title', 'album', 'duration', 'rating', 'starred', 'actions'];
 
     let artist = $state(null);
     let biography = $state('');

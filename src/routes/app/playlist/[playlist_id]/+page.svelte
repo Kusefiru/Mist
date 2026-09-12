@@ -19,7 +19,7 @@
 
     let { params } = $props();
 
-    let columns = ['track', 'cover', 'title', 'album', 'duration', 'starred', 'actions'];
+    let columns = ['track', 'cover', 'title', 'album', 'duration', 'rating', 'starred', 'actions'];
 
     let menuActions = $derived.by(() => {
         return [

@@ -182,6 +182,11 @@ export async function search3(query, artistCount = 10, artistOffset = 0, albumCo
     return reply?.searchResult3;
 }
 
+export async function setRating(id, rating) {
+    const reply = await ask('setRating.view', { id, rating });
+    return reply?.status;
+}
+
 export async function star(id) {
     const reply = await ask('star.view', { id });
     return reply?.status;
