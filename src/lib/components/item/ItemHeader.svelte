@@ -4,6 +4,7 @@
     import { modal } from '$lib/stores/modal.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
     import ImageModal from '$lib/components/ui/modal/ImageModal.svelte';
+    import Rating from '$lib/components/ui/Rating.svelte';
     import Star from '$lib/components/ui/Star.svelte';
 
     let {
@@ -63,13 +64,19 @@
             {/if}
             <div class="flex flex-row items-baseline gap-2 text-2xl font-bold text-ink-900 lg:text-3xl">
                 {@render title()}
-                <Star id={item.id} size={'1.75rem'} />
             </div>
             {#if subtitle}
                 <h3 class="text-xl lg:text-2xl">{@render subtitle()}</h3>
             {/if}
             {#if details}
                 <h3 class="truncate text-lg font-semibold">{@render details()}</h3>
+            {/if}
+        </div>
+        <div class="absolute right-6 bottom-4 z-10 flex items-center gap-4 text-ink-800">
+            <!-- Only playlists have a public field - not ideal but prevent passing a 'type' prop or similar -->
+            {#if !Object.hasOwn(item, 'public')}
+                <Rating id={item.id} size={'1.25rem'} />
+                <Star id={item.id} size={'1.75rem'} />
             {/if}
         </div>
     </div>
