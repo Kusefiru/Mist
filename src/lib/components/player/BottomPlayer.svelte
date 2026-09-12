@@ -1,6 +1,6 @@
 <script>
     import {
-        CaretUp,
+        Equalizer,
         Play,
         Pause,
         SkipBack,
@@ -59,28 +59,28 @@
     <!-- Right: Volume and additional buttons -->
     <div class="flex w-[30%] lg:w-[28%] min-w-0 items-center gap-4">
         <div class="flex w-full items-center justify-end gap-2 text-ink-800">
-            <div class="w-[10rem] px-2">
-                <SliderVolume bind:value={audioState.volume} />
-            </div>
             <button
                 onclick={() => {
-                    ui.showPlayQueue = !ui.showPlayQueue;
+                    ui.main.showPlayQueue = !ui.main.showPlayQueue;
                 }}
                 class="mr-1 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10"
-                class:text-primary-10={ui.showPlayQueue}
+                class:text-primary-10={ui.main.showPlayQueue}
                 title="Toggle queue"
             >
                 <Queue size={"1.75rem"} />
             </button>
+            <div class="w-[8rem] px-2">
+                <SliderVolume bind:value={audioState.volume} />
+            </div>
             <button
                 onclick={() => {
-                    ui.showFullscreenPlayer = !ui.showFullscreenPlayer;
+                    ui.stage.open = !ui.stage.open;
                 }}
                 disabled={!currentTrack}
                 class="mr-1 rounded p-1 transition-colors hover:bg-surface-30 hover:text-primary-10 disabled:text-ink-500"
-                title="Fullscreen mode"
+                title="Open Stage"
             >
-                <CaretUp size={"1.75rem"} />
+                <Equalizer size={"1.75rem"} />
             </button>
         </div>
     </div>

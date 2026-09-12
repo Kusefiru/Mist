@@ -13,7 +13,7 @@
 
     import MenuPortal from '$lib/components/ui/menu/MenuPortal.svelte';
     import FadeImage from '$lib/components/ui/FadeImage.svelte';
-    import FullscreenPlayer from '$lib/components/player/FullscreenPlayer.svelte';
+    import StageOverlay from '$lib/components/player/StageOverlay.svelte';
     import Sidebar from '$lib/components/layout/Sidebar.svelte';
     import Player from '$lib/components/player/BottomPlayer.svelte';
     import PlayQueue from '$lib/components/layout/PlayQueue.svelte';
@@ -72,8 +72,8 @@
     afterNavigate((navigation) => {
         if (!mainElement) return;
 
-        // Close fullscreen
-        ui.showFullscreenPlayer = false;
+        // Close stage
+        ui.stage.open = false;
 
         // Focus on mainElement
         mainElement.focus({ preventScroll: true });
@@ -156,7 +156,7 @@
             </div>
 
             <!-- Play Queue Sidebar (conditionally rendered) -->
-            {#if ui.showPlayQueue}
+            {#if ui.main.showPlayQueue}
                 <div
                     class="relative z-30 w-[var(--min-queue-size)] flex-shrink-0"
                     transition:slide={{ axis: 'x', duration: 200 }}
@@ -176,10 +176,10 @@
             <Player />
         </footer>
 
-        {#if ui.showFullscreenPlayer}
+        {#if ui.stage.open}
             <div class="fixed inset-0 z-[100]">
-                <FullscreenPlayer
-                    onClose={() => (ui.showFullscreenPlayer = !ui.showFullscreenPlayer)}
+                <StageOverlay
+                    onClose={() => (ui.stage.open = !ui.stage.open)}
                 />
             </div>
         {/if}

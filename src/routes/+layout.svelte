@@ -8,7 +8,6 @@
 
     import { onMount } from 'svelte';
     import { Toaster } from 'svelte-french-toast';
-    import { saveTheme } from '$lib/db/local';
 
     let { children } = $props();
 
@@ -18,7 +17,18 @@
             ui.theme === 'dark' ||
             (ui.theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', isDark);
-        saveTheme(ui.theme);
+    });
+
+    $effect(() => {
+        // Access properties to track them
+        ui.theme;
+        ui.main.showPlayQueue;
+        ui.stage.showPlayQueue;
+        ui.stage.mode;
+        ui.stage.cover;
+        ui.stage.visualizer;
+ 
+        ui.save();
     });
 </script>
 
