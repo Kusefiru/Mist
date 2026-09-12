@@ -44,24 +44,24 @@ export class BarVisualizer {
             // Add value to buffer with a multiplier depending on rise or fall
             this._values[i] += (raw - this._values[i]) * speed;
 
-            const barHeight = this._values[i] * maxBarHeight;
+            const barHeight = this._values[i] * maxBarHeight + 8;
             const offset = i * unitWidth + gap / 2;
 
             // Right side
             ctx.roundRect(
                 centerX + offset,
-                this._height,
+                this._height / 2 + barHeight,
                 barWidth,
-                -barHeight,
+                -barHeight * 2,
                 2
             );
 
             // Left side (mirrored)
             ctx.roundRect(
                 centerX - offset - barWidth,
-                this._height,
+                this._height / 2 + barHeight,
                 barWidth,
-                -barHeight,
+                -barHeight * 2,
                 2
             );
         }
