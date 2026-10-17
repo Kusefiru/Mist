@@ -3,6 +3,7 @@ import { browser } from '$app/environment';
 import { audioState } from '$lib/stores/audio.svelte';
 import { session } from "$lib/stores/auth.svelte";
 import { cache } from '$lib/stores/cache.svelte';
+import { server } from "$lib/stores/server.svelte";
 import { getUser } from "$lib/opensubsonic/api";
 
 export async function load() {
@@ -13,6 +14,8 @@ export async function load() {
     }
 
     const user = await getUser(session.username);
+    // Load server info (supported extensions, ...)
+    await server.load();
     // Initialize cache
     cache.init(session.serverUrl, user);
     // Initialize audio state (needs to be awaited)

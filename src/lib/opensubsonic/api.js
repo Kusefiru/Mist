@@ -113,6 +113,11 @@ export async function getMusicFolders() {
     return reply?.musicFolders?.musicFolder || [];
 }
 
+export async function getOpenSubsonicExtensions() {
+    const reply = await ask('getOpenSubsonicExtensions.view');
+    return reply?.openSubsonicExtensions || [];
+}
+
 export async function getPlaylist(id) {
     const reply = await ask('getPlaylist.view', { id });
     return reply?.playlist || null;
