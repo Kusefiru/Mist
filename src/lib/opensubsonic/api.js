@@ -138,6 +138,11 @@ export async function getSimilarSongs2(id, options = {}) {
     return reply?.similarSongs2?.song || [];
 }
 
+export async function getSonicSimilarTracks(id, options = {}) {
+    const reply = await ask('getSonicSimilarTracks.view', { id, ...options });
+    return reply?.sonicMatch?.map((m) => m.entry) || [];
+}
+
 export async function getSong(id) {
     const reply = await ask('getSong.view', { id });
     return reply?.song;

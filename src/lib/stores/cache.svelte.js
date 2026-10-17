@@ -1,13 +1,17 @@
-// lib/stores/cache.svelte.ts
+import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+
 import { database } from "$lib/db";
 import { Album } from "$lib/db/models/Album";
 import { Artist } from "$lib/db/models/Artist";
 import { Track } from "$lib/db/models/Track";
 import { Playlist } from "$lib/db/models/Playlist";
 import { User } from "$lib/db/models/User";
+
 import { getCoverArtUrl } from "$lib/opensubsonic/api";
 import * as api from '$lib/opensubsonic/api';
-import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+
+import { server } from "./server.svelte";
+import { ui } from "./ui.svelte";
 
 class Cache {
     serverId = $state('');
@@ -352,7 +356,12 @@ class Cache {
             track = this.tracks.get(trackId);
         }
 
-        const similarSongs = await api.getSimilarSongs2(track.id);
+        let similarSongs = [];
+        if (ui.media.preferSonicSimilarity && server.supports('sonicSimilarity')) {
+            similarSongs = await api.getSonicSimilarTracks(track.id, { count: 50 });
+        } else {
+            similarSongs = await api.getSimilarSongs2(track.id, { count: 50 });
+        }
         for (const songRaw of similarSongs) {
             this.setTrack(songRaw);
         }

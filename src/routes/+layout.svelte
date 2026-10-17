@@ -23,6 +23,7 @@
         // Access properties to track them
         ui.theme;
         ui.main.showPlayQueue;
+        ui.media.preferSonicSimilarity;
         ui.stage.showPlayQueue;
         ui.stage.mode;
         ui.stage.cover;

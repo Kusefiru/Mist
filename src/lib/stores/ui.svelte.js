@@ -8,6 +8,10 @@ class UI {
         showPlayQueue: false
     });
 
+    media = $state({
+        preferSonicSimilarity: true
+    });
+
     stage = $state({
         open: false,
         showPlayQueue: false,
@@ -29,6 +33,7 @@ class UI {
         if (saved) {
             this.theme = saved.theme ?? this.theme;
             this.main = { ...this.main, ...saved.main };
+            this.media = { ...this.media, ...saved.media };
             this.stage = {...this.stage, ...saved.stage,};
         }
 
@@ -42,6 +47,7 @@ class UI {
         saveUI({
             theme: $state.snapshot(this.theme),
             main: $state.snapshot(this.main),
+            media: $state.snapshot(this.media),
             stage: $state.snapshot(this.stage)
         });
     }

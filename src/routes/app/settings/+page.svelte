@@ -1,5 +1,5 @@
 <script>
-    import { Info, Palette } from 'phosphor-svelte';
+    import { HardDrives, Info, Palette } from 'phosphor-svelte';
     import {
         PUBLIC_VERSION_COMMIT,
         PUBLIC_VERSION_TAG,
@@ -35,9 +35,33 @@
 
             <div class="flex items-center justify-between px-8 py-4">
                 <h3>Theme</h3>
-                <div class="w-56">
+                <div class="flex w-56 justify-end">
                     <Select items={themeOptions} bind:value={ui.theme} />
                 </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="mb-2 flex items-center gap-3">
+                <HardDrives size="2rem" class="text-primary-10" />
+                <h2 class="text-2xl font-semibold">Server</h2>
+            </div>
+
+            <div class="px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <h3>Prefer sonic similarity</h3>
+                    <div class="flex w-56 justify-end">
+                        <input
+                            type="checkbox"
+                            bind:checked={ui.media.preferSonicSimilarity}
+                            class="rounded border-primary-10 text-primary-10 focus:ring-0 focus:outline-none disabled:opacity-50"
+                        />
+                    </div>
+                </div>
+                <p class="text-sm text-ink-600">
+                    Track radio uses sonic analysis instead of metadata-based similarity.<br/>
+                    Requires the server to support the sonicSimilarity endpoint.
+                </p>
             </div>
         </section>
 
@@ -52,12 +76,12 @@
             <div class="flex items-center justify-between px-8 py-4">
                 <h3>Version</h3>
 
-                <div class="w-56 select-text">
+                <div class="flex w-56 select-text justify-end gap-1">
                     <a href={versionHref} target="_blank" class="text-primary-10 hover:underline"
                         >{versionLabel}</a
                     >
                     {#if commitLabel}
-                        ({commitLabel})
+                        <span>({commitLabel})</span>
                     {/if}
                 </div>
             </div>
