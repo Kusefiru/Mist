@@ -78,7 +78,7 @@
         bind:this={dropdownEl}
         use:portal
         use:floating={{ reference: buttonElement, placement }}
-        class="fixed z-50 min-w-[10rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"
+        class="fixed z-[150] min-w-[10rem] rounded bg-surface-40 p-1 shadow-lg shadow-neutral-950/50"
         style="min-width: {buttonElement.offsetWidth}px;"
     >
         {#each items as item}

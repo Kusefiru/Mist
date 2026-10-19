@@ -1,5 +1,6 @@
 <script>
     import { HardDrives, Info, Palette } from 'phosphor-svelte';
+    import { scale } from 'svelte/transition';
     import {
         PUBLIC_VERSION_COMMIT,
         PUBLIC_VERSION_TAG,
@@ -7,6 +8,7 @@
     } from '$env/static/public';
     import Select from '$lib/components/ui/Select.svelte';
     import { ui } from '$lib/stores/ui.svelte';
+    import { server } from '$lib/stores/server.svelte';
 
     const themeOptions = [
         { value: 'auto', label: 'System' },
@@ -25,8 +27,14 @@
     const commitLabel = PUBLIC_VERSION_COMMIT?.slice(0, 7);
 </script>
 
-<div class="overflow-auto p-6">
-    <div class="mx-auto max-w-[48rem] space-y-4 text-ink-900 select-none">
+<div
+    class="flex max-h-[80vh] w-[48rem] max-w-[90vw] flex-col rounded bg-surface-40 p-6 shadow-xl shadow-neutral-950/50"
+    transition:scale={{ duration: 200, start: 0.95 }}
+    onclick={(e) => e.stopPropagation()}
+>
+    <h2 class="mb-4 text-xl font-bold text-ink-900">Settings</h2>
+
+    <div class="space-y-4 overflow-y-auto px-6 pt-2 pb-6 text-ink-900 select-none">
         <section>
             <div class="mb-2 flex items-center gap-3">
                 <Palette size="2rem" class="text-primary-10" />
@@ -59,8 +67,15 @@
                     </div>
                 </div>
                 <p class="text-sm text-ink-600">
-                    Track radio uses sonic analysis instead of metadata-based similarity.<br/>
+                    Track radio uses sonic analysis instead of metadata-based similarity.<br />
                     Requires the server to support the sonicSimilarity endpoint.
+                </p>
+                <p class="text-sm text-ink-600 font-bold">
+                    {#if server.supports('sonicSimilarity')}
+                        Supported by the current server.
+                    {:else}
+                        Not supported by the current server.
+                    {/if}
                 </p>
             </div>
         </section>
@@ -76,7 +91,7 @@
             <div class="flex items-center justify-between px-8 py-4">
                 <h3>Version</h3>
 
-                <div class="flex w-56 select-text justify-end gap-1">
+                <div class="flex w-56 justify-end gap-1 select-text">
                     <a href={versionHref} target="_blank" class="text-primary-10 hover:underline"
                         >{versionLabel}</a
                     >

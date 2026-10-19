@@ -1,10 +1,12 @@
 <script>
     import { GearSix, House, Playlist, Users, VinylRecord } from 'phosphor-svelte';
-    import MenuButton from '$lib/components/ui/MenuButton.svelte';
-    import logo from '$lib/assets/logo.svg';
-
     import { onMount } from 'svelte';
+
+    import logo from '$lib/assets/logo.svg';
+    import MenuButton from '$lib/components/ui/MenuButton.svelte';
+    import SettingsModal from '$lib/components/ui/modal/SettingsModal.svelte';
     import { getAvatar, getPlaylists, getUser } from '$lib/opensubsonic/api';
+    import { modal } from '$lib/stores/modal.svelte.js';
 
     let playlists = $state([]);
 
@@ -26,6 +28,6 @@
     </div>
 
     <div class="mt-auto flex flex-col items-center pb-4">
-        <MenuButton href="/app/settings" Icon={GearSix} />
+        <MenuButton onclick={() => modal.open(SettingsModal)} Icon={GearSix} />
     </div>
 </aside>
