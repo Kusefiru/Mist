@@ -194,8 +194,8 @@ class Cache {
         return updatedArtist;
     }
 
-    async getTopTracks(artistName) {
-        const topSongs = await api.getTopSongs(artistName) || [];
+    async getTopTracks(artist) {
+        const topSongs = await api.getTopSongs(artist.name, artist.id) || [];
 
         for (const topSong of topSongs) {
             if (!this.tracks.has(topSong.id)) {

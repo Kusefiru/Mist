@@ -68,7 +68,7 @@
     async function loadArtist(artistId) {
         artist = await cache.getArtist(artistId);
 
-        const topTracks = await cache.getTopTracks(artist.name);
+        const topTracks = await cache.getTopTracks(artist);
         topTrackIds = topTracks.map((t) => t.id);
 
         const artistInfo = await api.getArtistInfo2(artist.id, { count: 8 });

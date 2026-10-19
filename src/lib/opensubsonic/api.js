@@ -153,8 +153,8 @@ export async function getStarred() {
     return reply?.starred || {};
 }
 
-export async function getTopSongs(name) {
-    const reply = await ask('getTopSongs.view', { artist: name, count: 10 });
+export async function getTopSongs(name, id) {
+    const reply = await ask('getTopSongs.view', { artist: name, id, count: 10 });
     return reply?.topSongs?.song || [];
 }
 
